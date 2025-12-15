@@ -1,0 +1,46 @@
+<svg width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景 -->
+  <rect width="800" height="400" fill="#f5f5f5"/>
+  
+  <!-- 沙发 -->
+  <rect x="100" y="200" width="400" height="150" rx="20" fill="#333"/>
+  <rect x="150" y="150" width="300" height="100" rx="10" fill="#222"/>
+  
+  <!-- 裤子 -->
+  <path d="M150 250 Q200 220 250 250 L270 350 L130 350 Z" fill="#5d4037" stroke="#3e2723" stroke-width="2"/>
+  <path d="M170 250 Q200 230 230 250" fill="none" stroke="#3e2723" stroke-width="2"/>
+  <!-- 花纹 -->
+  <circle cx="170" cy="270" r="5" fill="#ff9800"/>
+  <circle cx="200" cy="290" r="5" fill="#ff9800"/>
+  <circle cx="230" cy="270" r="5" fill="#ff9800"/>
+  <circle cx="160" cy="310" r="5" fill="#ff9800"/>
+  <circle cx="190" cy="330" r="5" fill="#ff9800"/>
+  <circle cx="220" cy="310" r="5" fill="#ff9800"/>
+  <circle cx="240" cy="330" r="5" fill="#ff9800"/>
+  
+  <!-- 鞋子 -->
+  <ellipse cx="140" cy="340" rx="20" ry="10" fill="#795548"/>
+  <ellipse cx="260" cy="340" rx="20" ry="10" fill="#795548"/>
+  
+  <!-- 粉色针织马甲 -->
+  <path d="M300 220 Q350 180 400 220 L420 320 L280 320 Z" fill="#f8bbd0" stroke="#ec407a" stroke-width="2"/>
+  
+  <!-- 蕾丝装饰 -->
+  <path d="M300 220 Q325 200 350 220 Q375 200 400 220" fill="none" stroke="#fce4ec" stroke-width="10" opacity="0.8"/>
+  
+  <!-- 纽扣 -->
+  <circle cx="350" cy="240" r="8" fill="#f48fb1"/>
+  <circle cx="350" cy="270" r="8" fill="#f48fb1"/>
+  <circle cx="350" cy="300" r="8" fill="#f48fb1"/>
+  
+  <!-- 纽扣装饰 -->
+  <circle cx="350" cy="240" r="4" fill="#ec407a"/>
+  <circle cx="350" cy="270" r="4" fill="#ec407a"/>
+  <circle cx="350" cy="300" r="4" fill="#ec407a"/>
+  
+  <!-- S studio 文字 -->
+  <text x="250" y="280" font-family="Arial" font-size="14" fill="#666">S studio</text>
+  
+  <!-- New arrival 文字 -->
+  <text x="480" y="250" font-family="Arial" font-size="14" fill="#666">New arrival</text>
+</svg>

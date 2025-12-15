@@ -1,7 +1,7 @@
 <template>
   <div class="post-detail">
     <header class="header">
-      <h1 class="site-title">时尚博客</h1>
+      <h1 class="site-title">服装品牌</h1>
       <nav class="top-nav">
         <ul>
           <li><a href="/">首页</a></li>
@@ -34,7 +34,8 @@
           
           <div class="author-info">
             <div class="author-avatar">
-              <img :src="post.authorAvatar" :alt="post.author" class="avatar-img">
+              <div v-if="!post.authorAvatar" class="avatar-placeholder" style="background-color: #f0f0f0; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #999;">{{ post.author ? post.author.charAt(0) : 'U' }}</div>
+              <img v-else :src="post.authorAvatar" :alt="post.author" class="avatar-img">
             </div>
             <div class="author-details">
               <h3>{{ post.author }}</h3>
@@ -48,7 +49,8 @@
           </div>
         </div>
         
-        <img :src="post.image" :alt="post.title" class="post-image">
+        <div v-if="!post.image" class="post-image" style="background-color: #f0f0f0; width: 100%; height: 400px; display: flex; align-items: center; justify-content: center; color: #999; font-size: 18px;">{{ post.title }}</div>
+        <img v-else :src="post.image" :alt="post.title" class="post-image">
         
         <div class="post-content">
           <div v-html="post.content"></div>
@@ -75,7 +77,8 @@
           <div class="comments-list">
             <div class="comment" v-for="comment in comments" :key="comment.id">
               <div class="comment-avatar">
-                <img :src="comment.avatar" :alt="comment.author" class="avatar-img">
+                <div v-if="!comment.avatar" class="avatar-placeholder" style="background-color: #f0f0f0; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #999;">{{ comment.author.charAt(0) }}</div>
+                <img v-else :src="comment.avatar" :alt="comment.author" class="avatar-img">
               </div>
               <div class="comment-content">
                 <div class="comment-header">
@@ -113,7 +116,8 @@
         <h2>相关文章</h2>
         <div class="posts-grid">
           <div class="post-card" v-for="relatedPost in relatedPosts" :key="relatedPost.id">
-            <img :src="relatedPost.image" :alt="relatedPost.title" class="post-image">
+            <div v-if="!relatedPost.image" class="post-image" style="background-color: #f0f0f0; width: 100%; height: 200px; display: flex; align-items: center; justify-content: center; color: #999; font-size: 14px;">{{ relatedPost.title }}</div>
+            <img v-else :src="relatedPost.image" :alt="relatedPost.title" class="post-image">
             <div class="post-content">
               <div class="post-meta">
                 <span class="post-category">{{ relatedPost.category }}</span>
@@ -129,7 +133,7 @@
     </div>
     
     <footer class="footer">
-      <p>&copy; 2027 时尚博客. 保留所有权利.</p>
+      <p>&copy; 2027 服装品牌. 保留所有权利.</p>
       <div class="social-links">
         <a href="#">Instagram</a>
         <a href="#">Facebook</a>
@@ -161,21 +165,21 @@ export default {
         {
           id: 1,
           author: '时尚爱好者',
-          avatar: 'https://via.placeholder.com/50x50?text=User1',
+          avatar: '',
           date: '2027-10-16',
           content: '这篇文章写得非常好，对我很有帮助！'
         },
         {
           id: 2,
           author: '时尚博主',
-          avatar: 'https://via.placeholder.com/50x50?text=User2',
+          avatar: '',
           date: '2027-10-17',
           content: '我也很喜欢今年春季的这些趋势，尤其是明亮的色彩搭配！'
         },
         {
           id: 3,
           author: '时尚编辑',
-          avatar: 'https://via.placeholder.com/50x50?text=User3',
+          avatar: '',
           date: '2027-10-18',
           content: '分析得很到位，期待更多这样的文章！'
         }
@@ -197,11 +201,11 @@ export default {
           category: '时尚趋势',
           date: '2027-10-15',
           author: '时尚编辑',
-          authorAvatar: 'https://via.placeholder.com/100x100?text=Author',
+          authorAvatar: '',
           authorBio: '资深时尚编辑，专注时尚趋势研究10年，曾在多家时尚杂志担任主编。',
           views: 2567,
           comments: 32,
-          image: 'https://via.placeholder.com/800x500?text=Post+1',
+          image: '',
           content: '<p>随着春季的到来，时尚界迎来了新一轮的潮流变化。2027年春季的时尚趋势融合了经典与现代元素，创造出独特而多样化的风格。</p><p>首先，明亮的色彩成为主流，粉色、黄色和浅蓝色等鲜艳色彩占据了T台的主导地位。这些色调不仅符合春季的氛围，还能轻松搭配各种服装。</p><h3>关键趋势</h3><p>1. 宽松剪裁：舒适的宽松剪裁成为今年的流行趋势，无论是外套、毛衣还是裤装，都强调舒适与时尚的结合。</p><p>2. 复古元素：70年代的复古风格再次回归，喇叭裤、宽领衬衫和复古印花成为时尚爱好者的首选。</p><p>3. 层次感穿搭：通过叠穿不同材质和厚度的衣物，创造出丰富的层次感，既保暖又时尚。</p><p>4. 可持续时尚：环保和可持续发展成为时尚界的重要议题，许多品牌推出了环保材质制成的服装。</p><p>在配饰方面，宽檐帽、复古墨镜和大容量手提包成为2027年春季的必备单品。这些配饰不仅能提升整体造型，还能展现个人风格。</p><p>总的来说，2027年春季的时尚趋势注重舒适性、多样性和可持续性，让每个人都能找到适合自己的风格。</p>',
           tags: ['春季时尚', '潮流趋势', '穿搭技巧']
         },
@@ -211,11 +215,11 @@ export default {
           category: '搭配技巧',
           date: '2027-10-10',
           author: '时尚达人',
-          authorAvatar: 'https://via.placeholder.com/100x100?text=Author2',
+          authorAvatar: '',
           authorBio: '时尚博主，热爱分享穿搭技巧和时尚心得，拥有百万粉丝。',
           views: 1890,
           comments: 25,
-          image: 'https://via.placeholder.com/800x500?text=Post+2',
+          image: '',
           content: '<p>春季外套是衣橱中的必备单品，如何搭配才能既时尚又实用呢？本文将为你介绍几种春季外套的搭配技巧。</p><h3>1. 牛仔外套</h3><p>牛仔外套是春季最百搭的单品之一，可以搭配几乎所有的服装。你可以将牛仔外套与连衣裙、T恤、衬衫等搭配，创造出休闲又时尚的风格。</p><h3>2. 风衣</h3><p>风衣是春季的经典单品，适合正式和休闲场合。搭配长裤和衬衫可以打造商务风格，搭配牛仔裤和T恤则更加休闲。</p><h3>3. 针织开衫</h3><p>针织开衫是春季保暖的最佳选择，同时也是时尚的象征。浅色针织开衫可以搭配各种内搭，创造出优雅的层次感。</p><h3>4. 皮夹克</h3><p>皮夹克适合喜欢酷感风格的人，可以搭配牛仔裤、黑色裤子或皮质裙装，展现个性魅力。</p><p>通过这些搭配技巧，你可以在春季展现出独特的时尚风格，同时保持舒适和温暖。</p>',
           tags: ['外套搭配', '春季穿搭', '时尚技巧']
         }
@@ -231,14 +235,14 @@ export default {
           title: '2027年流行色解析',
           category: '时尚趋势',
           date: '2027-10-05',
-          image: 'https://via.placeholder.com/400x250?text=Post+3'
+          image: ''
         },
         {
           id: '4',
           title: '必备配饰推荐',
           category: '配饰指南',
           date: '2027-09-28',
-          image: 'https://via.placeholder.com/400x250?text=Post+4'
+          image: ''
         }
       ]
     }
@@ -248,11 +252,15 @@ export default {
 
 <style scoped>
 .post-detail {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-  background-color: #000;
+  width: 100%;
+  margin: 0;
+  padding: 0 40px;
+  background: transparent;
   color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
 }
 
 .header {
@@ -260,7 +268,12 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 20px 0;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid rgba(74, 60, 92, 0.3);
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  margin-bottom: 40px;
 }
 
 .site-title {
@@ -290,16 +303,19 @@ export default {
 
 .content-wrapper {
   display: flex;
-  gap: 30px;
+  gap: 50px;
   padding: 40px 0;
+  min-height: 100vh;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .left-sidebar {
-  flex: 0 0 180px;
-  background: #1a1a1a;
+  flex: 0 0 190px; /* 包含padding的总宽度 */
+  background: transparent;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(255, 105, 180, 0.1);
+  border: 1px solid rgba(74, 60, 92, 0.3);
 }
 
 .main-nav ul {
@@ -315,29 +331,32 @@ export default {
 .main-nav a {
   display: block;
   text-decoration: none;
-  color: #fff;
+  color: #4a3c5c;
   font-weight: 500;
   font-size: 1.1rem;
   padding: 10px 15px;
   border-radius: 4px;
   transition: all 0.3s;
+  background: transparent;
+  border: 1px solid rgba(74, 60, 92, 0.2);
 }
 
 .main-nav a:hover {
-  background: #ff69b4;
+  background: rgba(255, 105, 180, 0.3); /* 鼠标悬停时背景为透明粉色 */
   color: #fff;
 }
 
 .main-content {
   flex: 1;
+  min-width: 0; /* 防止内容溢出 */
 }
 
 .post {
-  background: #1a1a1a;
+  background: transparent;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 10px rgba(255, 105, 180, 0.1);
   margin-bottom: 50px;
+  border: 1px solid rgba(74, 60, 92, 0.3);
 }
 
 .post-header {
@@ -359,7 +378,7 @@ export default {
 }
 
 .post-category {
-  background: #ff69b4;
+  background: linear-gradient(45deg, #ff94d2, #b388eb);
   padding: 3px 8px;
   border-radius: 4px;
   font-weight: 500;
@@ -388,7 +407,10 @@ export default {
 .post-content h3 {
   margin: 30px 0 15px;
   font-size: 1.5rem;
-  color: #ff69b4;
+  background: linear-gradient(45deg, #ff94d2, #b388eb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .post-tags {
@@ -399,11 +421,11 @@ export default {
 }
 
 .tag {
-  background: #333;
+  background: rgba(255, 255, 255, 0.2);
   padding: 5px 12px;
   border-radius: 15px;
   font-size: 0.9rem;
-  color: #ccc;
+  color: #fff;
 }
 
 .author-info {
@@ -411,8 +433,9 @@ export default {
   gap: 20px;
   margin-top: 30px;
   padding: 20px;
-  background: #333;
+  background: transparent;
   border-radius: 8px;
+  border: 1px solid rgba(74, 60, 92, 0.3);
 }
 
 .author-avatar {
@@ -476,24 +499,26 @@ export default {
 
 .share-link {
   padding: 8px 15px;
-  background: #333;
-  color: #ccc;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
   text-decoration: none;
   border-radius: 4px;
-  transition: background 0.3s;
+  transition: all 0.3s;
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .share-link:hover {
-  background: #ff69b4;
+  background: linear-gradient(45deg, #c67bb4, #8b76b8);
   color: #fff;
+  border-color: transparent;
 }
 
 .comments-section {
   margin-top: 50px;
   padding: 30px;
-  background: #1a1a1a;
+  background: transparent;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(255, 105, 180, 0.1);
+  border: 1px solid rgba(74, 60, 92, 0.3);
 }
 
 .comments-section h3 {
@@ -511,7 +536,7 @@ export default {
   gap: 15px;
   margin-bottom: 30px;
   padding-bottom: 20px;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .comment:last-child {
@@ -536,7 +561,7 @@ export default {
 
 .comment-author {
   font-weight: 600;
-  color: #ff69b4;
+  color: #ff94d2;
 }
 
 .comment-date {
@@ -552,18 +577,19 @@ export default {
 
 .reply-button {
   padding: 5px 12px;
-  background: #333;
-  color: #ccc;
-  border: none;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 4px;
   cursor: pointer;
   font-size: 0.9rem;
-  transition: background 0.3s;
+  transition: all 0.3s;
 }
 
 .reply-button:hover {
-  background: #ff69b4;
+  background: linear-gradient(45deg, #ff94d2, #b388eb);
   color: #fff;
+  border-color: transparent;
 }
 
 .comment-form-section h3 {
@@ -670,6 +696,7 @@ export default {
   padding: 40px 0;
   border-top: 1px solid #333;
   color: #ccc;
+  margin-top: auto;
 }
 
 .footer .social-links {

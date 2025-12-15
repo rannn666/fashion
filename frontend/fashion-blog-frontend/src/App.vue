@@ -17,14 +17,48 @@ export default {
   padding: 0;
 }
 
-body {
+html, body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f9f9f9;
-  color: #333;
+  background: linear-gradient(135deg, #ffb3d1 0%, #c4a3ff 100%);
+  color: #4a3c5c;
+  height: 100%;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
+body {
+  background: linear-gradient(135deg, #ffb3d1 0%, #c4a3ff 100%);
+  color: #4a3c5c;
+  margin: 0;
+  padding: 0;
 }
 
 #app {
-  max-width: 1200px;
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ffb3d1 0%, #c4a3ff 100%);
+  display: flex;
+  flex-direction: column;
   margin: 0 auto;
+  padding: 0;
+}
+
+/* 彻底隐藏所有元素的焦点样式 */
+*:focus,
+*:focus-visible,
+*:focus-within,
+a:focus,
+button:focus,
+input:focus,
+textarea:focus,
+select:focus,
+img:focus,
+div:focus {
+  outline: none !important; /* 完全隐藏焦点轮廓 */
+  outline-offset: 0 !important;
+  box-shadow: none !important; /* 移除可能存在的box-shadow */
+  border-color: transparent !important; /* 确保边框也透明 */
+  background-color: inherit !important; /* 确保背景色不变 */
 }
 </style>

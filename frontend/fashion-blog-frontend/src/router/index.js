@@ -1,6 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import PostDetail from '../views/PostDetail.vue'
+import BlogList from '../views/BlogList.vue'
+import BlogDetail from '../views/BlogDetail.vue'
+import BlogCreate from '../views/BlogCreate.vue'
 
 const routes = [
   {
@@ -13,6 +16,22 @@ const routes = [
     name: 'PostDetail',
     component: PostDetail,
     props: true
+  },
+  {
+    path: '/blog',
+    name: 'BlogList',
+    component: BlogList
+  },
+  {
+    path: '/blog/:id',
+    name: 'BlogDetail',
+    component: BlogDetail,
+    props: true
+  },
+  {
+    path: '/blog/create',
+    name: 'BlogCreate',
+    component: BlogCreate
   }
 ]
 
