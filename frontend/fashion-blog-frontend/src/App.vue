@@ -19,7 +19,7 @@ export default {
 
 html, body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #ffb3d1 0%, #c4a3ff 100%);
+  background: linear-gradient(90deg, #a8e6cf 0%, #a8e6cf 50%, #d4e4d1 55%, #e2dcc6 60%, #ead4c1 65%, #eacbb8 70%, #edc5b3 75%, #ffd3b6 80%);
   color: #4a3c5c;
   height: 100%;
   width: 100%;
@@ -28,7 +28,7 @@ html, body {
 }
 
 body {
-  background: linear-gradient(135deg, #ffb3d1 0%, #c4a3ff 100%);
+  background: linear-gradient(90deg, #a8e6cf 0%, #a8e6cf 50%, #d4e4d1 55%, #e2dcc6 60%, #ead4c1 65%, #eacbb8 70%, #edc5b3 75%, #ffd3b6 80%);
   color: #4a3c5c;
   margin: 0;
   padding: 0;
@@ -37,7 +37,7 @@ body {
 #app {
   width: 100%;
   min-height: 100vh;
-  background: linear-gradient(135deg, #ffb3d1 0%, #c4a3ff 100%);
+  background: linear-gradient(90deg, #a8e6cf 0%, #a8e6cf 50%, #d4e4d1 55%, #e2dcc6 60%, #ead4c1 65%, #eacbb8 70%, #edc5b3 75%, #ffd3b6 80%);
   display: flex;
   flex-direction: column;
   margin: 0 auto;
@@ -62,3 +62,21 @@ div:focus {
   background-color: inherit !important; /* 确保背景色不变 */
 }
 </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
