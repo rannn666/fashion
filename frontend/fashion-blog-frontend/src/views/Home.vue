@@ -1,25 +1,19 @@
 <template>
   <div class="home">
     <header class="header">
-      <h1 class="site-title">服装品牌</h1>
-      <div class="header-search">
-        <form @submit.prevent="handleSearch" class="search-form">
-          <div class="search-wrapper">
-            <input type="text" v-model="searchQuery" placeholder="搜索...." class="search-input">
-            <button type="submit" class="search-button">
-              <span class="search-icon">🔍</span>
-            </button>
-          </div>
-        </form>
-      </div>
-      <nav class="top-nav">
+      <h1 class="site-title">rann的小试间</h1>
+    </header>
+    
+    <!-- 中心导航按钮 -->
+    <div class="center-nav">
+      <nav class="main-nav-buttons">
         <ul>
-          <li><a href="/">首页</a></li>
-          <li><a href="/blog">博客</a></li>
-          <li><a href="/blog/create">发布</a></li>
+          <li><a href="/" class="no-border-btn">首页</a></li>
+          <li><a href="/blog" class="no-border-btn">博客</a></li>
+          <li><a href="/blog/create" class="no-border-btn">发布</a></li>
         </ul>
       </nav>
-    </header>
+    </div>
     
     <div class="content-wrapper">
       <aside class="left-sidebar">
@@ -262,7 +256,7 @@ export default {
         {
           style: '休闲',
           title: '周末轻松穿搭',
-          description: '舒适自在的周末造型，既轻松又时尚。',
+          description: '舒适acee的周末造型，既轻松又时尚。',
           tags: ['舒适', '休闲', '百搭']
         },
         {
@@ -295,80 +289,44 @@ export default {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  /* 确保没有边框 */
+  border: none;
 }
 
 .header {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 20px 0;
-  border-bottom: 1px solid rgba(74, 60, 92, 0.3);
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(10px);
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-  margin-bottom: 40px;
-}
-
-.header-search {
-  flex: 0 0 auto;
-  margin: 0 20px 0 10px;
-  position: relative;
-  z-index: 1;
-}
-
-.header-search .search-form {
-  margin: 0;
-}
-
-.header-search .search-wrapper {
-  display: flex;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(10px);
-  opacity: 0.8;
-}
-
-.header-search .search-input {
-  background: transparent;
-  border: none;
-  color: #fff;
-  font-size: 0.85rem;
-  padding: 6px 12px;
-  outline: none;
-  flex: 1;
-  min-width: 150px;
-  width: 200px;
-}
-
-.header-search .search-input::placeholder {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.header-search .search-button {
-  background: rgba(74, 60, 92, 0.3);
-  border: none;
-  color: #fff;
-  padding: 6px 12px;
-  cursor: pointer;
-  border-radius: 0 25px 25px 0;
-  transition: all 0.3s ease;
-}
-
-.header-search .search-button:hover {
-  background: rgba(74, 60, 92, 0.5);
-}
-
-.header-search .search-icon {
-  font-size: 1rem;
+  display: flex !important;
+  justify-content: center !important; /* 标题居中 */
+  align-items: center !important;
+  padding: 25px 40px !important;
+  position: relative !important;
+  margin-bottom: 0 !important;
+  /* 完全去掉背景，避免与全局背景叠加产生边界 */
+  background: transparent !important;
+  background-image: none !important;
+  background-blend-mode: normal !important;
+  /* 强制去掉所有边框和边界效果 */
+  border: none !important;
+  border-style: none !important;
+  border-width: 0 !important;
+  border-color: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  outline: none !important;
+  outline-width: 0 !important;
+  outline-style: none !important;
+  outline-color: transparent !important;
+  /* 整体透明度 */
+  opacity: 1 !important;
+  /* 过渡动画 */
+  transition: all 0.3s ease !important;
+  /* 确保没有任何边框相关的样式 */
+  clip: auto !important;
+  overflow: visible !important;
 }
 
 .site-title {
-  font-size: 2.5rem;
+  font-size: 2rem !important; /* 减小字体大小 */
   margin: 0 0 0 0;
   background: linear-gradient(90deg, #ff94d2, #b388eb);
   -webkit-background-clip: text;
@@ -405,7 +363,8 @@ export default {
   padding: 8px 15px;
   border-radius: 4px;
   background: transparent;
-  border: 1px solid rgba(74, 60, 92, 0.3);
+  /* 去掉黑色透明边框 */
+  border: none;
   position: relative;
   overflow: hidden;
 }
@@ -441,11 +400,14 @@ export default {
 }
 
 .left-sidebar {
-  flex: 0 0 300px; /* 左侧导航栏固定宽度 */
+  flex: 0 0 350px; /* 左侧导航栏固定宽度 */
   background: transparent;
   padding: 25px;
   border-radius: 8px;
-  border: 1px solid rgba(74, 60, 92, 0.3);
+  min-height: fit-content;
+  min-width: 0; /* 防止内容溢出 */
+  /* 去掉黑色透明边框 */
+  border: none;
 }
 
 .main-content {
@@ -473,7 +435,8 @@ export default {
   border-radius: 4px;
   transition: all 0.3s;
   background: transparent;
-  border: 1px solid rgba(74, 60, 92, 0.3);
+  /* 去掉黑色透明边框 */
+  border: none;
   position: relative;
   overflow: hidden;
 }
@@ -508,7 +471,8 @@ export default {
   font-size: 1.2rem;
   margin-bottom: 15px;
   color: #fff;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+  /* 去掉白色透明边框 */
+  border-bottom: none;
   padding-bottom: 8px;
 }
 
@@ -520,7 +484,8 @@ export default {
 .search-input {
   flex: 1;
   padding: 8px 12px;
-  border: 1px solid rgba(74, 60, 92, 0.3);
+  /* 去掉黑色透明边框 */
+  border: none;
   border-radius: 4px;
   font-size: 0.9rem;
   background: transparent;
@@ -530,15 +495,17 @@ export default {
 
 .search-input:focus {
   outline: none;
-  border-color: rgba(255, 255, 255, 0.5);
-  box-shadow: 0 2px 10px rgba(200, 140, 220, 0.2);
+  /* 去掉白色透明边框 */
+  border: none;
+  box-shadow: none;
 }
 
 .search-button {
   padding: 8px 15px;
   background: linear-gradient(90deg, #c67bb4, #8b76b8);
   color: white;
-  border: 1px solid rgba(74, 60, 92, 0.3);
+  /* 去掉黑色透明边框 */
+  border: none;
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.3s;
@@ -570,7 +537,8 @@ export default {
   border-radius: 4px;
   transition: all 0.3s;
   background: transparent;
-  border: 1px solid rgba(74, 60, 92, 0.2);
+  /* 去掉黑色透明边框 */
+  border: none;
   position: relative;
   overflow: hidden;
 }
@@ -621,7 +589,8 @@ export default {
   display: inline-block;
   padding: 5px 12px;
   background: transparent;
-  border: 1px solid rgba(74, 60, 92, 0.3);
+  /* 去掉黑色透明边框 */
+  border: none;
   color: #f0f0f0;
   text-decoration: none;
   border-radius: 15px;
@@ -665,7 +634,8 @@ export default {
   border-radius: 8px;
   min-height: fit-content;
   min-width: 0; /* 防止内容溢出 */
-  border: 1px solid rgba(74, 60, 92, 0.3);
+  /* 去掉黑色透明边框 */
+  border: none;
 }
 
 .featured-post {
@@ -677,7 +647,8 @@ export default {
   border-radius: 8px;
   overflow: hidden;
   transition: transform 0.3s;
-  border: 1px solid rgba(74, 60, 92, 0.3);
+  /* 确保没有边框 */
+  border: none;
 }
 
 .post-card:hover {
@@ -736,7 +707,8 @@ export default {
   border-radius: 4px;
   font-weight: 500;
   color: #fff;
-  border: 1px solid rgba(74, 60, 92, 0.3);
+  /* 去掉黑色透明边框 */
+  border: none;
 }
 
 .post-title {
@@ -775,14 +747,30 @@ export default {
   margin-bottom: 25px;
   color: #fff;
   text-align: center;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+  /* 去掉白色透明边框 */
+  border-bottom: none;
   padding-bottom: 10px;
   position: relative;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.3);
-  background: linear-gradient(90deg, rgba(255,255,255,0.8), rgba(255,255,255,0.5), rgba(255,255,255,0.8));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  /* 小星星样式 */
+  .small-star {
+    width: 12px !important;
+    height: 12px !important;
+    margin-left: 5px;
+  }
+  
+  /* 文字玻璃反光效果 */
+  h1, h2, h3, h4, h5, h6, .post-title, .news-title {
+    position: relative;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.3);
+  }
+  .glass-text {
+    background: linear-gradient(90deg, rgba(255,255,255,0.8), rgba(255,255,255,0.5), rgba(255,255,255,0.8));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+    z-index: 1;
+  }
 }
 
 .sidebar .section-title {
@@ -855,10 +843,12 @@ export default {
 
 .sidebar-post {
   padding: 15px;
-  border-bottom: 1px solid rgba(74, 60, 92, 0.3);
+  /* 去掉黑色透明边框 */
+  border-bottom: none;
   background: transparent;
   border-radius: 8px;
-  border: 1px solid rgba(74, 60, 92, 0.3);
+  /* 去掉黑色透明边框 */
+  border: none;
   position: relative;
   overflow: hidden;
 }
@@ -892,7 +882,8 @@ export default {
 .footer {
   text-align: center;
   padding: 40px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  /* 去掉白色透明边框 */
+  border-top: none;
 }
 
 footer {
@@ -924,7 +915,8 @@ footer {
   border-radius: 8px;
   overflow: hidden;
   transition: transform 0.3s;
-  border: 1px solid rgba(74, 60, 92, 0.3);
+  /* 确保没有边框 */
+  border: none;
 }
 
 .news-item:hover {
@@ -1009,7 +1001,8 @@ footer {
   color: rgba(255, 255, 255, 0.8);
   background: transparent;
   border-radius: 8px;
-  border: 1px solid rgba(74, 60, 92, 0.3);
+  /* 确保没有边框 */
+  border: none;
 }
 
 .main-section-titles {
@@ -1018,7 +1011,8 @@ footer {
   color: rgba(255, 255, 255, 0.8);
   background: transparent;
   border-radius: 8px;
-  border: 1px solid rgba(74, 60, 92, 0.3);
+  /* 确保没有边框 */
+  border: none;
 }
 
 .section-titles-list {
@@ -1039,7 +1033,8 @@ footer {
   padding: 8px 12px;
   border-radius: 4px;
   background: transparent;
-  border: 1px solid rgba(74, 60, 92, 0.3);
+  /* 确保没有边框 */
+  border: none;
   position: relative;
   overflow: hidden;
 }
@@ -1065,6 +1060,10 @@ footer {
   color: #fff;
   background: rgba(255, 255, 255, 0.3);
 }
+.section-titles-list a:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.3);
+}
 
 /* 小星星样式 */
 .small-star {
@@ -1079,13 +1078,89 @@ h1, h2, h3, h4, h5, h6, .post-title, .news-title {
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.3);
 }
 
-/* 增强玻璃效果的文字样式 */
-.glass-text {
-  background: linear-gradient(90deg, rgba(255,255,255,0.8), rgba(255,255,255,0.5), rgba(255,255,255,0.8));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  position: relative;
-  z-index: 1;
+.center-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+  margin-bottom: 20px;
+  background: transparent;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.main-nav-buttons ul {
+  display: flex;
+  list-style: none;
+  gap: 1em; /* 一个字的间隙 */
+  margin: 0;
+  padding: 0;
+  justify-content: center;
+}
+
+/* 使用更具体的选择器确保样式生效 */
+.home .center-nav .main-nav-buttons a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 12px 25px;
+  border-radius: 25px;
+  background: rgba(74, 60, 92, 0.3);
+  /* 彻底清除所有可能的边框样式 */
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  /* 添加额外的边框清除属性 */
+  border-width: 0 !important;
+  border-style: none !important;
+  border-color: transparent !important;
+}
+
+/* 悬停状态 */
+.home .center-nav .main-nav-buttons a:hover {
+  background: rgba(74, 60, 92, 0.5);
+  color: #ff69b4;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3) !important;
+  /* 悬停时也确保无边框 */
+  border: none !important;
+  outline: none !important;
+  /* 添加额外的边框清除属性 */
+  border-width: 0 !important;
+  border-style: none !important;
+  border-color: transparent !important;
+}
+
+.site-title {
+  font-size: 1.8rem;
+  margin: 10px 0;
+  color: #fff;
 }
 </style>
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Microsoft YaHei', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: 
+    radial-gradient(circle at 25% 25%, rgba(168, 230, 207, 0.8) 0%, rgba(168, 230, 207, 0.3) 35%, transparent 60%),
+    radial-gradient(circle at 75% 75%, rgba(255, 211, 182, 0.8) 0%, rgba(255, 211, 182, 0.3) 35%, transparent 60%),
+    linear-gradient(135deg, 
+      #a8e6cf 0%, 
+      #a8e6cf 30%, 
+      #b8e6d3 35%, 
+      #c8d4d8 40%, 
+      #d8d4d3 45%, 
+      #e8d4ce 47%, 
+      #f0d4c9 49%, 
+      #ffd3b6 51%, 
+      #ffd3b6 70%, 
+      #ffd3b6 100%
+    );
+  background-blend-mode: multiply, screen, normal;
+  background-attachment: fixed;
+}
