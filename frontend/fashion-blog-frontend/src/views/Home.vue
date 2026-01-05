@@ -8,10 +8,12 @@
     <div class="center-nav">
       <nav class="main-nav-buttons">
         <ul>
-          <li><a href="/" class="no-border-btn">首页</a></li>
-          <li><a href="/blog" class="no-border-btn">博客</a></li>
-          <li><a href="/blog/create" class="no-border-btn">发布</a></li>
+          <li><a href="/" class="no-border-btn" :class="{ active: currentRoute === '/' }" @click.prevent="setActiveRoute('/')">首页</a></li>
+          <li><a href="/blog" class="no-border-btn" :class="{ active: currentRoute === '/blog' }" @click.prevent="setActiveRoute('/blog')">博客</a></li>
+          <li><a href="/blog/create" class="no-border-btn" :class="{ active: currentRoute === '/blog/create' }" @click.prevent="setActiveRoute('/blog/create')">发布</a></li>
         </ul>
+        <!-- 游走悬浮按键 -->
+        <div class="floating-indicator" :style="floatingStyle" v-if="showFloating"></div>
       </nav>
     </div>
     
@@ -19,55 +21,39 @@
       <aside class="left-sidebar">
         <nav class="main-nav">
           <ul>
-            <li><a href="#"><StarIcon />分类</a></li>
-            <li><a href="#"><StarIcon />关于</a></li>
-            <li><a href="#"><StarIcon />联系</a></li>
-            <li><a href="/blog"><StarIcon />最新文章</a></li>
+            <li><a href="#">分类</a></li>
+            <li><a href="#">关于</a></li>
+            <li><a href="#">联系</a></li>
+            <li class="dropdown-container">
+              <a href="#" class="dropdown-trigger" @mouseenter="showCategories = true" @mouseleave="startHideCategories()">文章分类</a>
+              <div class="dropdown-content" v-show="showCategories" @mouseenter="cancelHideCategories()" @mouseleave="startHideCategories()">
+                <ul class="categories-list">
+                  <li><a href="#">时尚趋势</a> <span class="category-count">12</span></li>
+                  <li><a href="#">搭配技巧</a> <span class="category-count">8</span></li>
+                  <li><a href="#">配饰指南</a> <span class="category-count">5</span></li>
+                  <li><a href="#">品牌故事</a> <span class="category-count">6</span></li>
+                  <li><a href="#">时尚事件</a> <span class="category-count">4</span></li>
+                </ul>
+              </div>
+            </li>
+            <li class="dropdown-container">
+              <a href="#" class="dropdown-trigger" @mouseenter="showTags = true" @mouseleave="startHideTags()">热门标签</a>
+              <div class="dropdown-content tags-dropdown" v-show="showTags" @mouseenter="cancelHideTags()" @mouseleave="startHideTags()">
+                <div class="tags-cloud">
+                  <a href="#" class="tag">春季时尚</a>
+                  <a href="#" class="tag">穿搭技巧</a>
+                  <a href="#" class="tag">流行趋势</a>
+                  <a href="#" class="tag">配饰搭配</a>
+                  <a href="#" class="tag">品牌推荐</a>
+                  <a href="#" class="tag">时尚博主</a>
+                  <a href="#" class="tag">潮流单品</a>
+                  <a href="#" class="tag">街头风格</a>
+                </div>
+              </div>
+            </li>
           </ul>
         </nav>
-        
-        <div class="search-section">
-          <h3>搜索</h3>
-          <form class="search-form">
-            <input type="text" placeholder="搜索文章..." class="search-input">
-            <button type="submit" class="search-button">搜索</button>
-          </form>
-        </div>
-        
-        <div class="categories-section">
-          <h3>文章分类</h3>
-          <ul class="categories-list">
-            <li><a href="#">时尚趋势</a> <span class="category-count">12</span></li>
-            <li><a href="#">搭配技巧</a> <span class="category-count">8</span></li>
-            <li><a href="#">配饰指南</a> <span class="category-count">5</span></li>
-            <li><a href="#">品牌故事</a> <span class="category-count">6</span></li>
-            <li><a href="#">时尚事件</a> <span class="category-count">4</span></li>
-          </ul>
-        </div>
-        
-        <div class="tags-section">
-          <h3>热门标签</h3>
-          <div class="tags-cloud">
-            <a href="#" class="tag">春季时尚</a>
-            <a href="#" class="tag">穿搭技巧</a>
-            <a href="#" class="tag">流行趋势</a>
-            <a href="#" class="tag">配饰搭配</a>
-            <a href="#" class="tag">品牌推荐</a>
-            <a href="#" class="tag">时尚博主</a>
-            <a href="#" class="tag">潮流单品</a>
-            <a href="#" class="tag">街头风格</a>
-          </div>
-        </div>
-        
-      <section class="main-section-titles">
-        <h3>内容分类</h3>
-        <ul class="section-titles-list">
-          <li><a href="#">时尚达人推荐</a></li>
-          <li><a href="#">本周热门单品</a></li>
-          <li><a href="#">今日搭配灵感</a></li>
-        </ul>
-      </section>
-    </aside>
+      </aside>
       
       <main class="main-content">
         <section class="featured-post">
@@ -108,11 +94,7 @@
             </div>
           </div>
         </section>
-        
-
       </main>
-      
-
     </div>
     
     <footer class="footer">
@@ -127,62 +109,25 @@
 </template>
 
 <script>
-import StarIcon from '@/components/StarIcon.vue'
-
 export default {
   name: 'HomePage',
-  components: {
-    StarIcon
-  },
   data() {
     return {
       searchQuery: '',
-      posts: [
-        {
-          id: 2,
-          title: '如何搭配春季外套',
-          category: '搭配技巧',
-          date: '2027-10-10',
-          excerpt: '学习如何将春季外套与不同风格的服装搭配，打造时尚又舒适的造型。'
-        },
-        {
-          id: 3,
-          title: '2027年流行色解析',
-          category: '时尚趋势',
-          date: '2027-10-05',
-          excerpt: '深入了解2027年的流行色及其在时尚界的应用。'
-        },
-        {
-          id: 4,
-          title: '必备配饰推荐',
-          category: '配饰指南',
-          date: '2027-09-28',
-          excerpt: '春季必备的配饰清单，让你的整体造型更加完美。'
-        }
-      ],
-      popularPosts: [
-        {
-          id: 5,
-          title: '时尚博主的日常穿搭灵感',
-          category: '时尚趋势',
-          date: '2027-09-20',
-          views: 1256
-        },
-        {
-          id: 6,
-          title: '如何选择适合自己的牛仔裤',
-          category: '搭配技巧',
-          date: '2027-09-15',
-          views: 987
-        },
-        {
-          id: 7,
-          title: '春季鞋履指南',
-          category: '配饰指南',
-          date: '2027-09-10',
-          views: 854
-        }
-      ],
+      currentRoute: '/', // 当前活动路由
+      // 游走悬浮按键相关数据
+      showFloating: false,
+      floatingStyle: {
+        width: '60px',
+        transform: 'translateX(0px)',
+        transition: 'all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55)'
+      },
+      floatingInterval: null,
+      // 浮框显示状态
+      showCategories: false,
+      showTags: false,
+      hideCategoriesTimer: null,
+      hideTagsTimer: null,
       fashionNews: [
         {
           category: '时装周',
@@ -202,77 +147,135 @@ export default {
           date: '2027-10-05',
           excerpt: '从温暖的大地色系到清新的薄荷绿，了解2027春季的流行色彩。'
         }
-      ],
-      influencers: [
-        {
-          name: '艾米丽·时尚',
-          followers: '156K',
-          specialty: '都市时尚达人'
-        },
-        {
-          name: '路易斯·风格',
-          followers: '89K',
-          specialty: '街头时尚专家'
-        },
-        {
-          name: '玛莎·造型',
-          followers: '234K',
-          specialty: '高级定制顾问'
-        }
-      ],
-      trendingItems: [
-        {
-          name: '丝质衬衫',
-          brand: 'Zara',
-          price: '¥299',
-          tag: '热销'
-        },
-        {
-          name: '高腰牛仔裤',
-          brand: 'H&M',
-          price: '¥199',
-          tag: '新上架'
-        },
-        {
-          name: '小白鞋',
-          brand: 'Nike',
-          price: '¥699',
-          tag: '经典'
-        },
-        {
-          name: '针织开衫',
-          brand: 'COS',
-          price: '¥450',
-          tag: '热门'
-        }
-      ],
-      outfits: [
-        {
-          style: '办公',
-          title: '优雅职场装',
-          description: '专业而不失时尚感的职场搭配，让你在办公室中脱颖而出。',
-          tags: ['正式', '优雅', '简约']
-        },
-        {
-          style: '休闲',
-          title: '周末轻松穿搭',
-          description: '舒适acee的周末造型，既轻松又时尚。',
-          tags: ['舒适', '休闲', '百搭']
-        },
-        {
-          style: '约会',
-          title: '浪漫约会装',
-          description: '温柔优雅的约会搭配，展现你的女性魅力。',
-          tags: ['浪漫', '优雅', '温柔']
-        }
       ]
     }
   },
+  mounted() {
+    // 初始化指示器位置
+    this.updateIndicator()
+    // 监听窗口大小变化，重新计算指示器位置
+    window.addEventListener('resize', this.updateIndicator)
+    // 延迟启动游走悬浮按键效果，确保DOM完全渲染
+    setTimeout(() => {
+      this.startFloatingAnimation()
+    }, 500)
+  },
+  beforeUnmount() {
+    // 清理事件监听器
+    window.removeEventListener('resize', this.updateIndicator)
+    // 清理游走动画
+    this.stopFloatingAnimation()
+    // 清理定时器
+    this.clearAllTimers()
+  },
   methods: {
-    handleSearch() {
-      // 这里可以实现搜索功能，例如跳转到博客列表页并携带搜索参数
-      if (this.searchQuery) {
-        this.$router.push({ path: '/blog', query: { search: this.searchQuery } });
+    updateIndicator() {
+      this.$nextTick(() => {
+        const activeLink = this.$el.querySelector('.main-nav-buttons a.active')
+        if (activeLink) {
+          const linkRect = activeLink.getBoundingClientRect()
+          const containerRect = this.$el.querySelector('.main-nav-buttons ul').getBoundingClientRect()
+          
+          this.indicatorStyle = {
+            width: `${linkRect.width}px`,
+            transform: `translateX(${linkRect.left - containerRect.left}px)`,
+            transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+          }
+        }
+      })
+    },
+    setActiveRoute(route) {
+      this.currentRoute = route
+      // 点击任何按钮时都启动游走效果
+      this.startFloatingAnimation()
+    },
+    // 启动游走悬浮按键动画
+    startFloatingAnimation() {
+      console.log('启动游走悬浮按键动画')
+      this.showFloating = true
+      this.stopFloatingAnimation() // 先停止之前的动画
+      
+      // 使用$nextTick确保DOM更新完成
+      this.$nextTick(() => {
+        const buttons = this.$el.querySelectorAll('.main-nav-buttons a')
+        console.log('找到按钮数量:', buttons.length)
+        if (buttons.length === 0) {
+          console.log('未找到导航按钮')
+          return
+        }
+        
+        let currentIndex = 0
+        
+        // 立即移动到第一个按钮
+        this.moveToButton(buttons, currentIndex)
+        console.log('移动到按钮:', currentIndex)
+        
+        this.floatingInterval = setInterval(() => {
+          currentIndex = (currentIndex + 1) % buttons.length
+          this.moveToButton(buttons, currentIndex)
+          console.log('移动到按钮:', currentIndex)
+        }, 1500) // 每1.5秒移动一次
+      })
+    },
+    // 移动到指定按钮
+    moveToButton(buttons, index) {
+      const button = buttons[index]
+      if (!button) return
+      
+      const buttonRect = button.getBoundingClientRect()
+      const container = this.$el.querySelector('.main-nav-buttons ul')
+      if (!container) return
+      
+      const containerRect = container.getBoundingClientRect()
+      
+      this.floatingStyle = {
+        width: `${buttonRect.width}px`,
+        transform: `translateX(${buttonRect.left - containerRect.left}px)`,
+        transition: 'all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55)'
+      }
+    },
+    // 停止游走动画
+    stopFloatingAnimation() {
+      if (this.floatingInterval) {
+        clearInterval(this.floatingInterval)
+        this.floatingInterval = null
+      }
+    },
+    // 清理所有定时器
+    clearAllTimers() {
+      if (this.hideCategoriesTimer) {
+        clearTimeout(this.hideCategoriesTimer)
+        this.hideCategoriesTimer = null
+      }
+      if (this.hideTagsTimer) {
+        clearTimeout(this.hideTagsTimer)
+        this.hideTagsTimer = null
+      }
+    },
+    // 开始隐藏分类浮框（延迟）
+    startHideCategories() {
+      this.hideCategoriesTimer = setTimeout(() => {
+        this.showCategories = false
+      }, 300)
+    },
+    // 取消隐藏分类浮框
+    cancelHideCategories() {
+      if (this.hideCategoriesTimer) {
+        clearTimeout(this.hideCategoriesTimer)
+        this.hideCategoriesTimer = null
+      }
+    },
+    // 开始隐藏标签浮框（延迟）
+    startHideTags() {
+      this.hideTagsTimer = setTimeout(() => {
+        this.showTags = false
+      }, 300)
+    },
+    // 取消隐藏标签浮框
+    cancelHideTags() {
+      if (this.hideTagsTimer) {
+        clearTimeout(this.hideTagsTimer)
+        this.hideTagsTimer = null
       }
     }
   }
@@ -478,43 +481,34 @@ export default {
 
 .search-form {
   display: flex;
-  gap: 5px;
+  gap: 10px;
 }
 
 .search-input {
   flex: 1;
   padding: 8px 12px;
-  /* 去掉黑色透明边框 */
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 4px;
-  font-size: 0.9rem;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.1);
   color: #fff;
-  transition: all 0.3s;
 }
 
-.search-input:focus {
-  outline: none;
-  /* 去掉白色透明边框 */
-  border: none;
-  box-shadow: none;
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .search-button {
-  padding: 8px 15px;
-  background: linear-gradient(90deg, #c67bb4, #8b76b8);
-  color: white;
-  /* 去掉黑色透明边框 */
+  padding: 8px 16px;
+  background: rgba(255, 105, 180, 0.8);
   border: none;
   border-radius: 4px;
+  color: #fff;
   cursor: pointer;
   transition: all 0.3s;
 }
 
 .search-button:hover {
-  background: linear-gradient(90deg, #8b76b8, #c67bb4);
-  box-shadow: 0 2px 10px rgba(200, 140, 220, 0.3);
-  transform: translateY(-2px);
+  background: rgba(255, 105, 180, 1);
 }
 
 .categories-list {
@@ -524,59 +518,30 @@ export default {
 }
 
 .categories-list li {
-  margin-bottom: 10px;
-}
-
-.categories-list a {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  text-decoration: none;
-  color: #4a3c5c;
-  padding: 5px 10px;
-  border-radius: 4px;
-  transition: all 0.3s;
-  background: transparent;
-  /* 去掉黑色透明边框 */
-  border: none;
-  position: relative;
-  overflow: hidden;
+  margin-bottom: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.categories-list a::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.3) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  transform: rotate(30deg);
-  animation: shimmer 3s infinite;
+.categories-list a {
+  text-decoration: none;
+  color: #fff;
+  transition: all 0.3s;
 }
 
 .categories-list a:hover {
-  background: rgba(255, 255, 255, 0.2);
-  color: #fff;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-@keyframes shimmer {
-  0% { transform: translateX(-100%) rotate(30deg); }
-  100% { transform: translateX(100%) rotate(30deg); }
+  color: #ff69b4;
 }
 
 .category-count {
-  background: #333;
+  background: rgba(255, 105, 180, 0.8);
+  color: #fff;
   padding: 2px 6px;
   border-radius: 10px;
   font-size: 0.8rem;
-  color: #ccc;
 }
 
 .tags-cloud {
@@ -586,110 +551,52 @@ export default {
 }
 
 .tag {
-  display: inline-block;
-  padding: 5px 12px;
-  background: transparent;
-  /* 去掉黑色透明边框 */
-  border: none;
-  color: #f0f0f0;
   text-decoration: none;
-  border-radius: 15px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 4px 8px;
+  border-radius: 3px;
   font-size: 0.9rem;
   transition: all 0.3s;
-  position: relative;
-  overflow: hidden;
-}
-
-.tag::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.3) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  transform: rotate(30deg);
-  animation: shimmer 3s infinite;
 }
 
 .tag:hover {
-  background: linear-gradient(90deg, #ff94d2, #b388eb);
-  color: white;
-}
-
-.main-content {
-  flex: 1;
-  min-width: 0; /* 防止内容溢出 */
-}
-
-.sidebar {
-  flex: 0 0 350px; /* 增加宽度 */
-  background: transparent;
-  padding: 25px;
-  border-radius: 8px;
-  min-height: fit-content;
-  min-width: 0; /* 防止内容溢出 */
-  /* 去掉黑色透明边框 */
-  border: none;
+  background: rgba(255, 105, 180, 0.8);
 }
 
 .featured-post {
-  margin-bottom: 60px;
+  margin-bottom: 40px;
 }
 
 .post-card {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 8px;
   overflow: hidden;
-  transition: transform 0.3s;
-  /* 确保没有边框 */
-  border: none;
-}
-
-.post-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s;
 }
 
 .post-card.featured {
   display: flex;
-  flex-direction: row;
-  height: 400px;
-  width: 100%;
-  box-sizing: border-box;
+  gap: 20px;
 }
 
-.post-card.featured .post-image {
-  width: 50%;
-  height: 100%;
-  object-fit: cover;
-  box-sizing: border-box;
-}
-
-.post-card.featured .post-content {
-  width: 50%;
-  padding: 30px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  box-sizing: border-box;
+.post-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .post-image {
-  width: 100%;
-  height: 250px;
-  object-fit: cover;
-  box-sizing: border-box;
+  flex: 0 0 300px;
+  height: 200px;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .post-content {
+  flex: 1;
   padding: 20px;
-  box-sizing: border-box;
 }
 
 .post-meta {
@@ -697,387 +604,135 @@ export default {
   gap: 15px;
   margin-bottom: 10px;
   font-size: 0.9rem;
-  color: #ccc;
-  position: relative;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .post-category {
-  background: linear-gradient(90deg, #c67bb4, #8b76b8);
-  padding: 3px 8px;
-  border-radius: 4px;
-  font-weight: 500;
+  background: rgba(255, 105, 180, 0.8);
+  padding: 2px 8px;
+  border-radius: 3px;
   color: #fff;
-  /* 去掉黑色透明边框 */
-  border: none;
 }
 
 .post-title {
-  font-size: 1.8rem;
-  margin: 10px 0;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
   color: #fff;
-}
-
-.post-card.featured .post-title {
-  font-size: 2.2rem;
 }
 
 .post-excerpt {
-  color: #e0e0e0;
-  margin-bottom: 20px;
+  color: rgba(255, 255, 255, 0.8);
   line-height: 1.6;
-}
-
-.read-more {
-  display: inline-block;
-  padding: 10px 20px;
-  background: linear-gradient(90deg, #ff94d2, #b388eb);
-  color: white;
-  text-decoration: none;
-  border-radius: 4px;
-  transition: background 0.3s;
-  align-self: flex-start;
-}
-
-.read-more:hover {
-  background: linear-gradient(90deg, #b388eb, #ff94d2);
-}
-
-.section-title {
-  font-size: 1.8rem;
-  margin-bottom: 25px;
-  color: #fff;
-  text-align: center;
-  /* 去掉白色透明边框 */
-  border-bottom: none;
-  padding-bottom: 10px;
-  position: relative;
-  /* 小星星样式 */
-  .small-star {
-    width: 12px !important;
-    height: 12px !important;
-    margin-left: 5px;
-  }
-  
-  /* 文字玻璃反光效果 */
-  h1, h2, h3, h4, h5, h6, .post-title, .news-title {
-    position: relative;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.3);
-  }
-  .glass-text {
-    background: linear-gradient(90deg, rgba(255,255,255,0.8), rgba(255,255,255,0.5), rgba(255,255,255,0.8));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    position: relative;
-    z-index: 1;
-  }
-}
-
-.sidebar .section-title {
-  font-size: 1.5rem;
-  text-align: left;
-  color: #fff;
-}
-
-.popular-posts {
-  margin-top: 40px;
-}
-
-.post-views {
-  font-size: 0.8rem;
-  color: #999;
-}
-
-.instagram-section {
-  margin-top: 40px;
-}
-
-.instagram-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
   margin-bottom: 15px;
 }
 
-.instagram-item {
-  display: block;
-  overflow: hidden;
-  border-radius: 4px;
-  transition: transform 0.3s;
-}
-
-.instagram-item:hover {
-  transform: scale(1.05);
-}
-
-.instagram-item img {
-  width: 100%;
-  height: 100px;
-  object-fit: cover;
-}
-
-.instagram-link {
-  display: block;
-  text-align: center;
+.read-more {
   color: #ff69b4;
   text-decoration: none;
   font-weight: 500;
-  transition: color 0.3s;
+  transition: all 0.3s;
 }
 
-.instagram-link:hover {
-  color: #ff1493;
+.read-more:hover {
+  color: #fff;
 }
 
-.posts-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 30px;
-}
-
-.posts-list {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.sidebar-post {
-  padding: 15px;
-  /* 去掉黑色透明边框 */
-  border-bottom: none;
-  background: transparent;
-  border-radius: 8px;
-  /* 去掉黑色透明边框 */
-  border: none;
-  position: relative;
-  overflow: hidden;
-}
-
-.sidebar-post::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.2) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  transform: rotate(30deg);
-  animation: shimmer 3s infinite;
-}
-
-.sidebar-post:last-child {
-  border-bottom: none;
-  padding-bottom: 0;
-}
-
-.sidebar-post-content {
-  padding: 0;
-}
-
-.footer {
-  text-align: center;
-  padding: 40px 0;
-  /* 去掉白色透明边框 */
-  border-top: none;
-}
-
-footer {
-  color: rgba(255, 255, 255, 0.8);
-  margin-top: auto; /* 确保页脚始终在页面底部 */
-  background: transparent;
-}
-
-.social-links {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-
-/* 新增内容区域样式 */
 .fashion-news {
-  margin: 50px 0;
+  margin-bottom: 40px;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #fff;
 }
 
 .news-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
+  gap: 20px;
 }
 
 .news-item {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 8px;
   overflow: hidden;
-  transition: transform 0.3s;
-  /* 确保没有边框 */
-  border: none;
+  transition: all 0.3s;
 }
 
 .news-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .news-image {
-  width: 100%;
-  height: 200px;
+  height: 150px;
+  background: rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
-  font-weight: bold;
 }
 
 .placeholder {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-weight: bold;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1rem;
 }
 
 .news-content {
-  padding: 20px;
+  padding: 15px;
 }
 
 .news-meta {
   display: flex;
-  gap: 15px;
-  margin-bottom: 10px;
-  font-size: 0.9rem;
-  color: #ccc;
+  gap: 10px;
+  margin-bottom: 8px;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .news-category {
-  background: linear-gradient(90deg, #ff94d2, #b388eb);
-  padding: 3px 8px;
-  border-radius: 4px;
-  font-weight: 500;
+  background: rgba(255, 105, 180, 0.8);
+  padding: 1px 6px;
+  border-radius: 3px;
   color: #fff;
 }
 
 .news-title {
-  color: #ffffff;
-  margin: 10px 0;
-  font-size: 1.3rem;
-  line-height: 1.4;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.3);
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  color: #fff;
 }
 
 .news-excerpt {
-  color: #e0e0e0;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
   font-size: 0.9rem;
-  line-height: 1.6;
 }
 
+.footer {
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+}
 
-
-
-
-
+.social-links {
+  margin-top: 10px;
+}
 
 .social-links a {
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.7);
   text-decoration: none;
-  transition: color 0.3s;
+  margin: 0 10px;
+  transition: all 0.3s;
 }
 
 .social-links a:hover {
-  color: #fff;
-  text-decoration: underline;
+  color: #ff69b4;
 }
 
-.section-placeholder {
-  padding: 20px;
-  text-align: center;
-  color: rgba(255, 255, 255, 0.8);
-  background: transparent;
-  border-radius: 8px;
-  /* 确保没有边框 */
-  border: none;
-}
-
-.main-section-titles {
-  margin-top: 30px;
-  text-align: center;
-  color: rgba(255, 255, 255, 0.8);
-  background: transparent;
-  border-radius: 8px;
-  /* 确保没有边框 */
-  border: none;
-}
-
-.section-titles-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.section-titles-list li {
-  margin-bottom: 15px;
-}
-
-.section-titles-list a {
-  color: rgba(255, 255, 255, 0.8);
-  text-decoration: none;
-  transition: all 0.3s;
-  display: block;
-  padding: 8px 12px;
-  border-radius: 4px;
-  background: transparent;
-  /* 确保没有边框 */
-  border: none;
-  position: relative;
-  overflow: hidden;
-}
-
-.section-titles-list a::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.3) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  transform: rotate(30deg);
-  animation: shimmer 3s infinite;
-}
-
-.section-titles-list a:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.3);
-}
-.section-titles-list a:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.3);
-}
-
-/* 小星星样式 */
-.small-star {
-  width: 12px !important;
-  height: 12px !important;
-  margin-left: 5px;
-}
-
-/* 文字玻璃反光效果 */
-h1, h2, h3, h4, h5, h6, .post-title, .news-title {
-  position: relative;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.3);
-}
-
+/* 中心导航按钮样式 */
 .center-nav {
   display: flex;
   justify-content: center;
@@ -1107,25 +762,28 @@ h1, h2, h3, h4, h5, h6, .post-title, .news-title {
   font-size: 1.1rem;
   padding: 12px 25px;
   border-radius: 25px;
-  background: rgba(74, 60, 92, 0.3);
+  background: transparent; /* 完全透明背景 */
   /* 彻底清除所有可能的边框样式 */
   border: none !important;
   outline: none !important;
   box-shadow: none !important;
   transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
+  backdrop-filter: none; /* 移除模糊效果 */
   /* 添加额外的边框清除属性 */
   border-width: 0 !important;
   border-style: none !important;
   border-color: transparent !important;
+  /* 确保字体清晰显示 - 使用淡紫色 */
+  text-shadow: 0 0 8px rgba(147, 112, 219, 0.8), 0 0 16px rgba(147, 112, 219, 0.5);
+  font-weight: 700; /* 加粗字体 */
 }
 
 /* 悬停状态 */
 .home .center-nav .main-nav-buttons a:hover {
-  background: rgba(74, 60, 92, 0.5);
-  color: #ff69b4;
+  background: rgba(255, 105, 180, 0.2); /* 悬停时添加淡粉色半透明背景 */
+  color: #fff;
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3) !important;
+  box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4) !important;
   /* 悬停时也确保无边框 */
   border: none !important;
   outline: none !important;
@@ -1133,14 +791,63 @@ h1, h2, h3, h4, h5, h6, .post-title, .news-title {
   border-width: 0 !important;
   border-style: none !important;
   border-color: transparent !important;
+  /* 增强悬停时的字体阴影 - 使用更亮的淡紫色 */
+  text-shadow: 0 0 10px rgba(186, 85, 211, 0.9), 0 0 20px rgba(147, 112, 219, 0.6);
 }
 
-.site-title {
-  font-size: 1.8rem;
-  margin: 10px 0;
-  color: #fff;
+/* 活动状态按钮样式 */
+.home .center-nav .main-nav-buttons a.active {
+  background: rgba(255, 105, 180, 0.1) !important;
+  color: #fff !important;
+  /* 活动状态时保持无边框 */
+  border: none !important;
+  outline: none !important;
+  text-shadow: 0 0 10px rgba(186, 85, 211, 0.8), 0 0 20px rgba(147, 112, 219, 0.4);
 }
-</style>
+
+/* 游走悬浮按键样式 */
+.floating-indicator {
+  position: absolute;
+  height: 100%;
+  background: transparent; /* 完全透明背景 */
+  border: none; /* 去掉边框 */
+  border-radius: 25px; /* 圆角，与按钮保持一致 */
+  pointer-events: none; /* 不影响点击事件 */
+  z-index: 0; /* 位于按钮下方 */
+  top: 0;
+  left: 0;
+  box-shadow: none; /* 去掉发光效果 */
+}
+
+/* 脉冲动画效果 */
+@keyframes pulse {
+  0% {
+    box-shadow: none;
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: none;
+    transform: scale(1);
+  }
+  100% {
+    box-shadow: none;
+    transform: scale(1);
+  }
+}
+
+/* 确保正确的层级关系 */
+.main-nav-buttons {
+  position: relative;
+}
+
+.main-nav-buttons ul {
+  position: relative;
+  z-index: 2; /* 按钮在最上层 */
+}
+
+.floating-indicator {
+  z-index: 0; /* 金色游走按键在按钮下方 */
+}
 html, body {
   height: 100%;
   margin: 0;
@@ -1148,19 +855,337 @@ html, body {
   font-family: 'Microsoft YaHei', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: 
     radial-gradient(circle at 25% 25%, rgba(168, 230, 207, 0.8) 0%, rgba(168, 230, 207, 0.3) 35%, transparent 60%),
-    radial-gradient(circle at 75% 75%, rgba(255, 211, 182, 0.8) 0%, rgba(255, 211, 182, 0.3) 35%, transparent 60%),
-    linear-gradient(135deg, 
-      #a8e6cf 0%, 
-      #a8e6cf 30%, 
-      #b8e6d3 35%, 
-      #c8d4d8 40%, 
-      #d8d4d3 45%, 
-      #e8d4ce 47%, 
-      #f0d4c9 49%, 
-      #ffd3b6 51%, 
-      #ffd3b6 70%, 
-      #ffd3b6 100%
-    );
-  background-blend-mode: multiply, screen, normal;
-  background-attachment: fixed;
+    radial-gradient(circle at 75% 75%, rgba(255, 211, 182, 0.8) 0%, rgba(255, 211, 182, 0.3) 35%, transparent 60%);
 }
+
+/* 左侧导航样式 */
+.left-sidebar {
+  width: 250px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  z-index: 10; /* 增加左侧边栏的层级 */
+}
+
+.main-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.main-nav li {
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.main-nav a {
+  display: block;
+  text-decoration: none;
+  color: #fff;
+  padding: 12px 15px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.main-nav a:hover {
+  background: rgba(255, 105, 180, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+}
+
+/* 下拉菜单容器 */
+.dropdown-container {
+  position: relative;
+}
+
+.dropdown-trigger {
+  cursor: pointer;
+  position: relative;
+}
+
+/* 下拉内容样式 */
+.dropdown-content {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 280px;
+  background: linear-gradient(135deg, 
+    rgba(255, 105, 180, 0.15) 0%, 
+    rgba(255, 255, 255, 0.1) 50%, 
+    rgba(168, 230, 207, 0.1) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  padding: 15px;
+  z-index: 1000;
+  box-shadow: 
+    0 10px 30px rgba(255, 105, 180, 0.2),
+    0 5px 15px rgba(168, 230, 207, 0.1);
+  backdrop-filter: blur(20px);
+  animation: fadeIn 0.3s ease;
+}
+
+.tags-dropdown {
+  width: 320px;
+}
+
+/* 下拉菜单动画 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 分类列表样式 */
+.categories-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.categories-list li {
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  padding: 8px 12px;
+  transition: all 0.3s ease;
+}
+
+.categories-list li:hover {
+  background: rgba(255, 105, 180, 0.1);
+  transform: translateX(3px);
+}
+
+.categories-list a {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #fff;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  flex-grow: 1;
+}
+
+.categories-list a:hover {
+  color: #ff69b4;
+}
+
+.category-count {
+  background: rgba(255, 105, 180, 0.3);
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  min-width: 30px;
+  text-align: center;
+}
+
+/* 标签云样式 */
+.tags-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  display: inline-block;
+  background: linear-gradient(135deg, 
+    rgba(255, 105, 180, 0.2) 0%, 
+    rgba(255, 255, 255, 0.1) 100%);
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: 15px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.tag:hover {
+  background: linear-gradient(135deg, 
+    rgba(255, 105, 180, 0.4) 0%, 
+    rgba(255, 255, 255, 0.2) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 3px 10px rgba(255, 105, 180, 0.3);
+}
+
+.featured-post {
+  margin-bottom: 40px;
+}
+
+.post-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+.post-card.featured {
+  display: flex;
+  gap: 20px;
+}
+
+.post-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.post-image {
+  flex: 0 0 300px;
+  height: 200px;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.post-content {
+  flex: 1;
+  padding: 20px;
+}
+
+.post-meta {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.post-category {
+  background: rgba(255, 105, 180, 0.8);
+  padding: 2px 8px;
+  border-radius: 3px;
+  color: #fff;
+}
+
+.post-title {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.post-excerpt {
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.read-more {
+  color: #ff69b4;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.read-more:hover {
+  color: #fff;
+}
+
+.fashion-news {
+  margin-bottom: 40px;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.news-item {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+.news-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.news-image {
+  height: 150px;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholder {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1rem;
+}
+
+.news-content {
+  padding: 15px;
+}
+
+.news-meta {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.news-category {
+  background: rgba(255, 105, 180, 0.8);
+  padding: 1px 6px;
+  border-radius: 3px;
+  color: #fff;
+}
+
+.news-title {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  color: #fff;
+}
+
+.news-excerpt {
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
+  font-size: 0.9rem;
+}
+
+.footer {
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.social-links {
+  margin-top: 10px;
+}
+
+.social-links a {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  margin: 0 10px;
+  transition: all 0.3s;
+}
+
+.social-links a:hover {
+  color: #ff69b4;
+}
+</style>
