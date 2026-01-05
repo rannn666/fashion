@@ -64,7 +64,7 @@
             <div class="post-content">
               <div class="post-meta">
                 <span class="post-category">时尚趋势</span>
-                <span class="post-date">2027-10-15</span>
+                <span class="post-date">2026-04-12</span>
               </div>
               <h2 class="post-title">2027年春季时尚趋势预测</h2>
               <p class="post-excerpt">探索2027年春季最热门的时尚趋势，从服装到配饰，让你的衣橱焕然一新。</p>
@@ -98,7 +98,7 @@
     </div>
     
     <footer class="footer">
-      <p>&copy; 2027 服装品牌. 保留所有权利.</p>
+      <p>&copy; 2026 服装品牌. 保留所有权利.</p>
       <div class="social-links">
         <a href="#">Instagram</a>
         <a href="#">Facebook</a>
@@ -131,21 +131,21 @@ export default {
       fashionNews: [
         {
           category: '时装周',
-          title: '2027年巴黎时装周亮点',
-          date: '2027-10-12',
+          title: '2026年巴黎时装周亮点',
+          date: '2026-04-12',
           excerpt: '巴黎时装周带来了令人惊艳的设计，展示了未来时尚的新趋势和可能性。'
         },
         {
           category: '品牌动态',
           title: '新兴环保品牌崛起',
-          date: '2027-10-08',
+          date: '2026-04-12',
           excerpt: '越来越多品牌开始关注可持续发展，推出环保时尚产品系列。'
         },
         {
           category: '潮流预测',
           title: '春季流行色彩指南',
-          date: '2027-10-05',
-          excerpt: '从温暖的大地色系到清新的薄荷绿，了解2027春季的流行色彩。'
+          date: '2026-04-12',
+          excerpt: '从温暖的大地色系到清新的薄荷绿，了解2026春季的流行色彩。'
         }
       ]
     }
