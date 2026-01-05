@@ -149,7 +149,7 @@ export default {
       posts: [
         { id: 1, title: '2027春季时尚趋势解析', content: '2027年春季，时尚界将迎来一场新的革命。从柔和的马卡龙色调到大胆的几何图案，本季节的时尚趋势将为我们带来无限灵感...', content_type: 'text', author: { username: '时尚达人' }, likes_count: 45, comments_count: 12, created_at: '2027-10-15', liked_by_user: false },
         { id: 2, title: '如何搭配春季外套', content: '春季外套是衣橱中的必备单品。本文将为您介绍几种不同风格的春季外套搭配方法，让您在这个春天既时尚又舒适...', content_type: 'text', author: { username: '搭配专家' }, likes_count: 38, comments_count: 8, created_at: '2027-10-10', liked_by_user: true },
-        { id: 3, title: '2027年流行色大盘点', content: 'Pantone发布了2027年的年度流行色，这些色彩将在时尚界掀起一股热潮。让我们一起来看看这些流行色的魅力...', content_type: 'image', image_files: [{ file: '/images/fashion-color-2027.svg' }], author: { username: '色彩大师' }, likes_count: 62, comments_count: 15, created_at: '2027-10-05', liked_by_user: false },
+        { id: 3, title: '2027年流行色大盘点', content: 'Pantone发布了2027年的年度流行色，这些色彩将在时尚界掀起一股 heats。让我们一起来看看这些流行色的魅力...', content_type: 'image', image_files: [{ file: '/images/fashion-color-2027.svg' }], author: { username: '色彩大师' }, likes_count: 62, comments_count: 15, created_at: '2027-10-05', liked_by_user: false },
         { id: 4, title: '必备配饰推荐', content: '配饰是整体造型的点睛之笔。本文将为您推荐几款春季必备的配饰，让您的造型更加完美...', content_type: 'text', author: { username: '配饰专家' }, likes_count: 29, comments_count: 7, created_at: '2027-09-28', liked_by_user: false },
         { id: 5, title: '街头时尚风格解析', content: '街头时尚一直是时尚界的重要组成部分。本文将为您解析2027年街头时尚的最新趋势...', content_type: 'mixed', author: { username: '街头潮人' }, likes_count: 53, comments_count: 11, created_at: '2027-09-20', liked_by_user: true },
         { id: 6, title: '如何选择适合自己的发型', content: '发型是塑造个人形象的重要因素。本文将为您介绍几种不同脸型适合的发型，帮助您找到最适合自己的发型...', content_type: 'text', author: { username: '发型设计师' }, likes_count: 35, comments_count: 9, created_at: '2027-09-15', liked_by_user: false }
@@ -395,7 +395,7 @@ export default {
     rgba(255, 255, 255, 0) 100%
   );
   transform: rotate(30deg);
-  animation: shimmer 3s infinite;
+  /* animation: shimmer 3s infinite; */
 }
 
 .filter-btn.active, .filter-btn:hover {
@@ -483,7 +483,7 @@ export default {
     rgba(255, 255, 255, 0) 100%
   );
   transform: rotate(30deg);
-  animation: shimmer 3s infinite;
+  /* animation: shimmer 3s infinite; */
   pointer-events: none;
 }
 
@@ -627,7 +627,7 @@ export default {
     rgba(255, 255, 255, 0) 100%
   );
   transform: rotate(30deg);
-  animation: shimmer 3s infinite;
+  /* animation: shimmer 3s infinite; */
 }
 
 .like-btn:hover, .like-btn.liked {
@@ -670,7 +670,7 @@ export default {
     rgba(255, 255, 255, 0) 100%
   );
   transform: rotate(30deg);
-  animation: shimmer 3s infinite;
+  /* animation: shimmer 3s infinite; */
 }
 
 .page-btn:hover:not(:disabled) {

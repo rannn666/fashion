@@ -79,9 +79,7 @@
           <div class="news-grid">
             <div class="news-item" v-for="(news, index) in fashionNews" :key="index">
               <div class="news-image">
-                <div class="placeholder" :style="{ backgroundColor: '#' + (Math.random() * 0xFFFFFF << 0).toString(16) }">
-                  {{ news.category }}
-                </div>
+                <img src="/images/featured-fashion.svg" :alt="news.title" style="width: 100%; height: 100%; object-fit: cover;">
               </div>
               <div class="news-content">
                 <div class="news-meta">
@@ -146,6 +144,12 @@ export default {
           title: '春季流行色彩指南',
           date: '2026-04-12',
           excerpt: '从温暖的大地色系到清新的薄荷绿，了解2026春季的流行色彩。'
+        },
+        {
+          category: '搭配技巧',
+          title: '职场穿搭必备技巧',
+          date: '2026-04-11',
+          excerpt: '如何在职场中展现专业又时尚的形象？这里有一些实用的穿搭建议。'
         }
       ]
     }
