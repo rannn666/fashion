@@ -2,44 +2,43 @@
   <div class="home">
     <header class="header">
       <h1 class="site-title">rann的小试间</h1>
-    </header>
-    
-    <!-- 中心导航按钮 -->
-    <div class="center-nav">
+      
+      <!-- 导航按钮 - 紧贴标题正下方 -->
       <nav class="main-nav-buttons">
         <ul>
           <li><a href="/" class="no-border-btn" :class="{ active: currentRoute === '/' }" @click.prevent="setActiveRoute('/')">首页</a></li>
           <li><a href="/blog" class="no-border-btn" :class="{ active: currentRoute === '/blog' }" @click.prevent="setActiveRoute('/blog')">博客</a></li>
           <li><a href="/blog/create" class="no-border-btn" :class="{ active: currentRoute === '/blog/create' }" @click.prevent="setActiveRoute('/blog/create')">发布</a></li>
         </ul>
-        <!-- 游走悬浮按键 -->
-        <div class="floating-indicator" :style="floatingStyle" v-if="showFloating"></div>
+        <!-- 动态上划线指示器 -->
+        <div class="floating-indicator" :style="indicatorStyle"></div>
       </nav>
-    </div>
+    </header>
     
     <div class="content-wrapper">
       <aside class="left-sidebar">
         <nav class="main-nav">
           <ul>
-            <li><a href="#">分类</a></li>
-            <li><a href="#">关于</a></li>
-            <li><a href="#">联系</a></li>
+            <li><a href="#" :class="{ selected: selectedItem === 'category' }" @click.prevent="selectItem('category')">分类</a></li>
+            <li><a href="#" :class="{ selected: selectedItem === 'about' }" @click.prevent="selectItem('about')">关于</a></li>
+            <li><a href="#" :class="{ selected: selectedItem === 'contact' }" @click.prevent="selectItem('contact')">联系</a></li>
             <li class="dropdown-container">
-              <a href="#" class="dropdown-trigger" @mouseenter="showCategories = true" @mouseleave="startHideCategories()">文章分类</a>
-              <div class="dropdown-content" v-show="showCategories" @mouseenter="cancelHideCategories()" @mouseleave="startHideCategories()">
-                <ul class="categories-list">
-                  <li><a href="#">时尚趋势</a> <span class="category-count">12</span></li>
-                  <li><a href="#">搭配技巧</a> <span class="category-count">8</span></li>
-                  <li><a href="#">配饰指南</a> <span class="category-count">5</span></li>
-                  <li><a href="#">品牌故事</a> <span class="category-count">6</span></li>
-                  <li><a href="#">时尚事件</a> <span class="category-count">4</span></li>
-                </ul>
+              <a href="#" class="dropdown-trigger" :class="{ selected: selectedItem === 'categories' }" @click.prevent="selectItem('categories')" @mouseenter="showCategories = true" @mouseleave="startHideCategories()">文章分类</a>
+              <div class="dropdown-content categories-dropdown" v-show="showCategories" @mouseenter="cancelHideCategories()" @mouseleave="startHideCategories()">
+                <div class="category-list">
+                  <a href="#" class="category-item">时尚趋势 <span class="category-count">12</span></a>
+                  <a href="#" class="category-item">搭配技巧 <span class="category-count">8</span></a>
+                  <a href="#" class="category-item">配饰指南 <span class="category-count">5</span></a>
+                  <a href="#" class="category-item">品牌故事 <span class="category-count">6</span></a>
+                  <a href="#" class="category-item">时尚事件 <span class="category-count">4</span></a>
+                  <a href="#" class="category-item">美妆护肤 <span class="category-count">9</span></a>
+                </div>
               </div>
             </li>
             <li class="dropdown-container">
-              <a href="#" class="dropdown-trigger" @mouseenter="showTags = true" @mouseleave="startHideTags()">热门标签</a>
+              <a href="#" class="dropdown-trigger" :class="{ selected: selectedItem === 'tags' }" @click.prevent="selectItem('tags')" @mouseenter="showTags = true" @mouseleave="startHideTags()">热门标签</a>
               <div class="dropdown-content tags-dropdown" v-show="showTags" @mouseenter="cancelHideTags()" @mouseleave="startHideTags()">
-                <div class="tags-cloud">
+                <div class="category-list">
                   <a href="#" class="tag">春季时尚</a>
                   <a href="#" class="tag">穿搭技巧</a>
                   <a href="#" class="tag">流行趋势</a>
@@ -77,17 +76,49 @@
         <section class="fashion-news">
           <h2 class="section-title">时尚资讯</h2>
           <div class="news-grid">
-            <div class="news-item" v-for="(news, index) in fashionNews" :key="index">
+            <!-- 左侧大内容浮框 -->
+            <div class="news-item large">
               <div class="news-image">
-                <img src="/images/featured-fashion.svg" :alt="news.title" style="width: 100%; height: 100%; object-fit: cover;">
+                <img src="/images/featured-fashion.svg" alt="巴黎时装周亮点" style="width: 100%; height: 100%; object-fit: cover;">
               </div>
               <div class="news-content">
                 <div class="news-meta">
-                  <span class="news-category">{{ news.category }}</span>
-                  <span class="news-date">{{ news.date }}</span>
+                  <span class="news-category">时装周</span>
+                  <span class="news-date">2026-04-12</span>
                 </div>
-                <h3 class="news-title">{{ news.title }}</h3>
-                <p class="news-excerpt">{{ news.excerpt }}</p>
+                <h3 class="news-title">2026年巴黎时装周亮点</h3>
+                <p class="news-excerpt">巴黎时装周带来了令人惊艳的设计，展示了未来时尚的新趋势和可能性。</p>
+              </div>
+            </div>
+            
+            <!-- 右侧两个小内容浮框 -->
+            <div class="news-grid-right">
+              <div class="news-item small">
+                <div class="news-image">
+                  <img src="/images/featured-fashion.svg" alt="新兴环保品牌崛起" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="news-content">
+                  <div class="news-meta">
+                    <span class="news-category">品牌动态</span>
+                    <span class="news-date">2026-04-12</span>
+                  </div>
+                  <h3 class="news-title">新兴环保品牌崛起</h3>
+                  <p class="news-excerpt">越来越多品牌开始关注可持续发展，推出环保时尚产品系列。</p>
+                </div>
+              </div>
+              
+              <div class="news-item small">
+                <div class="news-image">
+                  <img src="/images/featured-fashion.svg" alt="春季流行色彩指南" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="news-content">
+                  <div class="news-meta">
+                    <span class="news-category">潮流预测</span>
+                    <span class="news-date">2026-04-12</span>
+                  </div>
+                  <h3 class="news-title">春季流行色彩指南</h3>
+                  <p class="news-excerpt">从温暖的大地色系到清新的薄荷绿，了解2026春季的流行色彩。</p>
+                </div>
               </div>
             </div>
           </div>
@@ -113,14 +144,7 @@ export default {
     return {
       searchQuery: '',
       currentRoute: '/', // 当前活动路由
-      // 游走悬浮按键相关数据
-      showFloating: false,
-      floatingStyle: {
-        width: '60px',
-        transform: 'translateX(0px)',
-        transition: 'all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55)'
-      },
-      floatingInterval: null,
+      selectedItem: null, // 当前选中的左边导航项
       // 浮框显示状态
       showCategories: false,
       showTags: false,
@@ -131,7 +155,7 @@ export default {
           category: '时装周',
           title: '2026年巴黎时装周亮点',
           date: '2026-04-12',
-          excerpt: '巴黎时装周带来了令人惊艳的设计，展示了未来时尚的新趋势和可能性。'
+          excerpt: '巴黎时装周带来了令人惊艳的设计，展示了未来时尚的新趋势和可能性。各大品牌展示了创新的面料和独特的剪裁技术，预示着2027年春夏时尚的新方向。'
         },
         {
           category: '品牌动态',
@@ -151,98 +175,88 @@ export default {
           date: '2026-04-11',
           excerpt: '如何在职场中展现专业又时尚的形象？这里有一些实用的穿搭建议。'
         }
-      ]
+      ],
+      // 添加指示器样式数据
+      indicatorStyle: {
+        width: '0px',
+        left: '0px',
+        opacity: 0,
+        transition: 'all 0.3s ease'
+      }
     }
   },
   mounted() {
-    // 初始化指示器位置
+    // 初始化指示器位置（如果存在indicatorStyle）
     this.updateIndicator()
     // 监听窗口大小变化，重新计算指示器位置
     window.addEventListener('resize', this.updateIndicator)
-    // 延迟启动游走悬浮按键效果，确保DOM完全渲染
-    setTimeout(() => {
-      this.startFloatingAnimation()
-    }, 500)
+    
+    // 为导航按钮添加鼠标移动事件监听器
+    const navLinks = document.querySelectorAll('.main-nav-buttons a')
+    const navContainer = document.querySelector('.main-nav-buttons ul')
+    
+    if (navLinks && navContainer) {
+      navLinks.forEach(link => {
+        link.addEventListener('mouseenter', (e) => {
+          this.updateIndicatorPosition(e.target)
+        })
+      })
+      
+      // 在导航容器上监听鼠标离开事件，隐藏指示器
+      navContainer.addEventListener('mouseleave', () => {
+        this.indicatorStyle.opacity = 0
+      })
+    }
   },
   beforeUnmount() {
-    // 清理事件监听器
-    window.removeEventListener('resize', this.updateIndicator)
-    // 清理游走动画
-    this.stopFloatingAnimation()
     // 清理定时器
     this.clearAllTimers()
+    // 移除事件监听器
+    window.removeEventListener('resize', this.updateIndicator)
   },
   methods: {
-    updateIndicator() {
-      this.$nextTick(() => {
-        const activeLink = this.$el.querySelector('.main-nav-buttons a.active')
-        if (activeLink) {
-          const linkRect = activeLink.getBoundingClientRect()
-          const containerRect = this.$el.querySelector('.main-nav-buttons ul').getBoundingClientRect()
-          
-          this.indicatorStyle = {
-            width: `${linkRect.width}px`,
-            transform: `translateX(${linkRect.left - containerRect.left}px)`,
-            transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
-          }
-        }
-      })
-    },
     setActiveRoute(route) {
       this.currentRoute = route
-      // 点击任何按钮时都启动游走效果
-      this.startFloatingAnimation()
-    },
-    // 启动游走悬浮按键动画
-    startFloatingAnimation() {
-      console.log('启动游走悬浮按键动画')
-      this.showFloating = true
-      this.stopFloatingAnimation() // 先停止之前的动画
-      
-      // 使用$nextTick确保DOM更新完成
+      // 更新指示器到当前激活的路由位置
       this.$nextTick(() => {
-        const buttons = this.$el.querySelectorAll('.main-nav-buttons a')
-        console.log('找到按钮数量:', buttons.length)
-        if (buttons.length === 0) {
-          console.log('未找到导航按钮')
-          return
+        const activeLink = document.querySelector('.main-nav-buttons a.active')
+        if (activeLink) {
+          this.updateIndicatorPosition(activeLink)
+          this.indicatorStyle.opacity = 1
         }
-        
-        let currentIndex = 0
-        
-        // 立即移动到第一个按钮
-        this.moveToButton(buttons, currentIndex)
-        console.log('移动到按钮:', currentIndex)
-        
-        this.floatingInterval = setInterval(() => {
-          currentIndex = (currentIndex + 1) % buttons.length
-          this.moveToButton(buttons, currentIndex)
-          console.log('移动到按钮:', currentIndex)
-        }, 1500) // 每1.5秒移动一次
       })
     },
-    // 移动到指定按钮
-    moveToButton(buttons, index) {
-      const button = buttons[index]
-      if (!button) return
-      
-      const buttonRect = button.getBoundingClientRect()
-      const container = this.$el.querySelector('.main-nav-buttons ul')
-      if (!container) return
-      
-      const containerRect = container.getBoundingClientRect()
-      
-      this.floatingStyle = {
-        width: `${buttonRect.width}px`,
-        transform: `translateX(${buttonRect.left - containerRect.left}px)`,
-        transition: 'all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55)'
+    // 更新指示器位置的方法
+    updateIndicator() {
+      const activeLink = document.querySelector('.main-nav-buttons a.active')
+      if (activeLink) {
+        this.updateIndicatorPosition(activeLink)
+        this.indicatorStyle.opacity = 1
       }
     },
-    // 停止游走动画
-    stopFloatingAnimation() {
-      if (this.floatingInterval) {
-        clearInterval(this.floatingInterval)
-        this.floatingInterval = null
+    // 更新指示器到特定元素位置
+    updateIndicatorPosition(element) {
+      if (element) {
+        const rect = element.getBoundingClientRect()
+        const containerRect = element.closest('.main-nav-buttons').getBoundingClientRect()
+        
+        // 计算相对于容器的位置
+        this.indicatorStyle.width = `${rect.width}px`
+        this.indicatorStyle.left = `${rect.left - containerRect.left}px`
+        this.indicatorStyle.opacity = 1
+        
+        // 添加过渡效果
+        this.indicatorStyle.transition = 'all 0.3s ease'
+      }
+    },
+    // 点击选中左边导航项
+    selectItem(item) {
+      if (this.selectedItem === item) {
+        // 如果点击的是已选中的项，则取消选中
+        this.selectedItem = null
+      } else {
+        // 选中新的项
+        this.selectedItem = item
       }
     },
     // 清理所有定时器
@@ -302,16 +316,15 @@ export default {
 
 .header {
   display: flex !important;
-  justify-content: center !important; /* 标题居中 */
+  flex-direction: column !important;
+  justify-content: center !important;
   align-items: center !important;
   padding: 25px 40px !important;
   position: relative !important;
   margin-bottom: 0 !important;
-  /* 完全去掉背景，避免与全局背景叠加产生边界 */
   background: transparent !important;
   background-image: none !important;
   background-blend-mode: normal !important;
-  /* 强制去掉所有边框和边界效果 */
   border: none !important;
   border-style: none !important;
   border-width: 0 !important;
@@ -323,23 +336,21 @@ export default {
   outline-width: 0 !important;
   outline-style: none !important;
   outline-color: transparent !important;
-  /* 整体透明度 */
   opacity: 1 !important;
-  /* 过渡动画 */
   transition: all 0.3s ease !important;
-  /* 确保没有任何边框相关的样式 */
   clip: auto !important;
   overflow: visible !important;
 }
 
 .site-title {
-  font-size: 2rem !important; /* 减小字体大小 */
+  font-size: 2rem !important;
   margin: 0 0 0 0;
   background: linear-gradient(90deg, #ff94d2, #b388eb);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 148, 210, 0.5), 0 0 60px rgba(255, 148, 210, 0.3);
+  /* 移除光晕效果 */
+  text-shadow: none;
   font-weight: bold;
   z-index: 10;
   position: relative;
@@ -429,7 +440,7 @@ export default {
 }
 
 .main-nav li {
-  margin-bottom: 20px;
+  margin-bottom: 8px;
 }
 
 .main-nav a {
@@ -442,79 +453,140 @@ export default {
   border-radius: 4px;
   transition: all 0.3s;
   background: transparent;
-  /* 去掉黑色透明边框 */
   border: none;
   position: relative;
   overflow: hidden;
 }
 
-.main-nav a::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.3) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  transform: rotate(30deg);
-  animation: shimmer 3s infinite;
+/* 点击选中后的悬浮边框效果 - 明显的变色边框 */
+.main-nav a.selected {
+  background: rgba(255, 105, 180, 0.1);
+  color: #ff69b4;
+  border: 3px solid #ff69b4;
+  box-shadow: 
+    0 0 20px rgba(255, 105, 180, 0.6),
+    0 0 40px rgba(255, 105, 180, 0.3),
+    inset 0 0 15px rgba(255, 105, 180, 0.1);
 }
 
+/* 悬停状态 - 无边框，只有文字颜色变化 */
 .main-nav a:hover {
   background: transparent;
   color: #ff69b4;
-}
-
-.search-section, .categories-section, .tags-section {
-  margin-top: 30px;
-}
-
-.search-section h3, .categories-section h3, .tags-section h3 {
-  font-size: 1.2rem;
-  margin-bottom: 15px;
-  color: #fff;
-  /* 去掉白色透明边框 */
-  border-bottom: none;
-  padding-bottom: 8px;
-}
-
-.search-form {
-  display: flex;
-  gap: 10px;
-}
-
-.search-input {
-  flex: 1;
-  padding: 8px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-}
-
-.search-input::placeholder {
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.search-button {
-  padding: 8px 16px;
-  background: rgba(255, 105, 180, 0.8);
   border: none;
-  border-radius: 4px;
+  box-shadow: none;
+}
+
+/* 点击状态 */
+.main-nav a:active {
+  background: transparent;
+  color: #ff69b4;
+  border: none;
+}
+
+/* 焦点状态 */
+.main-nav a:focus {
+  background: transparent;
   color: #fff;
-  cursor: pointer;
+  outline: none;
+  border: none;
+}
+
+/* 下拉菜单容器 */
+.dropdown-container {
+  position: relative;
+  display: block; /* 改为block以确保垂直排列 */
+}
+
+/* 下拉菜单内容样式 - 修改为紧贴文章分类条目下方 */
+.dropdown-content {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  padding: 15px;
+  z-index: 1000;
+  min-width: 200px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.categories-dropdown {
+  left: 35% !important; /* 往右移动一点 */
+  top: 5px !important; /* 往下移动一点 */
+  margin-left: 5px !important;
+}
+
+.tags-dropdown {
+  left: 32% !important; /* 往右移动一点点 */
+  top: 95% !important; /* 往上移动一点点 */
+  margin-left: 5px !important;
+}
+
+/* 文章分类列表样式，一行显示两个 */
+.category-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 一行两列 */
+  gap: 8px;
+  min-width: 180px;
+}
+
+.category-list a {
+  display: block;
+  padding: 8px 12px;
+  text-decoration: none;
+  color: #333;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: visible;
+  text-overflow: clip;
+}
+
+.category-list a:hover {
+  background-color: #f0f0f0;
+}
+
+/* 为热门标签中的标签应用特定样式 */
+.tags-dropdown .category-list .tag {
+  padding: 5px 10px;
+  background-color: #f0f0f0;
+  border-radius: 15px;
+  text-decoration: none;
+  font-size: 13px;
+  color: #333;
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+
+.tags-dropdown .category-list .tag:hover {
+  background-color: #ddd;
+}
+
+/* 标签云样式 */
+.tags-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px;
+}
+
+.tags-cloud a {
+  padding: 5px 10px;
+  background-color: #f0f0f0;
+  border-radius: 15px;
+  text-decoration: none;
+  font-size: 13px;
+  color: #333;
   transition: all 0.3s;
 }
 
-.search-button:hover {
-  background: rgba(255, 105, 180, 1);
+.tags-cloud a:hover {
+  background-color: #ddd;
 }
-
 .categories-list {
   list-style: none;
   margin: 0;
@@ -652,497 +724,117 @@ export default {
 }
 
 .news-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 25px;
-  grid-auto-flow: dense;
+  display: flex;
+  gap: 8px; /* 进一步减小间隙 */
+  min-height: 400px; /* 进一步降低最小高度 */
 }
 
-/* 确保每个新闻项高度一致 */
-.news-item {
+.news-grid-right {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  gap: 8px; /* 进一步减小间隙 */
+  flex: 1; /* 右侧区域占剩余空间的1份 */
 }
 
-.news-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-/* 响应式调整 */
-@media (max-width: 1200px) {
-  .news-grid {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-  }
-}
-
-@media (max-width: 768px) {
-  .news-grid {
-    grid-template-columns: 1fr;
-    gap: 15px;
-  }
-}
-
-.news-item {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
+/* 大内容浮框样式 - 更浮夸的设计 */
+.news-item.large {
+  flex: 1.2; /* 进一步调整为1.2份空间，使宽度进一步缩小 */
+  background: linear-gradient(135deg, rgba(255, 105, 180, 0.1), rgba(179, 136, 235, 0.1));
+  border-radius: 12px; /* 稍微减小圆角 */
   overflow: hidden;
-  transition: all 0.3s;
-}
-
-.news-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-.news-image {
-  height: 150px;
-  background: rgba(255, 255, 255, 0.1);
+  transition: all 0.4s ease;
+  box-shadow: 
+    0 8px 25px rgba(255, 105, 180, 0.25),
+    inset 0 0 12px rgba(255, 105, 180, 0.15);
+  border: 2px solid rgba(255, 105, 180, 0.35);
+  position: relative;
+  z-index: 1;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  /* 设置为正方形，宽高比为1:1 */
+  aspect-ratio: 1 / 1;
 }
 
-.placeholder {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 1rem;
+/* 时装周大板块图片样式 - 图片占据更大比例 */
+.news-item.large .news-image {
+  flex: 1; /* 图片区域占据剩余空间的大部分 */
+  height: auto;
+  min-height: 65%; /* 增加图片区域最小高度至65% */
+  max-height: 75%; /* 最大高度调整为75% */
 }
 
-.news-content {
-  padding: 15px;
-}
-
-.news-meta {
+.news-item.large .news-content {
+  flex: 0 0 auto; /* 内容区域不伸缩 */
+  padding: 6px; /* 适当增加内边距，改善视觉效果 */
+  min-height: 20%; /* 减少内容区域高度占比，为图片留出更多空间 */
   display: flex;
-  gap: 10px;
-  margin-bottom: 8px;
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.7);
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow: hidden; /* 防止内容溢出 */
 }
 
-.news-category {
-  background: rgba(255, 105, 180, 0.8);
-  padding: 1px 6px;
-  border-radius: 3px;
-  color: #fff;
+.news-item.large .news-excerpt {
+  font-size: 0.8rem; /* 稍微减小字体以适应更多内容 */
+  line-height: 1.4; /* 紧凑行间距 */
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* 最多显示3行 */
+  -webkit-box-orient: vertical;
 }
 
-.news-title {
-  font-size: 1.1rem;
-  margin-bottom: 8px;
-  color: #fff;
-}
-
-.news-excerpt {
-  color: rgba(255, 255, 255, 0.8);
-  line-height: 1.5;
-  font-size: 0.9rem;
-}
-
-.footer {
-  text-align: center;
-  padding: 20px;
-  margin-top: 40px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.social-links {
-  margin-top: 10px;
-}
-
-.social-links a {
-  color: rgba(255, 255, 255, 0.7);
-  text-decoration: none;
-  margin: 0 10px;
-  transition: all 0.3s;
-}
-
-.social-links a:hover {
-  color: #ff69b4;
-}
-
-/* 中心导航按钮样式 */
-.center-nav {
+.news-item.small {
+  flex: 1; /* 每个小板块占1份空间 */
+  background: linear-gradient(135deg, rgba(179, 136, 235, 0.1), rgba(255, 105, 180, 0.1));
+  border-radius: 10px; /* 稍微减小圆角 */
+  overflow: hidden;
+  transition: all 0.4s ease;
+  box-shadow: 
+    0 6px 16px rgba(179, 136, 235, 0.25),
+    inset 0 0 8px rgba(179, 136, 235, 0.15);
+  border: 1px solid rgba(179, 136, 235, 0.35);
+  position: relative;
+  z-index: 1;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px 0;
-  margin-bottom: 20px;
-  background: transparent;
-  border: none !important;
-  outline: none !important;
-  box-shadow: none !important;
+  flex-direction: column;
+  /* 大板块高度 = 2 * 小板块高度 + 1个gap */
+  /* 调整后高度 */
+  min-height: 90px; /* 进一步缩小小板块高度 */
 }
 
-.main-nav-buttons ul {
-  display: flex;
-  list-style: none;
-  gap: 1em; /* 一个字的间隙 */
-  margin: 0;
-  padding: 0;
-  justify-content: center;
-}
-
-/* 使用更具体的选择器确保样式生效 */
-.home .center-nav .main-nav-buttons a {
-  text-decoration: none;
-  color: #fff;
-  font-weight: 600;
-  font-size: 1.1rem;
-  padding: 12px 25px;
-  border-radius: 25px;
-  background: transparent; /* 完全透明背景 */
-  /* 彻底清除所有可能的边框样式 */
-  border: none !important;
-  outline: none !important;
-  box-shadow: none !important;
-  transition: all 0.3s ease;
-  backdrop-filter: none; /* 移除模糊效果 */
-  /* 添加额外的边框清除属性 */
-  border-width: 0 !important;
-  border-style: none !important;
-  border-color: transparent !important;
-  /* 确保字体清晰显示 - 使用淡紫色 */
-  text-shadow: 0 0 8px rgba(147, 112, 219, 0.8), 0 0 16px rgba(147, 112, 219, 0.5);
-  font-weight: 700; /* 加粗字体 */
-}
-
-/* 悬停状态 */
-.home .center-nav .main-nav-buttons a:hover {
-  background: rgba(255, 105, 180, 0.2); /* 悬停时添加淡粉色半透明背景 */
-  color: #fff;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4) !important;
-  /* 悬停时也确保无边框 */
-  border: none !important;
-  outline: none !important;
-  /* 添加额外的边框清除属性 */
-  border-width: 0 !important;
-  border-style: none !important;
-  border-color: transparent !important;
-  /* 增强悬停时的字体阴影 - 使用更亮的淡紫色 */
-  text-shadow: 0 0 10px rgba(186, 85, 211, 0.9), 0 0 20px rgba(147, 112, 219, 0.6);
-}
-
-/* 活动状态按钮样式 */
-.home .center-nav .main-nav-buttons a.active {
-  background: rgba(255, 105, 180, 0.1) !important;
-  color: #fff !important;
-  /* 活动状态时保持无边框 */
-  border: none !important;
-  outline: none !important;
-  text-shadow: 0 0 10px rgba(186, 85, 211, 0.8), 0 0 20px rgba(147, 112, 219, 0.4);
-}
-
-/* 游走悬浮按键样式 */
-.floating-indicator {
+.news-item.small::before {
+  content: '';
   position: absolute;
-  height: 100%;
-  background: transparent; /* 完全透明背景 */
-  border: none; /* 去掉边框 */
-  border-radius: 25px; /* 圆角，与按钮保持一致 */
-  pointer-events: none; /* 不影响点击事件 */
-  z-index: 0; /* 位于按钮下方 */
   top: 0;
   left: 0;
-  box-shadow: none; /* 去掉发光效果 */
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, 
+    transparent 0%, 
+    rgba(179, 136, 235, 0.1) 25%, 
+    transparent 50%, 
+    rgba(255, 105, 180, 0.1) 75%, 
+    transparent 100%);
+  z-index: -1;
+  animation: shine 6s infinite;
 }
 
-/* 脉冲动画效果 */
-@keyframes pulse {
+/* 悬停效果 - 更浮夸 */
+.news-item.large:hover,
+.news-item.small:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 
+    0 15px 40px rgba(255, 105, 180, 0.5),
+    inset 0 0 20px rgba(255, 105, 180, 0.3);
+}
+
+/* 新增动画效果 */
+@keyframes shine {
   0% {
-    box-shadow: none;
-    transform: scale(1);
-  }
-  50% {
-    box-shadow: none;
-    transform: scale(1);
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
   }
   100% {
-    box-shadow: none;
-    transform: scale(1);
+    transform: translateX(100%) translateY(100%) rotate(45deg);
   }
-}
-
-/* 确保正确的层级关系 */
-.main-nav-buttons {
-  position: relative;
-}
-
-.main-nav-buttons ul {
-  position: relative;
-  z-index: 2; /* 按钮在最上层 */
-}
-
-.floating-indicator {
-  z-index: 0; /* 金色游走按键在按钮下方 */
-}
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  font-family: 'Microsoft YaHei', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: 
-    radial-gradient(circle at 25% 25%, rgba(168, 230, 207, 0.8) 0%, rgba(168, 230, 207, 0.3) 35%, transparent 60%),
-    radial-gradient(circle at 75% 75%, rgba(255, 211, 182, 0.8) 0%, rgba(255, 211, 182, 0.3) 35%, transparent 60%);
-}
-
-/* 左侧导航样式 */
-.left-sidebar {
-  width: 250px;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 15px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  position: relative;
-  z-index: 10; /* 增加左侧边栏的层级 */
-}
-
-.main-nav ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.main-nav li {
-  margin-bottom: 8px;
-  position: relative;
-}
-
-.main-nav a {
-  display: block;
-  text-decoration: none;
-  color: #fff;
-  padding: 12px 15px;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.main-nav a:hover {
-  background: rgba(255, 105, 180, 0.3);
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
-}
-
-/* 下拉菜单容器 */
-.dropdown-container {
-  position: relative;
-}
-
-.dropdown-trigger {
-  cursor: pointer;
-  position: relative;
-}
-
-/* 下拉内容样式 */
-.dropdown-content {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 280px;
-  background: linear-gradient(135deg, 
-    rgba(255, 105, 180, 0.15) 0%, 
-    rgba(255, 255, 255, 0.1) 50%, 
-    rgba(168, 230, 207, 0.1) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 10px;
-  padding: 15px;
-  z-index: 1000;
-  box-shadow: 
-    0 10px 30px rgba(255, 105, 180, 0.2),
-    0 5px 15px rgba(168, 230, 207, 0.1);
-  backdrop-filter: blur(20px);
-  animation: fadeIn 0.3s ease;
-}
-
-.tags-dropdown {
-  width: 320px;
-}
-
-/* 下拉菜单动画 */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* 分类列表样式 */
-.categories-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.categories-list li {
-  margin-bottom: 8px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 6px;
-  padding: 8px 12px;
-  transition: all 0.3s ease;
-}
-
-.categories-list li:hover {
-  background: rgba(255, 105, 180, 0.1);
-  transform: translateX(3px);
-}
-
-.categories-list a {
-  background: none;
-  border: none;
-  padding: 0;
-  color: #fff;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  flex-grow: 1;
-}
-
-.categories-list a:hover {
-  color: #ff69b4;
-}
-
-.category-count {
-  background: rgba(255, 105, 180, 0.3);
-  color: #fff;
-  padding: 2px 8px;
-  border-radius: 12px;
-  font-size: 0.8rem;
-  min-width: 30px;
-  text-align: center;
-}
-
-/* 标签云样式 */
-.tags-cloud {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.tag {
-  display: inline-block;
-  background: linear-gradient(135deg, 
-    rgba(255, 105, 180, 0.2) 0%, 
-    rgba(255, 255, 255, 0.1) 100%);
-  color: #fff;
-  padding: 4px 12px;
-  border-radius: 15px;
-  text-decoration: none;
-  font-size: 0.85rem;
-  transition: all 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.tag:hover {
-  background: linear-gradient(135deg, 
-    rgba(255, 105, 180, 0.4) 0%, 
-    rgba(255, 255, 255, 0.2) 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 3px 10px rgba(255, 105, 180, 0.3);
-}
-
-.featured-post {
-  margin-bottom: 40px;
-}
-
-.post-card {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
-  overflow: hidden;
-  transition: all 0.3s;
-}
-
-.post-card.featured {
-  display: flex;
-  gap: 20px;
-}
-
-.post-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-}
-
-.post-image {
-  flex: 0 0 300px;
-  height: 200px;
-  background: rgba(255, 255, 255, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.post-content {
-  flex: 1;
-  padding: 20px;
-}
-
-.post-meta {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 10px;
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.post-category {
-  background: rgba(255, 105, 180, 0.8);
-  padding: 2px 8px;
-  border-radius: 3px;
-  color: #fff;
-}
-
-.post-title {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
-  color: #fff;
-}
-
-.post-excerpt {
-  color: rgba(255, 255, 255, 0.8);
-  line-height: 1.6;
-  margin-bottom: 15px;
-}
-
-.read-more {
-  color: #ff69b4;
-  text-decoration: none;
-  font-weight: 500;
-  transition: all 0.3s;
-}
-
-.read-more:hover {
-  color: #fff;
-}
-
-.fashion-news {
-  margin-bottom: 40px;
-}
-
-.section-title {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
-  color: #fff;
-}
-
-.news-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 25px;
-  grid-auto-flow: dense;
 }
 
 /* 确保每个新闻项高度一致 */
@@ -1157,20 +849,38 @@ html, body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding: 15px;
 }
 
 /* 响应式调整 */
 @media (max-width: 1200px) {
   .news-grid {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
+    flex-direction: column;
+  }
+  
+  .news-grid-right {
+    flex-direction: row;
+  }
+  
+  .news-item.large {
+    flex: auto;
+    /* 在响应式布局下也保持正方形 */
+    aspect-ratio: 16 / 9;
+    max-height: 400px;
+  }
+  
+  .news-item.small {
+    flex: 1;
   }
 }
 
 @media (max-width: 768px) {
-  .news-grid {
-    grid-template-columns: 1fr;
-    gap: 15px;
+  .news-grid-right {
+    flex-direction: column;
+  }
+  
+  .news-item.large {
+    aspect-ratio: 4 / 3;
   }
 }
 
@@ -1252,4 +962,78 @@ html, body {
 .social-links a:hover {
   color: #ff69b4;
 }
+
+/* 中心导航按钮样式 - 在标题下方 */
+.main-nav-buttons {
+  margin-top: 20px; /* 与标题保持距离 */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.main-nav-buttons ul {
+  display: flex;
+  list-style: none;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+  justify-content: center;
+}
+
+.main-nav-buttons li {
+  margin: 0;
+}
+
+.main-nav-buttons {
+  margin-top: 20px; /* 与标题保持距离 */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.main-nav-buttons ul {
+  position: relative;
+  z-index: 1;
+}
+
+.main-nav-buttons a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: 500;
+  font-size: 1.1rem;
+  padding: 10px 20px;
+  border-radius: 4px;
+  transition: all 0.3s;
+  background: transparent;
+  border: none;
+  position: relative;
+}
+
+.main-nav-buttons a:hover {
+  background: transparent; /* 移除悬停时的半透明背景 */
+  color: #ff69b4;
+}
+
+.main-nav-buttons a.active {
+  /* 移除半透明背景，只保留字体颜色变化 */
+  background: transparent;
+  color: #ff69b4;
+  border-bottom: 2px solid #ff69b4;
+}
+
+/* 动态上划线指示器 */
+.floating-indicator {
+  position: absolute;
+  height: 2px;
+  background: #ff69b4;
+  border-radius: 2px;
+  top: 0; /* 改为顶部，实现上划线效果 */
+  width: 0;
+  opacity: 0;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 8px rgba(255, 105, 180, 0.6);
+}
+
 </style>

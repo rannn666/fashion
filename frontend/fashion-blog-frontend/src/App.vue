@@ -23,29 +23,22 @@ html, body {
   width: 100%;
   overflow-x: auto;
   overflow-y: auto;
-  /* 水面交融背景效果 */
+  /* 优雅蓝紫色冷色调渐变背景 */
   background: 
-    /* 蓝绿色水域 - 左上角 */
-    radial-gradient(circle at 25% 25%, rgba(168, 230, 207, 0.9) 0%, rgba(168, 230, 207, 0.6) 20%, rgba(168, 230, 207, 0.3) 45%, transparent 65%),
-    /* 淡粉色水域 - 右下角 */
-    radial-gradient(circle at 75% 75%, rgba(255, 192, 203, 0.9) 0%, rgba(255, 192, 203, 0.6) 20%, rgba(255, 192, 203, 0.3) 45%, transparent 65%),
-    /* 交融区域渐变 */
+    /* 深紫色渐变 - 左上角 */
+    radial-gradient(circle at 15% 15%, rgba(75, 0, 130, 0.6) 0%, rgba(75, 0, 130, 0.4) 25%, rgba(75, 0, 130, 0.2) 50%, transparent 70%),
+    /* 蓝色渐变 - 右下角 */
+    radial-gradient(circle at 85% 85%, rgba(65, 105, 225, 0.6) 0%, rgba(65, 105, 225, 0.4) 25%, rgba(65, 105, 225, 0.2) 50%, transparent 70%),
+    /* 蓝紫色线性渐变 */
     linear-gradient(135deg, 
-      #a8e6cf 0%,      /* 纯蓝绿色 */
-      #a8e6cf 20%,     /* 保持蓝绿色 */
-      #a8e6cf 25%,     /* 开始出现中间色 */
-      #b8e6d3 30%,     /* 轻微粉色调的蓝绿色 */
-      #c8d4d8 35%,     /* 中性灰蓝色 */
-      #d4d8d3 40%,     /* 中性调色 */
-      #e0d4ce 42%,     /* 温暖的中间色 */
-      #e8d4ce 44%,     /* 继续交融 */
-      #f0d4c9 46%,     /* 接近淡粉色 */
-      #ffc0cb 48%,     /* 开始出现淡粉色 */
-      #ffc0cb 60%,     /* 淡粉色加强 */
-      #ffc0cb 80%,     /* 保持淡粉色 */
-      #ffc0cb 100%     /* 纯淡粉色 */
+      #1a1a2e 0%,      /* 深蓝黑色 */
+      #16213e 20%,     /* 深蓝色 */
+      #1f4068 40%,     /* 中蓝色 */
+      #533483 60%,     /* 蓝紫色 */
+      #e94560 80%,     /* 玫瑰红色点缀 */
+      #0f3460 100%     /* 深蓝色 */
     );
-  /* 多层混合模式创造交融效果 */
+  /* 多层混合模式创造深度感 */
   background-blend-mode: multiply, screen, normal;
   /* 固定背景，让滚动时保持效果 */
   background-attachment: fixed;
@@ -57,7 +50,7 @@ html, body {
 body {
   margin: 0;
   padding: 0;
-  color: #4a3c5c;
+  color: #e8e8e8; /* 浅色文字，适应深色冷色调背景 */
 }
 
 #app {
