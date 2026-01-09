@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="home">
     <header class="header">
       <h1 class="site-title">rann的小试间</h1>
@@ -6,9 +6,9 @@
       <!-- 导航按钮 - 紧贴标题正下方 -->
       <nav class="main-nav-buttons">
         <ul>
-          <li><a href="/" class="no-border-btn" :class="{ active: currentRoute === '/' }" @click.prevent="setActiveRoute('/')">首页</a></li>
-          <li><a href="/blog" class="no-border-btn" :class="{ active: currentRoute === '/blog' }" @click.prevent="setActiveRoute('/blog')">博客</a></li>
-          <li><a href="/blog/create" class="no-border-btn" :class="{ active: currentRoute === '/blog/create' }" @click.prevent="setActiveRoute('/blog/create')">发布</a></li>
+          <li><a href="/" class="no-border-btn" :class="{ active: currentRoute === '/' }" @click.prevent="navigateTo('/')">首页</a></li>
+          <li><a href="/blog" class="no-border-btn" :class="{ active: currentRoute === '/blog' }" @click.prevent="navigateTo('/blog')">博客</a></li>
+          <li><a href="/blog/create" class="no-border-btn" :class="{ active: currentRoute === '/blog/create' }" @click.prevent="navigateTo('/blog/create')">发布</a></li>
         </ul>
         <!-- 动态上划线指示器 -->
         <div class="floating-indicator" :style="indicatorStyle"></div>
@@ -295,6 +295,21 @@ export default {
         clearTimeout(this.hideTagsTimer)
         this.hideTagsTimer = null
       }
+    },
+    // 导航到指定路由
+    navigateTo(route) {
+      // 更新当前路由状态
+      this.currentRoute = route
+      // 使用Vue Router进行页面跳转
+      this.$router.push(route)
+      // 更新指示器位置
+      this.$nextTick(() => {
+        const activeLink = document.querySelector('.main-nav-buttons a.active')
+        if (activeLink) {
+          this.updateIndicatorPosition(activeLink)
+          this.indicatorStyle.opacity = 1
+        }
+      })
     }
   }
 }
@@ -657,8 +672,7 @@ export default {
 }
 
 .post-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  /* 保持空白，不执行任何悬停效果 */
 }
 
 .post-image {
@@ -668,6 +682,19 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden; /* 确保图片容器有overflow: hidden，防止放大时溢出 */
+  position: relative;
+}
+
+.post-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease; /* 为图片添加过渡效果 */
+}
+
+.post-image img:hover {
+  transform: scale(1.05); /* 图片单独放大 */
 }
 
 .post-content {
