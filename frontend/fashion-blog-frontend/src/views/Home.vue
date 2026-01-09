@@ -821,82 +821,19 @@ export default {
 /* 悬停效果 - 更浮夸 */
 .news-item.large:hover,
 .news-item.small:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 
-    0 15px 40px rgba(255, 105, 180, 0.5),
-    inset 0 0 20px rgba(255, 105, 180, 0.3);
+  /* 移除所有悬停效果，包括向上移动和阴影变化 */
 }
 
-/* 新增动画效果 */
-@keyframes shine {
-  0% {
-    transform: translateX(-100%) translateY(-100%) rotate(45deg);
-  }
-  100% {
-    transform: translateX(100%) translateY(100%) rotate(45deg);
-  }
+/* 图片单独放大效果 */
+.news-image img:hover {
+  transform: scale(1.05); /* 图片单独放大 */
+  transition: transform 0.4s ease;
 }
 
-/* 确保每个新闻项高度一致 */
-.news-item {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.news-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 15px;
-}
-
-/* 响应式调整 */
-@media (max-width: 1200px) {
-  .news-grid {
-    flex-direction: column;
-  }
-  
-  .news-grid-right {
-    flex-direction: row;
-  }
-  
-  .news-item.large {
-    flex: auto;
-    /* 在响应式布局下也保持正方形 */
-    aspect-ratio: 16 / 9;
-    max-height: 400px;
-  }
-  
-  .news-item.small {
-    flex: 1;
-  }
-}
-
-@media (max-width: 768px) {
-  .news-grid-right {
-    flex-direction: column;
-  }
-  
-  .news-item.large {
-    aspect-ratio: 4 / 3;
-  }
-}
-
-.news-item {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
-  overflow: hidden;
-  transition: all 0.3s;
-}
-
-.news-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
-
+/* 确保图片容器有overflow: hidden，防止放大时溢出 */
 .news-image {
+  overflow: hidden;
+  position: relative;
   height: 150px;
   background: rgba(255, 255, 255, 0.1);
   display: flex;
