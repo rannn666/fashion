@@ -1,209 +1,217 @@
 <template>
   <div class="blog-create">
-    <!-- 返回按钮 -->
-    <div class="navigation">
-      <button @click="$router.go(-1)" class="back-btn">
-        ← 返回
-      </button>
-    </div>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+      <div class="nav-left">
+        <a href="#" @click="goBack" class="nav-link">
+          <span class="nav-icon">⬅️</span>
+          返回
+        </a>
+      </div>
+      <div class="nav-center">
+        <h1 class="nav-title">创建博客</h1>
+      </div>
+      <div class="nav-right">
+        <button 
+          @click="submitBlog" 
+          :disabled="!isValid || uploading"
+          class="publish-btn"
+        >
+          {{ uploading ? '发布中...' : '发布' }}
+        </button>
+      </div>
+    </nav>
 
-    <!-- 发布表单 -->
-    <div class="create-form-container">
-      <h1 class="page-title">发布新博客</h1>
-      
-      <form @submit.prevent="submitPost" class="blog-form">
-        <!-- 基本信息 -->
-        <div class="form-section">
-          <h2 class="section-title">基本信息</h2>
-          
-          <div class="form-group">
-            <label for="title" class="form-label">标题 *</label>
-            <input 
-              v-model="form.title"
-              type="text" 
-              id="title"
-              placeholder="给你的博客起个吸引人的标题..."
-              class="form-input"
-              required
-              maxlength="200"
-            >
-            <div class="input-help">{{ form.title.length }}/200</div>
-          </div>
-
-          <div class="form-group">
-            <label for="content_type" class="form-label">内容类型 *</label>
-            <select v-model="form.content_type" id="content_type" class="form-select" required>
-              <option value="">请选择内容类型</option>
-              <option value="text">纯文字</option>
-              <option value="video">视频</option>
-              <option value="image">图片</option>
-              <option value="mixed">混合内容</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- 文字内容 -->
-        <div v-if="form.content_type === 'text' || form.content_type === 'mixed'" class="form-section">
-          <h2 class="section-title">文字内容</h2>
-          
-          <div class="form-group">
-            <label for="content" class="form-label">正文内容 *</label>
-            <textarea 
-              v-model="form.content"
-              id="content"
-              placeholder="分享你的时尚见解、穿搭心得或生活感悟..."
-              class="form-textarea"
-              rows="10"
-              required
-            ></textarea>
-            <div class="input-help">{{ form.content.length }} 字符</div>
-          </div>
-        </div>
-
-        <!-- 视频上传 -->
-        <div v-if="form.content_type === 'video' || form.content_type === 'mixed'" class="form-section">
-          <h2 class="section-title">视频内容</h2>
-          
-          <div class="form-group">
-            <label class="form-label">上传视频 *</label>
-            <div class="file-upload-area" @click="triggerVideoUpload">
-              <input 
-                ref="videoInput"
-                type="file" 
-                @change="handleVideoUpload" 
-                accept="video/*"
-                class="hidden-input"
-              >
-              
-              <div v-if="!form.video_file" class="upload-placeholder">
-                <div class="upload-icon">📹</div>
-                <p class="upload-text">点击上传视频</p>
-                <p class="upload-help">支持 MP4, MOV, AVI 格式，大小不超过 100MB</p>
-              </div>
-              
-              <div v-else class="uploaded-video">
-                <video 
-                  :src="videoPreviewUrl" 
-                  class="video-preview"
-                  controls
-                ></video>
-                <button @click.stop="removeVideo" class="remove-btn">移除</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 图片上传 -->
-        <div v-if="form.content_type === 'image' || form.content_type === 'mixed'" class="form-section">
-          <h2 class="section-title">图片内容</h2>
-          
-          <div class="form-group">
-            <label class="form-label">上传图片 *</label>
-            <div class="file-upload-area" @click="triggerImageUpload">
-              <input 
-                ref="imageInput"
-                type="file" 
-                @change="handleImageUpload" 
-                accept="image/*"
-                multiple
-                class="hidden-input"
-              >
-              
-              <div v-if="form.image_files.length === 0" class="upload-placeholder">
-                <div class="upload-icon">🖼️</div>
-                <p class="upload-text">点击上传图片</p>
-                <p class="upload-help">支持 JPG, PNG, GIF 格式，可上传多张</p>
-              </div>
-              
-              <div v-else class="uploaded-images">
-                <div 
-                  v-for="(image, index) in form.image_files" 
-                  :key="index"
-                  class="image-item"
-                >
-                  <img :src="image.preview" :alt="`图片 ${index + 1}`" class="image-preview">
-                  <button @click.stop="removeImage(index)" class="remove-btn">×</button>
-                </div>
-                <div @click.stop="triggerImageUpload" class="add-more-images">
-                  + 添加更多
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 预览区域 -->
-        <div v-if="showPreview" class="form-section">
-          <h2 class="section-title">预览效果</h2>
-          <div class="preview-container">
-            <div class="blog-post-preview">
-              <h3 class="preview-title">{{ form.title || '标题预览' }}</h3>
-              <div class="preview-meta">
-                <span class="preview-author">{{ currentUser?.username || '用户' }}</span>
-                <span class="preview-type">{{ getContentTypeLabel(form.content_type) }}</span>
-              </div>
-              <div class="preview-content">
-                <p v-if="form.content" class="preview-text">{{ form.content.substring(0, 200) }}{{ form.content.length > 200 ? '...' : '' }}</p>
-                <div v-if="form.video_file" class="preview-video">
-                  <video :src="videoPreviewUrl" class="preview-video-element"></video>
-                </div>
-                <div v-if="form.image_files.length" class="preview-images">
-                  <img 
-                    v-for="(image, index) in form.image_files.slice(0, 3)" 
-                    :key="index"
-                    :src="image.preview" 
-                    :alt="`预览图片 ${index + 1}`"
-                    class="preview-image"
-                  >
-                  <span v-if="form.image_files.length > 3" class="more-images">
-                    +{{ form.image_files.length - 3 }} 更多
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 表单操作 -->
-        <div class="form-actions">
-          <button 
-            type="button" 
-            @click="togglePreview" 
-            class="preview-btn"
-            :class="{ active: showPreview }"
+    <div class="create-content">
+      <!-- 分类选择 -->
+      <div class="section">
+        <label class="section-label">分类 *</label>
+        <div class="category-grid">
+          <div 
+            v-for="category in categories" 
+            :key="category.value"
+            class="category-item"
+            :class="{ active: formData.category === category.value }"
+            @click="selectCategory(category.value)"
           >
-            👁️ {{ showPreview ? '隐藏' : '预览' }}
-          </button>
-          
-          <div class="submit-actions">
-            <button 
-              type="button" 
-              @click="saveDraft" 
-              class="draft-btn"
-              :disabled="isSubmitting"
-            >
-              💾 保存草稿
-            </button>
-            
-            <button 
-              type="submit" 
-              class="publish-btn"
-              :disabled="!isFormValid || isSubmitting"
-            >
-              {{ isSubmitting ? '发布中...' : '🚀 发布博客' }}
-            </button>
+            {{ category.label }}
           </div>
         </div>
-      </form>
-    </div>
+        <div v-if="!formData.category" class="error-message">请选择分类</div>
+      </div>
 
-    <!-- 进度条 -->
-    <div v-if="isSubmitting" class="progress-overlay">
-      <div class="progress-container">
-        <div class="spinner"></div>
-        <p>正在发布博客...</p>
-        <div class="progress-bar">
-          <div class="progress-fill" :style="{ width: uploadProgress + '%' }"></div>
+      <!-- 标签输入 -->
+      <div class="section">
+        <label class="section-label">标签</label>
+        <div class="tag-input-container">
+          <input
+            v-model="tagInput"
+            @keyup.enter="addTag"
+            placeholder="输入标签，按回车添加"
+            class="tag-input"
+          />
+          <button @click="addTag" class="add-tag-btn">添加</button>
+        </div>
+        <div class="tags-list">
+          <span 
+            v-for="(tag, index) in formData.tags" 
+            :key="index"
+            class="tag-item"
+          >
+            #{{ tag }}
+            <button @click="removeTag(index)" class="remove-tag">×</button>
+          </span>
+        </div>
+      </div>
+
+      <!-- 内容类型选择 -->
+      <div class="section">
+        <label class="section-label">内容类型 *</label>
+        <div class="content-type-grid">
+          <div 
+            v-for="type in contentTypes" 
+            :key="type.value"
+            class="content-type-item"
+            :class="{ active: formData.content_type === type.value }"
+            @click="selectContentType(type.value)"
+          >
+            <div class="content-type-header">
+              <span class="content-type-icon">{{ type.icon }}</span>
+              <span class="content-type-name">{{ type.name }}</span>
+            </div>
+            <p class="content-type-desc">{{ type.description }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 文本内容编辑器 -->
+      <div v-if="showTextContent" class="section">
+        <label class="section-label">标题 *</label>
+        <input
+          v-model="formData.title"
+          placeholder="请输入标题"
+          class="title-input"
+        />
+        <label class="section-label">内容 *</label>
+        <textarea
+          v-model="formData.content"
+          placeholder="分享你的时尚心得..."
+          class="content-textarea"
+        ></textarea>
+      </div>
+
+      <!-- 媒体上传区域 -->
+      <div v-if="showMediaUpload" class="section">
+        <label class="section-label">
+          {{ formData.content_type === 'image' ? '图片' : 
+             formData.content_type === 'video' ? '视频' : '媒体文件' }} *
+        </label>
+        <div 
+          class="upload-area"
+          @dragover.prevent="handleDragOver"
+          @drop.prevent="handleDrop"
+        >
+          <input
+            type="file"
+            ref="fileInput"
+            @change="handleFileSelect"
+            :accept="acceptedFormats"
+            multiple
+            style="display: none"
+          />
+          <div class="upload-content" @click="triggerFileSelect">
+            <div class="upload-icon">📁</div>
+            <p class="upload-text">点击或拖拽上传</p>
+            <p class="upload-hint">
+              {{
+                formData.content_type === 'image' ? '支持 JPG、PNG 格式，单张不超过5MB' :
+                formData.content_type === 'video' ? '支持 MP4、WebM 格式，单个不超过500MB' :
+                '支持图片和视频格式'
+              }}
+            </p>
+          </div>
+          
+          <!-- 预览区域 -->
+          <div v-if="hasPreviewContent" class="preview-section">
+            <h3>预览</h3>
+            
+            <!-- 预览标题 -->
+            <div v-if="formData.title" class="preview-title">
+              {{ formData.title }}
+            </div>
+            
+            <!-- 预览内容 -->
+            <div v-if="formData.content" class="preview-content">
+              {{ formData.content }}
+            </div>
+            
+            <!-- 预览标签 -->
+            <div v-if="formData.tags.length > 0" class="preview-tags">
+              <span 
+                v-for="(tag, index) in formData.tags" 
+                :key="'tag-' + index"
+                class="preview-tag"
+              >
+                #{{ tag }}
+              </span>
+            </div>
+            
+            <!-- 预览媒体文件 -->
+            <div v-if="previewFiles.length > 0" class="preview-files">
+              <div 
+                v-for="(file, index) in previewFiles" 
+                :key="'preview-' + index"
+                class="preview-file"
+              >
+                <div v-if="file.type.startsWith('image/')" class="preview-image">
+                  <img :src="file.previewUrl" :alt="file.file.name" />
+                </div>
+                <div v-else-if="file.type.startsWith('video/')" class="preview-video">
+                  <video :src="file.previewUrl" controls />
+                </div>
+                <div class="preview-file-info">
+                  <span class="file-name">{{ file.file.name }}</span>
+                  <button 
+                    @click="removePreviewFile(index)" 
+                    class="remove-preview-file"
+                  >
+                    ×
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 隐私设置 -->
+      <div class="section">
+        <label class="section-label">隐私设置</label>
+        <div class="privacy-options">
+          <label class="radio-option">
+            <input
+              type="radio"
+              v-model="formData.privacy"
+              value="public"
+            />
+            公开
+          </label>
+          <label class="radio-option">
+            <input
+              type="radio"
+              v-model="formData.privacy"
+              value="private"
+            />
+            私密
+          </label>
+          <label class="radio-option">
+            <input
+              type="radio"
+              v-model="formData.privacy"
+              value="friends"
+            />
+            仅好友可见
+          </label>
         </div>
       </div>
     </div>
@@ -211,236 +219,296 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
   name: 'BlogCreate',
+  props: {
+    goBack: {
+      type: Function,
+      required: true
+    },
+    navigateTo: {
+      type: Function,
+      required: true
+    }
+  },
   data() {
     return {
-      form: {
+      formData: {
         title: '',
-        content_type: '',
         content: '',
-        video_file: null,
-        image_files: []
+        category: '',
+        content_type: 'text', // 默认为文字
+        images: [],
+        video: null,
+        tags: [],
+        privacy: 'public'
       },
-      videoPreviewUrl: null,
-      showPreview: false,
-      isSubmitting: false,
-      uploadProgress: 0,
-      currentUser: null
+      tagInput: '',
+      uploading: false,
+      selectedFiles: [],
+      previewFiles: []
     };
   },
   computed: {
-    isFormValid() {
-      if (!this.form.title.trim()) return false;
-      if (!this.form.content_type) return false;
-      
-      switch (this.form.content_type) {
-        case 'text':
-          return this.form.content.trim().length > 0;
-        case 'video':
-          return this.form.video_file !== null;
+    isValid() {
+      return (
+        this.formData.title.trim() !== '' &&
+        this.formData.category !== '' &&
+        this.formData.content_type !== '' &&
+        (this.formData.content_type === 'text' || 
+         this.selectedFiles.length > 0 ||
+         (this.formData.content_type === 'mixed' && 
+          (this.formData.content.trim() !== '' || this.selectedFiles.length > 0)))
+      );
+    },
+    categories() {
+      return [
+        { label: '穿搭', value: '穿搭' },
+        { label: '美妆', value: '美妆' },
+        { label: '护肤', value: '护肤' },
+        { label: '配饰', value: '配饰' },
+        { label: '鞋包', value: '鞋包' },
+        { label: '其他', value: '其他' }
+      ];
+    },
+    contentTypes() {
+      return [
+        { 
+          value: 'text', 
+          name: '纯文字', 
+          icon: '📝', 
+          description: '仅包含文字内容' 
+        },
+        { 
+          value: 'image', 
+          name: '图片', 
+          icon: '🖼️', 
+          description: '包含一张或多张图片' 
+        },
+        { 
+          value: 'video', 
+          name: '视频', 
+          icon: '🎥', 
+          description: '包含一个视频' 
+        },
+        { 
+          value: 'mixed', 
+          name: '混合', 
+          icon: '✨', 
+          description: '文字、图片和视频的组合' 
+        }
+      ];
+    },
+    showTextContent() {
+      return ['text', 'mixed'].includes(this.formData.content_type);
+    },
+    showMediaUpload() {
+      return ['image', 'video', 'mixed'].includes(this.formData.content_type);
+    },
+    acceptedFormats() {
+      switch (this.formData.content_type) {
         case 'image':
-          return this.form.image_files.length > 0;
+          return 'image/*';
+        case 'video':
+          return 'video/mp4,video/webm,video/ogg';
         case 'mixed':
-          return (this.form.content.trim().length > 0 || this.form.video_file !== null || this.form.image_files.length > 0);
+          return 'image/*,video/mp4,video/webm,video/ogg';
         default:
-          return false;
+          return '*/*';
       }
+    },
+    hasPreviewContent() {
+      return (
+        this.formData.title ||
+        this.formData.content ||
+        this.previewFiles.length > 0 ||
+        this.formData.tags.length > 0
+      );
+    },
+    privacyLabels() {
+      return {
+        public: '公开',
+        private: '私密',
+        friends: '仅好友可见'
+      };
     }
-  },
-  created() {
-    this.currentUser = this.$store?.state?.user || { username: '当前用户' };
   },
   methods: {
-    triggerVideoUpload() {
-      this.$refs.videoInput.click();
-    },
-    
-    triggerImageUpload() {
-      this.$refs.imageInput.click();
-    },
-    
-    handleVideoUpload(event) {
-      const file = event.target.files[0];
-      if (!file) return;
+    removePreviewFile(index) {
+      // 移除预览文件
+      const fileToRemove = this.previewFiles[index];
+      this.previewFiles.splice(index, 1);
+      this.selectedFiles.splice(this.selectedFiles.findIndex(f => f.previewUrl === fileToRemove.previewUrl), 1);
       
-      // 检查文件大小 (100MB)
-      if (file.size > 100 * 1024 * 1024) {
-        this.$toast?.error('视频文件大小不能超过100MB');
-        return;
+      // 清理URL对象以避免内存泄漏
+      if (fileToRemove.previewUrl) {
+        URL.revokeObjectURL(fileToRemove.previewUrl);
       }
-      
-      // 检查文件类型
-      const allowedTypes = ['video/mp4', 'video/mov', 'video/avi', 'video/quicktime'];
-      if (!allowedTypes.includes(file.type)) {
-        this.$toast?.error('不支持的视频格式');
-        return;
-      }
-      
-      this.form.video_file = file;
-      this.videoPreviewUrl = URL.createObjectURL(file);
     },
     
-    handleImageUpload(event) {
+    selectCategory(value) {
+      this.formData.category = value;
+    },
+    
+    selectContentType(value) {
+      this.formData.content_type = value;
+      // 切换类型时清空相关的媒体文件
+      if (!['image', 'video', 'mixed'].includes(value)) {
+        this.selectedFiles = [];
+        this.previewFiles = [];
+      }
+    },
+    
+    addTag() {
+      const tag = this.tagInput.trim();
+      if (tag && !this.formData.tags.includes(tag)) {
+        this.formData.tags.push(tag);
+        this.tagInput = '';
+      }
+    },
+    
+    removeTag(index) {
+      this.formData.tags.splice(index, 1);
+    },
+    
+    triggerFileSelect() {
+      this.$refs.fileInput.click();
+    },
+    
+    handleDragOver(event) {
+      event.preventDefault();
+    },
+    
+    handleFileSelect(event) {
       const files = Array.from(event.target.files);
-      
-      files.forEach(file => {
-        // 检查文件大小 (10MB)
-        if (file.size > 10 * 1024 * 1024) {
-          this.$toast?.error(`图片 ${file.name} 大小超过10MB，已跳过`);
-          return;
+      this.processFiles(files);
+    },
+    
+    handleDrop(event) {
+      const files = Array.from(event.dataTransfer.files);
+      this.processFiles(files);
+    },
+    
+    processFiles(files) {
+      // 根据内容类型过滤文件
+      const validFiles = files.filter(file => {
+        if (this.formData.content_type === 'image') {
+          return file.type.startsWith('image/');
+        } else if (this.formData.content_type === 'video') {
+          return file.type.startsWith('video/');
+        } else {
+          return file.type.startsWith('image/') || file.type.startsWith('video/');
         }
-        
-        // 检查文件类型
-        const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
-        if (!allowedTypes.includes(file.type)) {
-          this.$toast?.error(`不支持的图片格式: ${file.name}`);
-          return;
-        }
-        
-        // 检查最多9张图片
-        if (this.form.image_files.length >= 9) {
-          this.$toast?.error('最多只能上传9张图片');
-          return;
-        }
-        
+      });
+
+      // 检查数量限制
+      if (this.formData.content_type === 'video' && validFiles.length > 1) {
+        alert('视频类型只允许上传一个文件');
+        return;
+      }
+
+      // 检查大小限制
+      const maxSize = this.formData.content_type === 'video' ? 500 * 1024 * 1024 : 5 * 1024 * 1024; // 500MB for video, 5MB for others
+      const oversizedFiles = validFiles.filter(file => file.size > maxSize);
+      if (oversizedFiles.length > 0) {
+        alert(`文件过大，请确保图片不超过5MB，视频不超过500MB`);
+        return;
+      }
+
+      // 添加有效文件
+      validFiles.forEach(file => {
+        // 创建预览URL
         const previewUrl = URL.createObjectURL(file);
-        this.form.image_files.push({
-          file,
-          preview: previewUrl
+        
+        this.selectedFiles.push({
+          file: file,
+          previewUrl: previewUrl,
+          type: file.type
+        });
+        
+        this.previewFiles.push({
+          file: file,
+          previewUrl: previewUrl,
+          type: file.type
         });
       });
-      
-      // 清空input
-      event.target.value = '';
     },
-    
-    removeVideo() {
-      this.form.video_file = null;
-      if (this.videoPreviewUrl) {
-        URL.revokeObjectURL(this.videoPreviewUrl);
-        this.videoPreviewUrl = null;
-      }
-    },
-    
-    removeImage(index) {
-      const image = this.form.image_files[index];
-      if (image.preview) {
-        URL.revokeObjectURL(image.preview);
-      }
-      this.form.image_files.splice(index, 1);
-    },
-    
-    togglePreview() {
-      this.showPreview = !this.showPreview;
-    },
-    
-    async saveDraft() {
-      // 保存草稿到本地存储
-      localStorage.setItem('blog_draft', JSON.stringify({
-        ...this.form,
-        video_file: this.form.video_file?.name || null,
-        image_files: this.form.image_files.map(img => ({ name: img.file.name, size: img.file.size }))
-      }));
-      this.$toast?.success('草稿已保存');
-    },
-    
-    async submitPost() {
-      if (!this.isFormValid) {
-        this.$toast?.error('请填写完整信息');
+
+    async submitBlog() {
+      if (!this.isValid) {
+        alert('请填写必填字段');
         return;
       }
-      
-      this.isSubmitting = true;
-      this.uploadProgress = 0;
-      
-      try {
-        const formData = new FormData();
-        formData.append('title', this.form.title);
-        formData.append('content_type', this.form.content_type);
-        formData.append('content', this.form.content || '');
-        
-        if (this.form.video_file) {
-          formData.append('video_file', this.form.video_file);
+
+      this.uploading = true;
+
+      // 模拟上传过程
+      setTimeout(() => {
+        // 构建博客数据
+        const blogData = {
+          title: this.formData.title,
+          content: this.formData.content,
+          category: this.formData.category,
+          content_type: this.formData.content_type,
+          tags: this.formData.tags,
+          privacy: this.formData.privacy
+        };
+
+        // 如果有上传的文件，添加到数据中
+        if (this.selectedFiles.length > 0) {
+          if (this.formData.content_type === 'image') {
+            blogData.images = this.selectedFiles.map((file, index) => ({
+              url: file.previewUrl,
+              name: file.file.name,
+              index: index  // 使用index值
+            }));
+          } else if (this.formData.content_type === 'video') {
+            blogData.video = {
+              url: this.selectedFiles[0].previewUrl,
+              name: this.selectedFiles[0].file.name
+            };
+          } else if (this.formData.content_type === 'mixed') {
+            blogData.images = this.selectedFiles
+              .filter(file => file.type.startsWith('image/'))
+              .map((file, index) => ({
+                url: file.previewUrl,
+                name: file.file.name,
+                index: index  // 使用index值
+              }));
+
+            const videoFile = this.selectedFiles.find(file => file.type.startsWith('video/'));
+            if (videoFile) {
+              blogData.video = {
+                url: videoFile.previewUrl,
+                name: videoFile.file.name
+              };
+            }
+          }
         }
-        
-        // 添加图片文件
-        this.form.image_files.forEach((imageObj) => {
-          formData.append('image_files', imageObj.file);
-        });
-        
-        // 模拟上传进度
-        const progressInterval = setInterval(() => {
-          if (this.uploadProgress < 90) {
-            this.uploadProgress += Math.random() * 10;
-          }
-        }, 200);
-        
-        const response = await axios.post('/api/posts/', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        });
-        
-        clearInterval(progressInterval);
-        this.uploadProgress = 100;
-        
-        // 清除草稿
-        localStorage.removeItem('blog_draft');
-        
-        this.$toast?.success('博客发布成功！');
-        this.$router.push(`/blog/${response.data.id}`);
-        
-      } catch (error) {
-        console.error('发布博客失败:', error);
-        this.$toast?.error('发布失败，请检查网络连接或登录状态');
-      } finally {
-        this.isSubmitting = false;
-        this.uploadProgress = 0;
-      }
+
+        // 通过事件通知父组件创建成功
+        this.$emit('blog-created', blogData);
+
+        this.uploading = false;
+      }, 1000);
     },
-    
-    getContentTypeLabel(type) {
+
+    getContentTypeName(type) {
       const typeMap = {
-        'text': '文字',
-        'video': '视频',
-        'image': '图片',
-        'mixed': '混合'
+        text: '纯文字',
+        image: '图片',
+        video: '视频',
+        mixed: '混合'
       };
-      return typeMap[type] || '';
-    },
-    
-    loadDraft() {
-      const draft = localStorage.getItem('blog_draft');
-      if (draft) {
-        try {
-          const draftData = JSON.parse(draft);
-          this.form = {
-            ...this.form,
-            ...draftData
-          };
-          this.$toast?.info('已加载保存的草稿');
-        } catch (error) {
-          console.error('加载草稿失败:', error);
-        }
-      }
+      return typeMap[type] || type;
     }
   },
-  
-  mounted() {
-    this.loadDraft();
-  },
-  
+
   beforeUnmount() {
-    // 清理预览URL
-    if (this.videoPreviewUrl) {
-      URL.revokeObjectURL(this.videoPreviewUrl);
-    }
-    this.form.image_files.forEach(img => {
-      if (img.preview) {
-        URL.revokeObjectURL(img.preview);
+    // 清理预览URL对象以避免内存泄漏
+    this.previewFiles.forEach(file => {
+      if (file.previewUrl) {
+        URL.revokeObjectURL(file.previewUrl);
       }
     });
   }
@@ -449,415 +517,363 @@ export default {
 
 <style scoped>
 .blog-create {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: white;
+  border-bottom: 1px solid #e0e0e0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-left,
+.nav-right {
+  flex: 1;
+}
+
+.nav-center {
+  flex: 2;
+  text-align: center;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-icon {
+  font-size: 1.2rem;
+}
+
+.publish-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.publish-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.create-content {
   max-width: 800px;
   margin: 0 auto;
-  padding: 20px;
-  color: #4a3c5c;
+  padding: 1rem;
 }
 
-.navigation {
-  margin-bottom: 20px;
+.section {
+  background-color: white;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.back-btn {
-  padding: 10px 20px;
-  border: 2px solid #ff69b4;
-  border-radius: 20px;
-  background: transparent;
-  color: #ff69b4;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.back-btn:hover {
-  background: #ff69b4;
-  color: #fff;
-}
-
-.create-form-container {
-  background: transparent;
-  border-radius: 15px;
-  padding: 30px;
-  margin-bottom: 20px;
-  border: 1px solid rgba(74, 60, 92, 0.3);
-}
-
-.page-title {
-  font-size: 2rem;
-  text-align: center;
-  margin-bottom: 30px;
-  background: linear-gradient(45deg, #ff94d2, #b388eb);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.form-section {
-  margin-bottom: 30px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #333;
-}
-
-.form-section:last-child {
-  border-bottom: none;
-}
-
-.section-title {
-  font-size: 1.3rem;
-  margin-bottom: 20px;
-  color: #ff69b4;
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-label {
+.section-label {
   display: block;
-  margin-bottom: 8px;
-  font-weight: 600;
-  color: #ccc;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: #333;
 }
 
-.form-input, .form-select, .form-textarea {
-  width: 100%;
-  padding: 12px 16px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.15);
-  color: #fff;
-  font-size: 1rem;
-  transition: border-color 0.3s;
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 0.5rem;
 }
 
-.form-input:focus, .form-select:focus, .form-textarea:focus {
-  outline: none;
-  border-color: #ff69b4;
-}
-
-.form-textarea {
-  resize: vertical;
-  min-height: 120px;
-}
-
-.input-help {
-  margin-top: 5px;
-  font-size: 0.85rem;
-  color: #888;
-  text-align: right;
-}
-
-.file-upload-area {
-  border: 2px dashed rgba(255, 255, 255, 0.3);
-  border-radius: 10px;
-  padding: 30px;
+.category-item {
+  padding: 0.75rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 4px;
   text-align: center;
   cursor: pointer;
-  transition: all 0.3s;
-  background: rgba(255, 255, 255, 0.15);
+  transition: all 0.3s ease;
 }
 
-.file-upload-area:hover {
-  border-color: #ff69b4;
-  background: rgba(255, 105, 180, 0.05);
+.category-item:hover {
+  border-color: #007bff;
 }
 
-.hidden-input {
-  display: none;
+.category-item.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
 }
 
-.upload-placeholder {
+.tag-input-container {
   display: flex;
-  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.tag-input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.add-tag-btn {
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag-item {
+  display: inline-flex;
   align-items: center;
-  gap: 10px;
+  padding: 0.25rem 0.5rem;
+  background-color: #e9ecef;
+  border-radius: 12px;
+  font-size: 0.875rem;
+}
+
+.remove-tag {
+  background: none;
+  border: none;
+  color: #6c757d;
+  margin-left: 0.25rem;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.content-type-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.content-type-item {
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.content-type-item:hover {
+  border-color: #007bff;
+}
+
+.content-type-item.active {
+  border-color: #007bff;
+  background-color: #f8f9ff;
+}
+
+.content-type-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.content-type-icon {
+  font-size: 1.5rem;
+}
+
+.content-type-name {
+  font-weight: bold;
+  color: #333;
+}
+
+.content-type-desc {
+  color: #666;
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.title-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.content-textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  min-height: 150px;
+  resize: vertical;
+  font-size: 1rem;
+}
+
+.upload-area {
+  border: 2px dashed #ddd;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.upload-area:hover {
+  border-color: #007bff;
+}
+
+.upload-content {
+  padding: 2rem;
 }
 
 .upload-icon {
   font-size: 3rem;
-  opacity: 0.6;
+  margin-bottom: 1rem;
 }
 
 .upload-text {
   font-size: 1.1rem;
-  color: #ccc;
+  margin: 0 0 0.5rem 0;
+  color: #333;
 }
 
-.upload-help {
-  font-size: 0.9rem;
-  color: #888;
+.upload-hint {
+  color: #666;
+  margin: 0;
+  font-size: 0.875rem;
 }
 
-.uploaded-video, .uploaded-images {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  align-items: center;
+.preview-section {
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-top: 1px solid #eee;
+  text-align: left;
 }
 
-.video-preview {
-  max-width: 100%;
-  max-height: 300px;
-  border-radius: 10px;
-}
-
-.image-item {
-  position: relative;
-  display: inline-block;
-}
-
-.image-preview {
-  width: 150px;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 10px;
-}
-
-.remove-btn {
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  width: 25px;
-  height: 25px;
-  border: none;
-  border-radius: 50%;
-  background: #ff4444;
-  color: #fff;
-  cursor: pointer;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s;
-}
-
-.remove-btn:hover {
-  background: #ff6666;
-  transform: scale(1.1);
-}
-
-.add-more-images {
-  width: 150px;
-  height: 150px;
-  border: 2px dashed #666;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #888;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.add-more-images:hover {
-  border-color: #c67bb4;
-  color: #c67bb4;
-}
-
-.preview-container {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 10px;
-  padding: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.blog-post-preview {
-  max-width: 100%;
+.preview-section h3 {
+  margin: 0 0 1rem 0;
+  color: #333;
 }
 
 .preview-title {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
-  color: #fff;
-}
-
-.preview-meta {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 15px;
-  font-size: 0.9rem;
-  color: #888;
-}
-
-.preview-type {
-  background: linear-gradient(45deg, #c67bb4, #8b76b8);
-  color: #fff;
-  padding: 2px 8px;
-  border-radius: 10px;
-  font-size: 0.8rem;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #333;
 }
 
 .preview-content {
-  color: #ccc;
-  line-height: 1.6;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 1rem;
 }
 
-.preview-text {
-  margin-bottom: 15px;
+.preview-tags {
+  margin-bottom: 1rem;
 }
 
-.preview-video {
-  margin-bottom: 15px;
+.preview-tag {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  background-color: #007bff;
+  color: white;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  margin-right: 0.5rem;
+  margin-bottom: 0.25rem;
 }
 
-.preview-video-element {
-  width: 100%;
-  max-height: 200px;
-  border-radius: 10px;
+.preview-files {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
 }
 
-.preview-images {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.preview-image {
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
+.preview-file {
+  position: relative;
+  background: white;
   border-radius: 8px;
-}
-
-.more-images {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 80px;
-  height: 80px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  color: #ccc;
-  font-size: 0.8rem;
-}
-
-.form-actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 30px;
-  padding-top: 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.preview-btn {
-  padding: 10px 20px;
-  border: 2px solid rgba(74, 60, 92, 0.3);
-  border-radius: 20px;
-  background: transparent;
-  color: #fff;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.preview-btn.active, .preview-btn:hover {
-  border-color: #c67bb4;
-  color: #c67bb4;
-}
-
-.submit-actions {
-  display: flex;
-  gap: 15px;
-}
-
-.draft-btn {
-  padding: 12px 24px;
-  border: 2px solid rgba(74, 60, 92, 0.3);
-  border-radius: 25px;
-  background: transparent;
-  color: #fff;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.draft-btn:hover:not(:disabled) {
-  border-color: rgba(255, 255, 255, 0.5);
-  background: rgba(255, 255, 255, 0.2);
-  color: #fff;
-}
-
-.publish-btn {
-  padding: 12px 24px;
-  border: 1px solid rgba(74, 60, 92, 0.3);
-  border-radius: 25px;
-  background: linear-gradient(45deg, #c67bb4, #8b76b8);
-  color: #fff;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: 600;
-  transition: all 0.3s;
-}
-
-.publish-btn:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(200, 140, 220, 0.3);
-}
-
-.publish-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.progress-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.progress-container {
-  background: transparent;
-  padding: 30px;
-  border-radius: 15px;
-  text-align: center;
-  color: #fff;
-  border: 1px solid rgba(74, 60, 92, 0.3);
-}
-
-.progress-bar {
-  width: 300px;
-  height: 6px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 3px;
-  margin-top: 20px;
   overflow: hidden;
 }
 
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(45deg, #ff94d2, #b388eb);
-  transition: width 0.3s;
-  border-radius: 3px;
+.preview-image img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  display: block;
 }
 
-@media (max-width: 768px) {
-  .blog-create {
-    padding: 15px;
-  }
-  
-  .create-form-container {
-    padding: 20px;
-  }
-  
-  .form-actions {
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .submit-actions {
-    width: 100%;
-    justify-content: space-between;
-  }
-  
-  .progress-container {
-    margin: 0 20px;
-  }
+.preview-video {
+  width: 100%;
+  text-align: center;
+  background: #000;
+}
+
+.preview-video video {
+  width: 100%;
+  height: 150px;
+  display: block;
+}
+
+.preview-file-info {
+  padding: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.file-name {
+  font-size: 0.875rem;
+  color: #333;
+  word-break: break-all;
+  flex: 1;
+  margin-right: 0.5rem;
+}
+
+.remove-preview-file {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #dc3545;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.privacy-options {
+  display: flex;
+  gap: 1rem;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  cursor: pointer;
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
 }
 </style>

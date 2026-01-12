@@ -6,9 +6,9 @@
       <!-- 导航按钮 - 紧贴标题正下方 -->
       <nav class="main-nav-buttons">
         <ul>
-          <li><a href="/" class="no-border-btn" :class="{ active: currentRoute === '/' }" @click.prevent="navigateTo('/')">首页</a></li>
-          <li><a href="/blog" class="no-border-btn" :class="{ active: currentRoute === '/blog' }" @click.prevent="navigateTo('/blog')">博客</a></li>
-          <li><a href="/blog/create" class="no-border-btn" :class="{ active: currentRoute === '/blog/create' }" @click.prevent="navigateTo('/blog/create')">发布</a></li>
+          <li><a href="#" class="no-border-btn" :class="{ active: currentRoute === '/' }" @click.prevent="navigateTo('/')">首页</a></li>
+          <li><a href="#" class="no-border-btn" :class="{ active: currentRoute === '/blog' }" @click.prevent="navigateTo('/blog')">博客</a></li>
+          <li><a href="#" class="no-border-btn" :class="{ active: currentRoute === '/blog/create' }" @click.prevent="navigateTo('/blog/create')">发布</a></li>
         </ul>
         <!-- 动态上划线指示器 -->
         <div class="floating-indicator" :style="indicatorStyle"></div>
@@ -16,114 +16,17 @@
     </header>
     
     <div class="content-wrapper">
-      <aside class="left-sidebar">
-        <nav class="main-nav">
-          <ul>
-            <li><a href="#" :class="{ selected: selectedItem === 'category' }" @click.prevent="selectItem('category')">分类</a></li>
-            <li><a href="#" :class="{ selected: selectedItem === 'about' }" @click.prevent="selectItem('about')">关于</a></li>
-            <li><a href="#" :class="{ selected: selectedItem === 'contact' }" @click.prevent="selectItem('contact')">联系</a></li>
-            <li class="dropdown-container">
-              <a href="#" class="dropdown-trigger" :class="{ selected: selectedItem === 'categories' }" @click.prevent="selectItem('categories')" @mouseenter="showCategories = true" @mouseleave="startHideCategories()">文章分类</a>
-              <div class="dropdown-content categories-dropdown" v-show="showCategories" @mouseenter="cancelHideCategories()" @mouseleave="startHideCategories()">
-                <div class="category-list">
-                  <a href="#" class="category-item">时尚趋势 <span class="category-count">12</span></a>
-                  <a href="#" class="category-item">搭配技巧 <span class="category-count">8</span></a>
-                  <a href="#" class="category-item">配饰指南 <span class="category-count">5</span></a>
-                  <a href="#" class="category-item">品牌故事 <span class="category-count">6</span></a>
-                  <a href="#" class="category-item">时尚事件 <span class="category-count">4</span></a>
-                  <a href="#" class="category-item">美妆护肤 <span class="category-count">9</span></a>
-                </div>
-              </div>
-            </li>
-            <li class="dropdown-container">
-              <a href="#" class="dropdown-trigger" :class="{ selected: selectedItem === 'tags' }" @click.prevent="selectItem('tags')" @mouseenter="showTags = true" @mouseleave="startHideTags()">热门标签</a>
-              <div class="dropdown-content tags-dropdown" v-show="showTags" @mouseenter="cancelHideTags()" @mouseleave="startHideTags()">
-                <div class="category-list">
-                  <a href="#" class="tag">春季时尚</a>
-                  <a href="#" class="tag">穿搭技巧</a>
-                  <a href="#" class="tag">流行趋势</a>
-                  <a href="#" class="tag">配饰搭配</a>
-                  <a href="#" class="tag">品牌推荐</a>
-                  <a href="#" class="tag">时尚博主</a>
-                  <a href="#" class="tag">潮流单品</a>
-                  <a href="#" class="tag">街头风格</a>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </nav>
-      </aside>
-      
-      <main class="main-content">
-        <section class="featured-post">
-          <div class="post-card featured">
-            <div class="post-image">
-              <img src="/images/featured-fashion.svg" alt="2027春季时尚趋势 - 粉色针织马甲" style="width: 100%; height: 100%; object-fit: cover;">
-            </div>
-            <div class="post-content">
-              <div class="post-meta">
-                <span class="post-category">时尚趋势</span>
-                <span class="post-date">2026-04-12</span>
-              </div>
-              <h2 class="post-title">2027年春季时尚趋势预测</h2>
-              <p class="post-excerpt">探索2027年春季最热门的时尚趋势，从服装到配饰，让你的衣橱焕然一新。</p>
-              <a href="/post/1" class="read-more">阅读更多</a>
-            </div>
-          </div>
-        </section>
-        
-        <!-- 时尚新闻区域 -->
-        <section class="fashion-news">
-          <h2 class="section-title">时尚资讯</h2>
-          <div class="news-grid">
-            <!-- 左侧大内容浮框 -->
-            <div class="news-item large">
-              <div class="news-image">
-                <img src="/images/featured-fashion.svg" alt="巴黎时装周亮点" style="width: 100%; height: 100%; object-fit: cover;">
-              </div>
-              <div class="news-content">
-                <div class="news-meta">
-                  <span class="news-category">时装周</span>
-                  <span class="news-date">2026-04-12</span>
-                </div>
-                <h3 class="news-title">2026年巴黎时装周亮点</h3>
-                <p class="news-excerpt">巴黎时装周带来了令人惊艳的设计，展示了未来时尚的新趋势和可能性。</p>
-              </div>
-            </div>
-            
-            <!-- 右侧两个小内容浮框 -->
-            <div class="news-grid-right">
-              <div class="news-item small">
-                <div class="news-image">
-                  <img src="/images/featured-fashion.svg" alt="新兴环保品牌崛起" style="width: 100%; height: 100%; object-fit: cover;">
-                </div>
-                <div class="news-content">
-                  <div class="news-meta">
-                    <span class="news-category">品牌动态</span>
-                    <span class="news-date">2026-04-12</span>
-                  </div>
-                  <h3 class="news-title">新兴环保品牌崛起</h3>
-                  <p class="news-excerpt">越来越多品牌开始关注可持续发展，推出环保时尚产品系列。</p>
-                </div>
-              </div>
-              
-              <div class="news-item small">
-                <div class="news-image">
-                  <img src="/images/featured-fashion.svg" alt="春季流行色彩指南" style="width: 100%; height: 100%; object-fit: cover;">
-                </div>
-                <div class="news-content">
-                  <div class="news-meta">
-                    <span class="news-category">潮流预测</span>
-                    <span class="news-date">2026-04-12</span>
-                  </div>
-                  <h3 class="news-title">春季流行色彩指南</h3>
-                  <p class="news-excerpt">从温暖的大地色系到清新的薄荷绿，了解2026春季的流行色彩。</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
+      <!-- 动态组件区域 -->
+      <component 
+        :is="currentComponent" 
+        v-if="currentComponent !== 'HomeContent'"
+        :goBack="goToHome"
+        :navigateTo="navigateTo"
+        @view-post="handleViewPost"
+        @go-to-create="navigateTo('/blog/create')"
+        @blog-created="handleBlogCreated"
+      />
+      <HomeContent v-else />
     </div>
     
     <footer class="footer">
@@ -138,181 +41,102 @@
 </template>
 
 <script>
+import HomeContent from './HomeContent.vue'
+import BlogList from './BlogList.vue'
+import BlogCreate from './BlogCreate.vue'
+
 export default {
   name: 'HomePage',
+  components: {
+    HomeContent,
+    BlogList,
+    BlogCreate
+  },
   data() {
     return {
-      searchQuery: '',
-      currentRoute: '/', // 当前活动路由
-      selectedItem: null, // 当前选中的左边导航项
-      // 浮框显示状态
-      showCategories: false,
-      showTags: false,
-      hideCategoriesTimer: null,
-      hideTagsTimer: null,
-      fashionNews: [
-        {
-          category: '时装周',
-          title: '2026年巴黎时装周亮点',
-          date: '2026-04-12',
-          excerpt: '巴黎时装周带来了令人惊艳的设计，展示了未来时尚的新趋势和可能性。各大品牌展示了创新的面料和独特的剪裁技术，预示着2027年春夏时尚的新方向。'
-        },
-        {
-          category: '品牌动态',
-          title: '新兴环保品牌崛起',
-          date: '2026-04-12',
-          excerpt: '越来越多品牌开始关注可持续发展，推出环保时尚产品系列。'
-        },
-        {
-          category: '潮流预测',
-          title: '春季流行色彩指南',
-          date: '2026-04-12',
-          excerpt: '从温暖的大地色系到清新的薄荷绿，了解2026春季的流行色彩。'
-        },
-        {
-          category: '搭配技巧',
-          title: '职场穿搭必备技巧',
-          date: '2026-04-11',
-          excerpt: '如何在职场中展现专业又时尚的形象？这里有一些实用的穿搭建议。'
-        }
-      ],
-      // 添加指示器样式数据
+      currentComponent: 'HomeContent',
+      currentRoute: '/',
       indicatorStyle: {
-        width: '0px',
         left: '0px',
-        opacity: 0,
-        transition: 'all 0.3s ease'
+        width: '60px'
       }
-    }
+    };
   },
   mounted() {
-    // 初始化指示器位置（如果存在indicatorStyle）
-    this.updateIndicator()
-    // 监听窗口大小变化，重新计算指示器位置
-    window.addEventListener('resize', this.updateIndicator)
-    
-    // 为导航按钮添加鼠标移动事件监听器
-    const navLinks = document.querySelectorAll('.main-nav-buttons a')
-    const navContainer = document.querySelector('.main-nav-buttons ul')
-    
-    if (navLinks && navContainer) {
-      navLinks.forEach(link => {
-        link.addEventListener('mouseenter', (e) => {
-          this.updateIndicatorPosition(e.target)
-        })
-      })
-      
-      // 在导航容器上监听鼠标离开事件，隐藏指示器
-      navContainer.addEventListener('mouseleave', () => {
-        this.indicatorStyle.opacity = 0
-      })
-    }
+    this.updateIndicator();
   },
   beforeUnmount() {
-    // 清理定时器
-    this.clearAllTimers()
-    // 移除事件监听器
-    window.removeEventListener('resize', this.updateIndicator)
+    // 清理定时器和其他资源
+    // 如果有定时器，在这里清除
+    // 示例：如果组件中有使用 setInterval，需要在此处清除
+    // clearInterval(this.myTimer);
+    
+    // 移除可能添加的全局事件监听器
+    // window.removeEventListener('scroll', this.handleScroll);
   },
   methods: {
-    setActiveRoute(route) {
-      this.currentRoute = route
-      // 更新指示器到当前激活的路由位置
-      this.$nextTick(() => {
-        const activeLink = document.querySelector('.main-nav-buttons a.active')
-        if (activeLink) {
-          this.updateIndicatorPosition(activeLink)
-          this.indicatorStyle.opacity = 1
-        }
-      })
-    },
-    // 更新指示器位置的方法
-    updateIndicator() {
-      const activeLink = document.querySelector('.main-nav-buttons a.active')
-      if (activeLink) {
-        this.updateIndicatorPosition(activeLink)
-        this.indicatorStyle.opacity = 1
-      }
-    },
-    // 更新指示器到特定元素位置
-    updateIndicatorPosition(element) {
-      if (element) {
-        const rect = element.getBoundingClientRect()
-        const containerRect = element.closest('.main-nav-buttons').getBoundingClientRect()
-        
-        // 计算相对于容器的位置
-        this.indicatorStyle.width = `${rect.width}px`
-        this.indicatorStyle.left = `${rect.left - containerRect.left}px`
-        this.indicatorStyle.opacity = 1
-        
-        // 添加过渡效果
-        this.indicatorStyle.transition = 'all 0.3s ease'
-      }
-    },
-    // 点击选中左边导航项
-    selectItem(item) {
-      if (this.selectedItem === item) {
-        // 如果点击的是已选中的项，则取消选中
-        this.selectedItem = null
-      } else {
-        // 选中新的项
-        this.selectedItem = item
-      }
-    },
-    // 清理所有定时器
-    clearAllTimers() {
-      if (this.hideCategoriesTimer) {
-        clearTimeout(this.hideCategoriesTimer)
-        this.hideCategoriesTimer = null
-      }
-      if (this.hideTagsTimer) {
-        clearTimeout(this.hideTagsTimer)
-        this.hideTagsTimer = null
-      }
-    },
-    // 开始隐藏分类浮框（延迟）
-    startHideCategories() {
-      this.hideCategoriesTimer = setTimeout(() => {
-        this.showCategories = false
-      }, 300)
-    },
-    // 取消隐藏分类浮框
-    cancelHideCategories() {
-      if (this.hideCategoriesTimer) {
-        clearTimeout(this.hideCategoriesTimer)
-        this.hideCategoriesTimer = null
-      }
-    },
-    // 开始隐藏标签浮框（延迟）
-    startHideTags() {
-      this.hideTagsTimer = setTimeout(() => {
-        this.showTags = false
-      }, 300)
-    },
-    // 取消隐藏标签浮框
-    cancelHideTags() {
-      if (this.hideTagsTimer) {
-        clearTimeout(this.hideTagsTimer)
-        this.hideTagsTimer = null
-      }
-    },
-    // 导航到指定路由
     navigateTo(route) {
-      // 更新当前路由状态
-      this.currentRoute = route
-      // 使用Vue Router进行页面跳转
-      this.$router.push(route)
-      // 更新指示器位置
+      this.currentRoute = route;
+      
+      if (route === '/') {
+        this.currentComponent = 'HomeContent';
+      } else if (route === '/blog') {
+        this.currentComponent = 'BlogList';
+      } else if (route === '/blog/create') {
+        this.currentComponent = 'BlogCreate';
+      }
+      
+      this.updateIndicator();
+    },
+    
+    goToHome() {
+      this.navigateTo('/');
+    },
+    
+    handleViewPost(postId) {
+      // 处理查看帖子的逻辑
+      console.log('View post:', postId);
+    },
+    
+    handleBlogCreated(blogData) {
+      // 处理博客创建成功的逻辑
+      console.log('Blog created:', blogData);
+      // 可以在这里添加成功提示或自动跳转回博客列表
+      this.navigateTo('/blog');
+    },
+    
+    setActiveRoute(route) {
+      this.currentRoute = route;
+      this.updateIndicator();
+    },
+    
+    updateIndicator() {
+      // 根据当前路由更新指示器位置
       this.$nextTick(() => {
-        const activeLink = document.querySelector('.main-nav-buttons a.active')
-        if (activeLink) {
-          this.updateIndicatorPosition(activeLink)
-          this.indicatorStyle.opacity = 1
+        const navLinks = this.$el.querySelectorAll('.main-nav-buttons a');
+        let activeLink = null;
+        
+        for (let i = 0; i < navLinks.length; i++) {
+          if (navLinks[i].classList.contains('active')) {
+            activeLink = navLinks[i];
+            break;
+          }
         }
-      })
+        
+        if (activeLink) {
+          const rect = activeLink.getBoundingClientRect();
+          const parentRect = activeLink.parentElement.getBoundingClientRect();
+          
+          this.indicatorStyle = {
+            left: `${rect.left - parentRect.left}px`,
+            width: `${rect.width}px`,
+            transition: 'all 0.3s ease'
+          };
+        }
+      });
     }
   }
-}
+};
 </script>
 
 <style scoped>
