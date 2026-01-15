@@ -23,12 +23,12 @@
           <h3 @click="toggleCategoriesDropdown">文章分类</h3>
           <div class="dropdown-container">
             <ul class="categories-list" :class="{ show: showCategoriesDropdown }">
-              <li><a href="#">未分类 <span class="category-count">10</span></a></li>
-              <li><a href="#">时尚趋势 <span class="category-count">8</span></a></li>
-              <li><a href="#">品牌动态 <span class="category-count">5</span></a></li>
-              <li><a href="#">潮流预测 <span class="category-count">3</span></a></li>
-              <li><a href="#">时装周 <span class="category-count">6</span></a></li>
-              <li><a href="#">搭配指南 <span class="category-count">4</span></a></li>
+              <li><a href="#" :class="{ active: selectedCategory === '未分类' }" @click.prevent="selectCategory('未分类')">未分类 <span class="category-count">10</span></a></li>
+              <li><a href="#" :class="{ active: selectedCategory === '时尚趋势' }" @click.prevent="selectCategory('时尚趋势')">时尚趋势 <span class="category-count">8</span></a></li>
+              <li><a href="#" :class="{ active: selectedCategory === '品牌动态' }" @click.prevent="selectCategory('品牌动态')">品牌动态 <span class="category-count">5</span></a></li>
+              <li><a href="#" :class="{ active: selectedCategory === '潮流预测' }" @click.prevent="selectCategory('潮流预测')">潮流预测 <span class="category-count">3</span></a></li>
+              <li><a href="#" :class="{ active: selectedCategory === '时装周' }" @click.prevent="selectCategory('时装周')">时装周 <span class="category-count">6</span></a></li>
+              <li><a href="#" :class="{ active: selectedCategory === '搭配指南' }" @click.prevent="selectCategory('搭配指南')">搭配指南 <span class="category-count">4</span></a></li>
             </ul>
           </div>
         </div>
@@ -38,14 +38,14 @@
           <h3 @click="toggleTagsDropdown">热门标签</h3>
           <div class="dropdown-container">
             <div class="tags-cloud" :class="{ show: showTagsDropdown }">
-              <a href="#" class="tag">时尚</a>
-              <a href="#" class="tag">2026趋势</a>
-              <a href="#" class="tag">巴黎时装周</a>
-              <a href="#" class="tag">环保时尚</a>
-              <a href="#" class="tag">春季色彩</a>
-              <a href="#" class="tag">品牌</a>
-              <a href="#" class="tag">潮流</a>
-              <a href="#" class="tag">搭配</a>
+              <a href="#" class="tag" :class="{ active: selectedTag === '时尚' }" @click.prevent="selectTag('时尚')">时尚</a>
+              <a href="#" class="tag" :class="{ active: selectedTag === '2026趋势' }" @click.prevent="selectTag('2026趋势')">2026趋势</a>
+              <a href="#" class="tag" :class="{ active: selectedTag === '巴黎时装周' }" @click.prevent="selectTag('巴黎时装周')">巴黎时装周</a>
+              <a href="#" class="tag" :class="{ active: selectedTag === '环保时尚' }" @click.prevent="selectTag('环保时尚')">环保时尚</a>
+              <a href="#" class="tag" :class="{ active: selectedTag === '春季色彩' }" @click.prevent="selectTag('春季色彩')">春季色彩</a>
+              <a href="#" class="tag" :class="{ active: selectedTag === '品牌' }" @click.prevent="selectTag('品牌')">品牌</a>
+              <a href="#" class="tag" :class="{ active: selectedTag === '潮流' }" @click.prevent="selectTag('潮流')">潮流</a>
+              <a href="#" class="tag" :class="{ active: selectedTag === '搭配' }" @click.prevent="selectTag('搭配')">搭配</a>
             </div>
           </div>
         </div>
@@ -99,7 +99,9 @@ export default {
         width: '60px'
       },
       showCategoriesDropdown: false,
-      showTagsDropdown: false
+      showTagsDropdown: false,
+      selectedCategory: null,
+      selectedTag: null
     };
   },
   mounted() {
@@ -145,6 +147,17 @@ export default {
       this.navigateTo('/blog');
     },
     
+    // 处理分类点击事件
+    selectCategory(categoryName) {
+      this.selectedCategory = categoryName;
+      this.selectedTag = null; // 清除标签选中状态
+    },
+    
+    // 处理标签点击事件
+    selectTag(tagName) {
+      this.selectedTag = tagName;
+      this.selectedCategory = null; // 清除分类选中状态
+    },
     setActiveRoute(route) {
       this.currentRoute = route;
       this.updateIndicator();
@@ -249,7 +262,7 @@ export default {
 
 .floating-indicator {
   position: absolute;
-  bottom: -2px;
+  top: -2px; /* 改为上划线 */
   height: 3px;
   background: linear-gradient(45deg, #fff, rgba(255, 255, 255, 0.7));
   border-radius: 2px;
@@ -302,7 +315,6 @@ export default {
   position: absolute;
   top: 0;
   left: 100%;
-  margin-left: -200px;
   background: rgba(0, 0, 0, 0.9);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 10px;
@@ -317,6 +329,14 @@ export default {
   transform: translateX(-10px);
 }
 
+.categories-list {
+  margin-left: -300px; /* 文章分类悬浮框继续往左移动 */
+}
+
+.tags-cloud {
+  margin-left: -160px; /* 标签悬浮框往左移动 */
+  margin-top: -20px; /* 标签悬浮框往上移动 */
+}
 .categories-list.show, .tags-cloud.show {
   opacity: 1;
   visibility: visible;
@@ -349,6 +369,14 @@ export default {
   color: #fff;
 }
 
+/* 添加分类选中状态样式 */
+.categories-list a.active {
+  background: rgba(255, 105, 180, 0.2);
+  color: #ff69b4;
+  border-color: rgba(255, 105, 180, 0.4);
+  font-weight: 600;
+}
+
 .category-count {
   background: rgba(255, 255, 255, 0.2);
   padding: 2px 8px;
@@ -377,6 +405,14 @@ export default {
   background: rgba(255, 255, 255, 0.2);
   color: #fff;
   transform: translateY(-1px);
+}
+
+/* 添加标签选中状态样式 */
+.tag.active {
+  background: rgba(255, 105, 180, 0.3);
+  color: #ff69b4;
+  border-color: rgba(255, 105, 180, 0.5);
+  font-weight: 600;
 }
 
 .main-content {
@@ -508,32 +544,24 @@ export default {
 
 .main-nav-buttons ul {
   display: flex;
+  justify-content: center;
+  gap: 20px; /* 缩短导航栏间距 */
   list-style: none;
   margin: 0;
   padding: 0;
-  gap: 0;
-  background: transparent;
-  border: none;
-}
-
-.main-nav-buttons li {
-  margin: 0;
-  padding: 0;
-  background: transparent;
-  border: none;
 }
 
 .main-nav-buttons a {
   color: rgba(255, 255, 255, 0.7);
   text-decoration: none;
-  padding: 12px 20px;
+  padding: 12px 15px; /* 缩短导航栏内边距 */
   display: block;
   border-radius: 8px;
   transition: all 0.3s ease;
   font-size: 1rem;
   font-weight: 500;
   position: relative;
-  background: transparent;
+  background: transparent; /* 去掉半透明背景 */
   border: none;
   outline: none;
   box-shadow: none;
@@ -542,7 +570,7 @@ export default {
 .main-nav-buttons a:hover,
 .main-nav-buttons a.active {
   color: #fff;
-  background: rgba(255, 255, 255, 0.1);
+  background: transparent; /* 去掉悬停时的半透明背景 */
   transform: translateY(-1px);
 }
 
@@ -555,7 +583,7 @@ export default {
 
 .floating-indicator {
   position: absolute;
-  bottom: -2px;
+  bottom: -2px; /* 改为下划线 */
   height: 3px;
   background: linear-gradient(45deg, #fff, rgba(255, 255, 255, 0.7));
   border-radius: 2px;
