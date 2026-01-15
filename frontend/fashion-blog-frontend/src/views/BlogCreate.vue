@@ -568,14 +568,18 @@ export default {
 }
 
 .publish-btn {
-  background: linear-gradient(45deg, #ff94d2, #b388eb);
+  background: linear-gradient(135deg, #ff69b4, #ff8ac8); /* 使用更鲜艳的粉色渐变 */
   color: white;
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 25px;
+  padding: 0.75rem 1.5rem; /* 增加内边距使按钮更大 */
+  border-radius: 30px;
   cursor: pointer;
   transition: all 0.3s ease;
   font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.5px; /* 字母间距增加，使文字更易读 */
+  box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4); /* 更强烈的阴影效果 */
+  text-transform: uppercase; /* 文字大写，更显眼 */
 }
 
 .publish-btn:disabled {
@@ -585,8 +589,9 @@ export default {
 }
 
 .publish-btn:not(:disabled):hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(255, 148, 210, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(255, 105, 180, 0.6); /* 悬停时更强的阴影 */
+  background: linear-gradient(135deg, #ff8ac8, #ffb6c1); /* 悬停时颜色变化 */
 }
 
 .create-content {
