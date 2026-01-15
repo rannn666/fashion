@@ -550,16 +550,17 @@ export default {
 }
 
 .nav-link {
-  text-decoration: none;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.95); /* 提高亮度，原来是 0.8 */
   display: flex;
   align-items: center;
   gap: 0.5rem;
   transition: color 0.3s ease;
+  text-decoration: none; /* 明确去除下划线 */
 }
 
 .nav-link:hover {
   color: #ff94d2;
+  text-decoration: none; /* 确保悬停时也没有下划线 */
 }
 
 .nav-icon {
