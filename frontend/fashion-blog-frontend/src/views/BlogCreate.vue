@@ -568,18 +568,31 @@ export default {
 }
 
 .publish-btn {
-  background: linear-gradient(135deg, #ff69b4, #ff8ac8); /* 使用更鲜艳的粉色渐变 */
+  background: linear-gradient(45deg, #ff1493, #ff69b4); /* 使用更鲜艳亮眼的深粉色到亮粉色渐变 */
   color: white;
-  border: none;
-  padding: 0.75rem 1.5rem; /* 增加内边距使按钮更大 */
+  border: 2px solid #ffffff33; /* 添加白色边框增加对比度 */
+  padding: 0.75rem 1.5rem;
   border-radius: 30px;
   cursor: pointer;
   transition: all 0.3s ease;
   font-weight: 600;
   font-size: 1rem;
-  letter-spacing: 0.5px; /* 字母间距增加，使文字更易读 */
-  box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4); /* 更强烈的阴影效果 */
-  text-transform: uppercase; /* 文字大写，更显眼 */
+  letter-spacing: 0.5px;
+  box-shadow: 0 6px 20px rgba(255, 20, 147, 0.5); /* 更强烈的阴影效果 */
+  text-transform: uppercase;
+  animation: pulse 2s infinite; /* 添加轻微脉冲动画吸引注意 */
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 6px 20px rgba(255, 20, 147, 0.5);
+  }
+  50% {
+    box-shadow: 0 6px 25px rgba(255, 20, 147, 0.7);
+  }
+  100% {
+    box-shadow: 0 6px 20px rgba(255, 20, 147, 0.5);
+  }
 }
 
 .publish-btn:disabled {
@@ -590,8 +603,9 @@ export default {
 
 .publish-btn:not(:disabled):hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(255, 105, 180, 0.6); /* 悬停时更强的阴影 */
-  background: linear-gradient(135deg, #ff8ac8, #ffb6c1); /* 悬停时颜色变化 */
+  box-shadow: 0 10px 30px rgba(255, 20, 147, 0.8); /* 悬停时更强的阴影 */
+  background: linear-gradient(45deg, #ff69b4, #ff8ac8); /* 悬停时颜色变化 */
+  animation: none; /* 悬停时停止脉冲动画 */
 }
 
 .create-content {
