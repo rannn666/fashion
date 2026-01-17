@@ -330,7 +330,7 @@ export default {
 }
 
 .categories-list {
-  margin-left: -320px; /* 文章分类悬浮框再往左移动20px */
+  margin-left: -160px; /* 调整为与标签悬浮框相同的偏移量，使其在同一条垂直线上 */
 }
 
 .tags-cloud {
