@@ -22,9 +22,10 @@
       </div>
     </nav>
 
-    <div class="create-content">
+    <!-- 主要内容区域 -->
+    <div class="create-main">
       <!-- 分类选择 -->
-      <div class="section">
+      <div class="section-card">
         <label class="section-label">分类 *</label>
         <div class="category-grid">
           <div 
@@ -41,18 +42,18 @@
       </div>
 
       <!-- 标签输入 -->
-      <div class="section">
+      <div class="section-card">
         <label class="section-label">标签</label>
         <div class="tag-input-container">
           <input
             v-model="tagInput"
             @keyup.enter="addTag"
-            placeholder="输入标签，按回车添加"
+            placeholder="输入标签后按回车添加"
             class="tag-input"
           />
           <button @click="addTag" class="add-tag-btn">添加</button>
         </div>
-        <div class="tags-list">
+        <div class="tag-list">
           <span 
             v-for="(tag, index) in formData.tags" 
             :key="index"
@@ -65,13 +66,13 @@
       </div>
 
       <!-- 内容类型选择 -->
-      <div class="section">
+      <div class="section-card">
         <label class="section-label">内容类型 *</label>
-        <div class="content-type-grid">
+        <div class="content-type-options">
           <div 
             v-for="type in contentTypes" 
             :key="type.value"
-            class="content-type-item"
+            class="content-type-option"
             :class="{ active: formData.content_type === type.value }"
             @click="selectContentType(type.value)"
           >
@@ -84,11 +85,12 @@
         </div>
       </div>
 
-      <!-- 文本内容编辑器 -->
-      <div v-if="showTextContent" class="section">
-        <label class="section-label">标题 *</label>
+      <!-- 文本内容输入 -->
+      <div v-if="showTextContent" class="section-card">
+        <label class="section-label">标题</label>
         <input
           v-model="formData.title"
+          type="text"
           placeholder="请输入标题"
           class="title-input"
         />
@@ -101,7 +103,7 @@
       </div>
 
       <!-- 媒体上传区域 -->
-      <div v-if="showMediaUpload" class="section">
+      <div v-if="showMediaUpload" class="section-card">
         <label class="section-label">
           {{ formData.content_type === 'image' ? '图片' : 
              formData.content_type === 'video' ? '视频' : '媒体文件' }} *
@@ -185,7 +187,7 @@
       </div>
 
       <!-- 隐私设置 -->
-      <div class="section">
+      <div class="section-card">
         <label class="section-label">隐私设置</label>
         <div class="privacy-options">
           <label class="radio-option">
@@ -526,195 +528,158 @@ export default {
 
 .navbar {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 1rem;
-  background: rgba(255, 255, 255, 0.05);
+  align-items: center;
+  padding: 15px 0;
+  margin-bottom: 30px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  border-radius: 10px;
-  backdrop-filter: blur(10px);
-  margin-bottom: 20px;
 }
 
-.nav-left,
-.nav-right {
+.nav-left, .nav-center, .nav-right {
   flex: 1;
-}
-
-.nav-center {
-  flex: 2;
   text-align: center;
 }
 
+.nav-left {
+  text-align: left;
+}
+
+.nav-right {
+  text-align: right;
+}
+
 .nav-link {
-  color: rgba(255, 255, 255, 0.95); /* 提高亮度，原来是 0.8 */
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 8px;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.7);
   transition: color 0.3s ease;
-  text-decoration: none; /* 明确去除下划线 */
+  padding: 10px 15px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
 }
 
 .nav-link:hover {
   color: #ff94d2;
-  text-decoration: none; /* 确保悬停时也没有下划线 */
+  background: rgba(255, 148, 210, 0.1);
 }
 
-.nav-icon {
+.nav-title {
   font-size: 1.2rem;
-}
-
-.publish-btn {
-  background: linear-gradient(45deg, #ff1493, #ff69b4); /* 使用更鲜艳亮眼的深粉色到亮粉色渐变 */
-  color: white;
-  border: 2px solid #ffffff33; /* 添加白色边框增加对比度 */
-  padding: 0.75rem 1.5rem;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: all 0.3s ease;
   font-weight: 600;
-  font-size: 1rem;
-  letter-spacing: 0.5px;
-  box-shadow: 0 6px 20px rgba(255, 20, 147, 0.5); /* 更强烈的阴影效果 */
-  text-transform: uppercase;
-  animation: pulse 2s infinite; /* 添加轻微脉冲动画吸引注意 */
+  color: #fff;
 }
 
-@keyframes pulse {
-  0% {
-    box-shadow: 0 6px 20px rgba(255, 20, 147, 0.5);
-  }
-  50% {
-    box-shadow: 0 6px 25px rgba(255, 20, 147, 0.7);
-  }
-  100% {
-    box-shadow: 0 6px 20px rgba(255, 20, 147, 0.5);
-  }
-}
-
-.publish-btn:disabled {
-  background: rgba(255, 255, 255, 0.1);
-  cursor: not-allowed;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.publish-btn:not(:disabled):hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(255, 20, 147, 0.8); /* 悬停时更强的阴影 */
-  background: linear-gradient(45deg, #ff69b4, #ff8ac8); /* 悬停时颜色变化 */
-  animation: none; /* 悬停时停止脉冲动画 */
-}
-
-.create-content {
+.create-main {
   max-width: 800px;
   margin: 0 auto;
-  padding: 1rem;
+  display: grid;
+  gap: 25px;
+  padding: 20px 0;
 }
 
-.section {
+.section-card {
   background: rgba(255, 255, 255, 0.05);
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-  border-radius: 15px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 25px;
   backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.section-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(255, 148, 210, 0.2);
+  border-color: rgba(255, 148, 210, 0.3);
 }
 
 .section-label {
   display: block;
-  margin-bottom: 0.75rem;
-  font-weight: bold;
+  margin-bottom: 15px;
+  font-weight: 600;
   color: #fff;
   font-size: 1.1rem;
 }
 
 .category-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
 }
 
 .category-item {
-  padding: 0.75rem;
-  border: 2px solid #d8bfd8; /* 淡紫色边框 */
-  background-color: #f5f5ff; /* 浅紫色背景 */
-  border-radius: 4px;
+  padding: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
   text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  color: #5a3e6b; /* 深紫色字体 */
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
 }
 
 .category-item:hover {
-  border-color: #9370DB; /* 悬停时使用更明显的紫色 */
-  background-color: #e6e6fa; /* 悬停时背景变深一点 */
-  color: #4b0082; /* 悬停时字体颜色加深 */
+  border-color: #ff94d2;
+  background: rgba(255, 148, 210, 0.1);
+  color: #fff;
 }
 
 .category-item.active {
-  background-color: #9370DB; /* 激活状态使用紫色 */
-  color: white;
-  border-color: #9370DB;
+  background: rgba(255, 148, 210, 0.2);
+  border-color: #ff94d2;
+  color: #fff;
 }
 
 .tag-input-container {
   display: flex;
-  gap: 0.5rem;
-  margin-bottom: 0.75rem;
+  gap: 10px;
+  margin-bottom: 15px;
 }
 
 .tag-input {
   flex: 1;
-  padding: 0.75rem;
+  padding: 12px;
   background: rgba(255, 255, 255, 0.1);
   border: 2px solid rgba(255, 255, 255, 0.2);
   border-radius: 10px;
-  color: #fff;
+  color: rgba(255, 255, 255, 0.8);
   font-size: 1rem;
   transition: all 0.3s ease;
 }
 
-.tag-input:focus {
-  outline: none;
-  border-color: #ff94d2;
-  box-shadow: 0 0 0 3px rgba(255, 148, 210, 0.3);
-}
-
 .add-tag-btn {
-  padding: 0.75rem 1.25rem;
-  background: linear-gradient(45deg, #ff94d2, #b388eb);
-  color: white;
-  border: none;
+  padding: 12px 20px;
+  background: rgba(255, 148, 210, 0.2);
+  color: #fff;
+  border: 2px solid rgba(255, 148, 210, 0.3);
   border-radius: 10px;
   cursor: pointer;
-  font-weight: 600;
   transition: all 0.3s ease;
+  font-size: 1rem;
 }
 
 .add-tag-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(255, 148, 210, 0.4);
+  background: rgba(255, 148, 210, 0.3);
+  border-color: #ff94d2;
 }
 
-.tags-list {
+.tag-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-top: 0.75rem;
+  gap: 10px;
 }
 
 .tag-item {
   display: inline-flex;
   align-items: center;
-  padding: 0.5rem 1rem;
+  padding: 8px 16px;
   background: rgba(255, 148, 210, 0.2);
-  color: #ff94d2;
+  color: rgba(255, 255, 255, 0.8);
   border-radius: 20px;
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   border: 1px solid rgba(255, 148, 210, 0.3);
 }
 
@@ -722,50 +687,59 @@ export default {
   background: none;
   border: none;
   color: #ff94d2;
-  margin-left: 0.5rem;
+  margin-left: 8px;
   cursor: pointer;
   font-size: 1.2rem;
-  line-height: 1;
-  font-weight: bold;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
   transition: all 0.3s ease;
 }
 
 .remove-tag:hover {
-  color: #ff6b6b;
-  transform: scale(1.2);
+  background: rgba(255, 148, 210, 0.3);
+  color: #fff;
 }
 
-.content-type-grid {
+.content-type-options {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
 }
 
-.content-type-item {
+.content-type-option {
+  padding: 15px;
   border: 2px solid rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
-  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
   cursor: pointer;
   transition: all 0.3s ease;
-  background: rgba(255, 255, 255, 0.05);
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
 }
 
-.content-type-item:hover {
+.content-type-option:hover {
   border-color: #ff94d2;
   transform: translateY(-3px);
   box-shadow: 0 10px 20px rgba(255, 148, 210, 0.2);
 }
 
-.content-type-item.active {
+.content-type-option.active {
   border-color: #ff94d2;
-  background: rgba(255, 148, 210, 0.1);
+  background: rgba(255, 148, 210, 0.2);
+  color: #fff;
 }
 
 .content-type-header {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.75rem;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
 .content-type-icon {
@@ -773,7 +747,7 @@ export default {
 }
 
 .content-type-name {
-  font-weight: bold;
+  font-weight: 600;
   color: #fff;
   font-size: 1.1rem;
 }
@@ -782,18 +756,19 @@ export default {
   color: rgba(255, 255, 255, 0.7);
   font-size: 0.875rem;
   margin: 0;
+  line-height: 1.4;
 }
 
 .title-input {
   width: 100%;
-  padding: 0.75rem;
+  padding: 12px;
   background: rgba(255, 255, 255, 0.1);
   border: 2px solid rgba(255, 255, 255, 0.2);
   border-radius: 10px;
-  color: #fff;
   font-size: 1rem;
-  margin-bottom: 1rem;
+  color: rgba(255, 255, 255, 0.8);
   transition: all 0.3s ease;
+  margin-bottom: 15px;
 }
 
 .title-input:focus {
@@ -804,14 +779,14 @@ export default {
 
 .content-textarea {
   width: 100%;
-  padding: 0.75rem;
+  padding: 12px;
   background: rgba(255, 255, 255, 0.1);
   border: 2px solid rgba(255, 255, 255, 0.2);
   border-radius: 10px;
   min-height: 150px;
   resize: vertical;
   font-size: 1rem;
-  color: #fff;
+  color: rgba(255, 255, 255, 0.8);
   transition: all 0.3s ease;
 }
 
@@ -822,7 +797,7 @@ export default {
 }
 
 .upload-area {
-  border: 2px dashed rgba(255, 255, 255, 0.3);
+  border: 2px dashed rgba(255, 255, 255, 0.2);
   border-radius: 12px;
   text-align: center;
   cursor: pointer;
@@ -836,75 +811,75 @@ export default {
 }
 
 .upload-content {
-  padding: 2.5rem;
+  padding: 30px;
 }
 
 .upload-icon {
   font-size: 3.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 15px;
   color: rgba(255, 255, 255, 0.7);
 }
 
 .upload-text {
-  font-size: 1.2rem;
-  margin: 0 0 0.75rem 0;
-  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.1rem;
+  margin: 0 0 10px 0;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .upload-hint {
   color: rgba(255, 255, 255, 0.6);
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 .preview-section {
-  padding: 1.25rem;
+  padding: 20px;
   background: rgba(255, 255, 255, 0.05);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   text-align: left;
   border-radius: 0 0 10px 10px;
-  margin-top: 1rem;
+  margin-top: 15px;
 }
 
 .preview-section h3 {
-  margin: 0 0 1.25rem 0;
+  margin: 0 0 20px 0;
   color: #fff;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
 
 .preview-title {
-  font-size: 1.25rem;
-  font-weight: bold;
-  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 12px;
   color: #fff;
 }
 
 .preview-content {
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.8);
   line-height: 1.6;
-  margin-bottom: 1.25rem;
+  margin-bottom: 20px;
 }
 
 .preview-tags {
-  margin-bottom: 1.25rem;
+  margin-bottom: 20px;
 }
 
 .preview-tag {
   display: inline-block;
-  padding: 0.4rem 0.8rem;
+  padding: 8px 16px;
   background: rgba(255, 148, 210, 0.2);
-  color: #ff94d2;
+  color: rgba(255, 255, 255, 0.8);
   border-radius: 20px;
-  font-size: 0.875rem;
-  margin-right: 0.75rem;
-  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+  margin-right: 12px;
+  margin-bottom: 8px;
   border: 1px solid rgba(255, 148, 210, 0.3);
 }
 
 .preview-files {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1.25rem;
+  gap: 15px;
 }
 
 .preview-file {
@@ -935,18 +910,18 @@ export default {
 }
 
 .preview-file-info {
-  padding: 0.75rem;
+  padding: 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .file-name {
-  font-size: 0.875rem;
-  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.8);
   word-break: break-all;
   flex: 1;
-  margin-right: 0.75rem;
+  margin-right: 10px;
 }
 
 .remove-preview-file {
@@ -971,19 +946,21 @@ export default {
 
 .privacy-options {
   display: flex;
-  gap: 1.5rem;
+  gap: 20px;
   flex-wrap: wrap;
 }
 
 .radio-option {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 8px;
   cursor: pointer;
-  padding: 0.75rem;
+  padding: 12px 16px;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 10px;
   transition: all 0.3s ease;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
 }
 
 .radio-option:hover {
@@ -991,8 +968,84 @@ export default {
 }
 
 .error-message {
-  color: #ff69b4; /* 粉色 */
-  font-size: 0.875rem;
-  margin-top: 0.5rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+  margin-top: 5px;
+}
+
+.publish-btn {
+  background: linear-gradient(45deg, #ff1493, #ff69b4);
+  color: white;
+  border: 2px solid #ffffff33;
+  padding: 0.75rem 1.5rem;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+  box-shadow: 0 6px 20px rgba(255, 20, 147, 0.5);
+  text-transform: uppercase;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 6px 20px rgba(255, 20, 147, 0.5);
+  }
+  50% {
+    box-shadow: 0 6px 25px rgba(255, 20, 147, 0.7);
+  }
+  100% {
+    box-shadow: 0 6px 20px rgba(255, 20, 147, 0.5);
+  }
+}
+
+.publish-btn:disabled {
+  background: rgba(255, 255, 255, 0.1);
+  cursor: not-allowed;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.publish-btn:not(:disabled):hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(255, 20, 147, 0.8);
+  background: linear-gradient(45deg, #ff69b4, #ff8ac8);
+  animation: none;
+}
+
+@media (max-width: 768px) {
+  .blog-create {
+    padding: 15px;
+  }
+  
+  .navbar {
+    margin-bottom: 20px;
+  }
+  
+  .nav-left, .nav-right {
+    flex: 0.5;
+  }
+  
+  .nav-center {
+    flex: 1;
+  }
+  
+  .create-main {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .content-type-options {
+    grid-template-columns: 1fr;
+  }
+  
+  .preview-files {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

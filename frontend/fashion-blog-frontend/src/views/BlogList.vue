@@ -4,18 +4,15 @@
     <nav class="navbar">
       <div class="nav-left">
         <a href="#" @click="goBack" class="nav-link">
-          <span class="nav-icon">🏠</span>
-          首页
+          <span class="nav-icon">⬅️</span>
+          返回
         </a>
       </div>
       <div class="nav-center">
         <span class="nav-title">时尚博客</span>
       </div>
       <div class="nav-right">
-        <a href="#" @click="goToCreate" class="nav-link">
-          <span class="nav-icon">✏️</span>
-          发布
-        </a>
+        <!-- 移除了发布按钮，避免与主页导航重复 -->
       </div>
     </nav>
 
