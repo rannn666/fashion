@@ -145,25 +145,18 @@ export default {
 </script>
 
 <style scoped>
-.image-modal {
+.modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1000;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.9);
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.modal-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.9);
+  z-index: 1000;
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .modal-content {
@@ -173,191 +166,137 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
+}
+
+.image-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
+}
+
+.modal-image {
+  max-width: 80vw;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .close-btn {
   position: absolute;
-  top: -50px;
-  right: 0;
-  width: 40px;
-  height: 40px;
-  border: none;
+  top: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  color: #fff;
-  font-size: 24px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.5rem;
   cursor: pointer;
-  transition: all 0.3s;
-  z-index: 1001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .close-btn:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
   transform: scale(1.1);
 }
 
-.nav-btn {
+.nav-button {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   width: 60px;
   height: 60px;
-  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  color: #fff;
-  font-size: 30px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.5rem;
   cursor: pointer;
-  transition: all 0.3s;
-  z-index: 1001;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.3s ease;
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
-.nav-btn:hover:not(:disabled) {
-  background: rgba(255, 105, 180, 0.8);
+.nav-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
   transform: translateY(-50%) scale(1.1);
 }
 
-.nav-btn:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
+.prev-btn {
+  left: 20px;
 }
 
-.nav-btn.prev {
-  left: -80px;
+.next-btn {
+  right: 20px;
 }
 
-.nav-btn.next {
-  right: -80px;
-}
-
-.image-container {
-  position: relative;
-  max-width: 100%;
-  max-height: 80vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.modal-image {
-  max-width: 100%;
-  max-height: 80vh;
-  object-fit: contain;
-  border-radius: 10px;
-  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
-}
-
-.loading-image {
-  width: 100px;
-  height: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.spinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid rgba(255, 255, 255, 0.3);
-  border-top: 4px solid #ff69b4;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.image-info {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
+.caption {
+  margin-top: 15px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  max-width: 80vw;
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .image-counter {
-  color: #fff;
-  font-size: 1rem;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
   background: rgba(0, 0, 0, 0.5);
-  padding: 5px 15px;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 8px 16px;
   border-radius: 20px;
-}
-
-.thumbnail-nav {
-  display: flex;
-  gap: 10px;
-  max-width: 80vw;
-  overflow-x: auto;
-  padding: 10px;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 10px;
-}
-
-.thumbnail {
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: all 0.3s;
-  border: 2px solid transparent;
-  opacity: 0.6;
-}
-
-.thumbnail:hover, .thumbnail.active {
-  opacity: 1;
-  transform: scale(1.1);
-  border-color: #ff69b4;
+  font-size: 0.9rem;
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 @media (max-width: 768px) {
-  .nav-btn {
-    width: 50px;
-    height: 50px;
-    font-size: 24px;
-  }
-  
-  .nav-btn.prev {
-    left: -60px;
-  }
-  
-  .nav-btn.next {
-    right: -60px;
-  }
-  
-  .close-btn {
-    top: -40px;
-    width: 35px;
-    height: 35px;
-    font-size: 20px;
-  }
-  
-  .thumbnail {
-    width: 50px;
-    height: 50px;
+  .modal-overlay {
+    background: rgba(0, 0, 0, 0.95);
   }
   
   .modal-image {
+    max-width: 95vw;
     max-height: 70vh;
   }
-}
-
-@media (max-width: 480px) {
-  .nav-btn.prev {
-    left: 10px;
+  
+  .close-btn {
+    top: 15px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
   }
   
-  .nav-btn.next {
-    right: 10px;
+  .nav-button {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
   }
   
-  .thumbnail-nav {
-    max-width: 90vw;
+  .caption {
+    font-size: 0.9rem;
+  }
+  
+  .image-counter {
+    font-size: 0.8rem;
+    padding: 6px 12px;
   }
 }
-</style>
+</style>

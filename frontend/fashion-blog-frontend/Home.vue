@@ -37,7 +37,7 @@
           <div class="tags-cloud">
             <a href="#" class="tag" :class="{ active: selectedTag === '时尚' }" @click.prevent="selectTag('时尚')">时尚</a>
             <a href="#" class="tag" :class="{ active: selectedTag === '2026趋势' }" @click.prevent="selectTag('2026趋势')">2026趋势</a>
-            <a href="#" class="tag" :class="{ active: selectedTag === '巴黎时装周' }" @click.prevent="selectTag('巴黎时装周')">巴黎时装周</a>
+            <a href="#" class="tag" :class="{ active: selectedTag === '巴黎时装周' }" @click.prevent="selectTag('巴黎时装周')">巴黎fashion</a>
             <a href="#" class="tag" :class="{ active: selectedTag === '环保时尚' }" @click.prevent="selectTag('环保时尚')">环保时尚</a>
             <a href="#" class="tag" :class="{ active: selectedTag === '春季色彩' }" @click.prevent="selectTag('春季色彩')">春季色彩</a>
             <a href="#" class="tag" :class="{ active: selectedTag === '品牌' }" @click.prevent="selectTag('品牌')">品牌</a>
@@ -220,15 +220,15 @@ export default {
 .site-title {
   font-size: 2.8rem;
   font-weight: 300;
-  color: #fff;
+  color: #000;
   margin: 0 0 20px 0;
   text-align: center;
   letter-spacing: 2px;
-  text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-  background: linear-gradient(45deg, #fff, #f0f0f0);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  text-shadow: none;
+  background: none;
+  -webkit-background-clip: initial;
+  -webkit-text-fill-color: initial;
+  background-clip: initial;
 }
 
 .top-nav {
@@ -323,46 +323,6 @@ export default {
   background: rgba(255, 105, 180, 0.2);
   color: #ff69b4;
   border-color: rgba(255, 105, 180, 0.4);
-  font-weight: 600;
-}
-
-.category-count {
-  background: rgba(255, 255, 255, 0.2);
-  color: #fff;
-  border-radius: 10px;
-  padding: 2px 6px;
-  font-size: 0.75rem;
-  margin-left: 5px;
-}
-
-.tags-cloud {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.tag {
-  background: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.8);
-  padding: 6px 12px;
-  border-radius: 20px;
-  text-decoration: none;
-  font-size: 0.85rem;
-  transition: all 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  white-space: nowrap;
-}
-
-.tag:hover {
-  background: rgba(255, 105, 180, 0.2);
-  color: rgba(255, 105, 180, 0.8);
-  transform: translateY(-1px);
-}
-
-.tag.active {
-  background: rgba(255, 105, 180, 0.3);
-  color: #ff69b4;
-  border-color: rgba(255, 105, 180, 0.5);
   font-weight: 600;
 }
 
@@ -634,7 +594,7 @@ export default {
   position: absolute !important;
   bottom: -2px !important;
   height: 3px !important;
-  background: linear-gradient(45deg, #fff, rgba(255, 255, 255, 0.7)) !important;
+  background: linear-gradient(45deg, #999, rgba(153, 153, 153, 0.7)) !important; /* 改为更浅的灰色 */
   border-radius: 2px !important;
   transition: all 0.3s ease !important;
   opacity: 1 !important;
@@ -672,7 +632,7 @@ export default {
 
 @media (max-width: 768px) {
   .home {
-    padding: 0 20px;
+    padding: 0 15px;
   }
   
   .content-wrapper {

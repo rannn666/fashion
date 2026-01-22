@@ -524,6 +524,7 @@ export default {
   color: #fff;
   padding: 20px;
   box-sizing: border-box;
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .navbar {
@@ -533,6 +534,7 @@ export default {
   padding: 15px 0;
   margin-bottom: 30px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .nav-left, .nav-center, .nav-right {
@@ -553,11 +555,12 @@ export default {
   align-items: center;
   gap: 8px;
   text-decoration: none;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.8);
   transition: color 0.3s ease;
   padding: 10px 15px;
   border-radius: 10px;
   transition: all 0.3s ease;
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .nav-link:hover {
@@ -569,6 +572,7 @@ export default {
   font-size: 1.2rem;
   font-weight: 600;
   color: #fff;
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .create-main {
@@ -577,6 +581,7 @@ export default {
   display: grid;
   gap: 25px;
   padding: 20px 0;
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .section-card {
@@ -587,6 +592,7 @@ export default {
   backdrop-filter: blur(10px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .section-card:hover {
@@ -601,12 +607,14 @@ export default {
   font-weight: 600;
   color: #fff;
   font-size: 1.1rem;
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .category-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   gap: 12px;
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .category-item {
@@ -619,6 +627,7 @@ export default {
   transition: all 0.3s ease;
   color: rgba(255, 255, 255, 0.8);
   font-size: 0.9rem;
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .category-item:hover {
@@ -637,6 +646,7 @@ export default {
   display: flex;
   gap: 10px;
   margin-bottom: 15px;
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .tag-input {
@@ -648,6 +658,7 @@ export default {
   color: rgba(255, 255, 255, 0.8);
   font-size: 1rem;
   transition: all 0.3s ease;
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .add-tag-btn {
@@ -659,6 +670,7 @@ export default {
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 1rem;
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .add-tag-btn:hover {
@@ -670,6 +682,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .tag-item {
@@ -681,6 +694,7 @@ export default {
   border-radius: 20px;
   font-size: 0.85rem;
   border: 1px solid rgba(255, 148, 210, 0.3);
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .remove-tag {
@@ -708,6 +722,7 @@ export default {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 15px;
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .content-type-option {
@@ -720,6 +735,7 @@ export default {
   text-align: center;
   color: rgba(255, 255, 255, 0.8);
   font-size: 0.9rem;
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .content-type-option:hover {
@@ -740,6 +756,7 @@ export default {
   justify-content: center;
   gap: 10px;
   margin-bottom: 10px;
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .content-type-icon {
@@ -750,6 +767,7 @@ export default {
   font-weight: 600;
   color: #fff;
   font-size: 1.1rem;
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .content-type-desc {
@@ -757,6 +775,7 @@ export default {
   font-size: 0.875rem;
   margin: 0;
   line-height: 1.4;
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .title-input {
@@ -769,6 +788,7 @@ export default {
   color: rgba(255, 255, 255, 0.8);
   transition: all 0.3s ease;
   margin-bottom: 15px;
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .title-input:focus {
@@ -788,6 +808,7 @@ export default {
   font-size: 1rem;
   color: rgba(255, 255, 255, 0.8);
   transition: all 0.3s ease;
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .content-textarea:focus {
@@ -803,6 +824,7 @@ export default {
   cursor: pointer;
   transition: all 0.3s ease;
   background: rgba(255, 255, 255, 0.03);
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .upload-area:hover {
@@ -824,12 +846,14 @@ export default {
   font-size: 1.1rem;
   margin: 0 0 10px 0;
   color: rgba(255, 255, 255, 0.8);
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .upload-hint {
   color: rgba(255, 255, 255, 0.6);
   margin: 0;
   font-size: 0.85rem;
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .preview-section {
@@ -839,12 +863,14 @@ export default {
   text-align: left;
   border-radius: 0 0 10px 10px;
   margin-top: 15px;
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .preview-section h3 {
   margin: 0 0 20px 0;
   color: #fff;
   font-size: 1.1rem;
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .preview-title {
@@ -852,16 +878,20 @@ export default {
   font-weight: 600;
   margin-bottom: 12px;
   color: #fff;
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .preview-content {
   color: rgba(255, 255, 255, 0.8);
   line-height: 1.6;
   margin-bottom: 20px;
+  font-size: 0.95rem;
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .preview-tags {
   margin-bottom: 20px;
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .preview-tag {
@@ -874,12 +904,14 @@ export default {
   margin-right: 12px;
   margin-bottom: 8px;
   border: 1px solid rgba(255, 148, 210, 0.3);
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .preview-files {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 15px;
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .preview-file {
@@ -888,6 +920,7 @@ export default {
   border-radius: 10px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.1);
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .preview-image img {
@@ -914,6 +947,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .file-name {
@@ -922,6 +956,7 @@ export default {
   word-break: break-all;
   flex: 1;
   margin-right: 10px;
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .remove-preview-file {
@@ -948,6 +983,7 @@ export default {
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .radio-option {
@@ -961,6 +997,7 @@ export default {
   transition: all 0.3s ease;
   color: rgba(255, 255, 255, 0.8);
   font-size: 0.9rem;
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .radio-option:hover {
@@ -971,6 +1008,7 @@ export default {
   color: rgba(255, 255, 255, 0.6);
   font-size: 0.85rem;
   margin-top: 5px;
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .publish-btn {
@@ -987,6 +1025,7 @@ export default {
   box-shadow: 0 6px 20px rgba(255, 20, 147, 0.5);
   text-transform: uppercase;
   animation: pulse 2s infinite;
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 @keyframes pulse {

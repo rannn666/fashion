@@ -224,12 +224,13 @@ export default {
 .site-title {
   font-size: 2.5rem;
   margin-bottom: 30px;
-  background: linear-gradient(45deg, #fff, rgba(255, 255, 255, 0.7));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  background: none;
+  -webkit-background-clip: initial;
+  -webkit-text-fill-color: initial;
+  background-clip: initial;
   font-weight: 300;
   letter-spacing: 2px;
+  color: #000;
 }
 
 .main-nav-buttons ul {
@@ -262,9 +263,9 @@ export default {
 
 .floating-indicator {
   position: absolute;
-  top: -2px; /* 改为上划线 */
+  bottom: -2px; /* 改为下划线 */
   height: 3px;
-  background: linear-gradient(45deg, #fff, rgba(255, 255, 255, 0.7));
+  background: linear-gradient(45deg, #999, rgba(153, 153, 153, 0.7)); /* 改为更浅的灰色 */
   border-radius: 2px;
   transition: all 0.3s ease;
   opacity: 1;
@@ -585,7 +586,7 @@ export default {
   position: absolute;
   bottom: -2px; /* 改为下划线 */
   height: 3px;
-  background: linear-gradient(45deg, #fff, rgba(255, 255, 255, 0.7));
+  background: linear-gradient(45deg, #000, rgba(0, 0, 0, 0.7));
   border-radius: 2px;
   transition: all 0.3s ease;
   opacity: 1;

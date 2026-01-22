@@ -23,23 +23,22 @@ html, body {
   width: 100%;
   overflow-x: auto;
   overflow-y: auto;
-  /* 优雅蓝紫色冷色调渐变背景 */
+  /* 黄蓝渐变背景，黄色占比约40%，使用亮黄色并加入浅黄色过渡 */
   background: 
-    /* 深紫色渐变 - 左上角 */
-    radial-gradient(circle at 15% 15%, rgba(75, 0, 130, 0.6) 0%, rgba(75, 0, 130, 0.4) 25%, rgba(75, 0, 130, 0.2) 50%, transparent 70%),
-    /* 蓝色渐变 - 右下角 */
-    radial-gradient(circle at 85% 85%, rgba(65, 105, 225, 0.6) 0%, rgba(65, 105, 225, 0.4) 25%, rgba(65, 105, 225, 0.2) 50%, transparent 70%),
-    /* 蓝紫色线性渐变 */
+    /* 柔和黄色径向渐变 - 左上角 */
+    radial-gradient(circle at 15% 15%, rgba(255, 255, 200, 0.5) 0%, rgba(255, 255, 200, 0.3) 30%, rgba(255, 255, 200, 0.1) 60%, transparent 80%),
+    /* 柔和蓝色径向渐变 - 右下角 */
+    radial-gradient(circle at 85% 85%, rgba(173, 216, 255, 0.4) 0%, rgba(173, 216, 255, 0.2) 40%, rgba(173, 216, 255, 0.1) 70%, transparent 90%),
+    /* 黄蓝绿线性渐变，亮黄色后加入浅黄色过渡再接蓝绿色 */
     linear-gradient(135deg, 
-      #1a1a2e 0%,      /* 深蓝黑色 */
-      #16213e 20%,     /* 深蓝色 */
-      #1f4068 40%,     /* 中蓝色 */
-      #533483 60%,     /* 蓝紫色 */
-      #e94560 80%,     /* 玫瑰红色点缀 */
-      #0f3460 100%     /* 深蓝色 */
+      #ffff99 0%,      /* 亮黄色 - 占比约25% */
+      #ffffcc 25%,     /* 浅黄色 - 过渡色 */
+      #cce6ff 40%,     /* 浅蓝绿色 */
+      #a0eaff 70%,     /* 浅蓝绿色 */
+      #cceeff 100%     /* 浅蓝绿色 */
     );
-  /* 多层混合模式创造深度感 */
-  background-blend-mode: multiply, screen, normal;
+  /* 多层混合模式创造柔和感 */
+  background-blend-mode: soft-light, overlay, normal;
   /* 固定背景，让滚动时保持效果 */
   background-attachment: fixed;
   /* 确保平滑过渡 */
@@ -50,7 +49,7 @@ html, body {
 body {
   margin: 0;
   padding: 0;
-  color: #e8e8e8; /* 浅色文字，适应深色冷色调背景 */
+  color: #444; /* 稍浅的深色文字，适应明亮背景 */
 }
 
 #app {
@@ -61,6 +60,146 @@ body {
   flex-direction: column;
   margin: 0 auto;
   padding: 0;
+}
+
+/* 全局字体颜色调整 - 针对明亮背景优化 */
+body, .header, .site-title, .section-title, .post-card h3, .post-card p, 
+.footer p, .categories-section h3, .tags-section h3, .post-title, .post-excerpt {
+  color: #444 !important; /* 稍浅的深灰色文字，确保在明亮背景下清晰可见 */
+}
+
+/* 特别针对网站标题的样式 */
+.site-title {
+  color: #000 !important; /* 确保网站标题使用纯黑色 */
+  text-shadow: none !important; /* 移除可能的文本阴影效果 */
+}
+
+/* 导航按钮文字颜色调整 */
+.main-nav-buttons a {
+  color: rgba(68, 68, 68, 0.8) !important; /* 稍浅的深灰色，透明度0.8 */
+}
+
+.main-nav-buttons a:hover,
+.main-nav-buttons a.active {
+  color: #ff69b4 !important; /* 保持粉色悬停和激活效果 */
+}
+
+/* 社交链接颜色调整 */
+.social-links a {
+  color: rgba(68, 68, 68, 0.7) !important;
+}
+
+.social-links a:hover {
+  color: #444 !important;
+}
+
+/* 其他可能使用白色文字的元素 */
+.section-title, .post-card h3, .post-card p, .categories-section h3, .tags-section h3,
+.post-title, .post-excerpt, .read-more, .floating-indicator {
+  color: #444 !important;
+}
+
+/* 选中状态的文字颜色 */
+.main-nav-buttons a.active {
+  color: #444 !important;
+  font-weight: 600 !important;
+}
+
+/* 特别针对时间显示的样式，使用更深的灰色以便更好可见 */
+.post-meta,
+.news-meta,
+.blog-meta,
+.post-date,
+.news-date,
+.blog-date,
+.date,
+.time,
+.created-at,
+.updated-at {
+  color: #333 !important; /* 深灰色，比默认的#444更深一点，提高可见度 */
+  opacity: 1 !important; /* 确保完全不透明 */
+}
+
+/* 全局强制覆盖白色字体为灰色 */
+*[style*="color: white"],
+*[style*="color: #fff"],
+*[style*="color: #ffffff"],
+.color-white,
+.text-white,
+.white-text,
+.white-font,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+.title,
+.subtitle,
+.heading,
+.caption,
+.news-title,
+.news-excerpt,
+.post-title,
+.post-excerpt,
+.section-title,
+.category,
+.tag,
+.navbar *,
+.nav-link,
+.nav-item,
+.btn,
+.button,
+.link,
+.anchor,
+a:link,
+a:visited,
+a:hover,
+a:active {
+  color: #444 !important;
+}
+
+/* 特别针对透明度白色文字的覆盖 */
+*[style*="rgba(255, 255, 255,"] {
+  color: rgba(68, 68, 68, 0.8) !important;
+}
+
+/* 覆盖可能的通用白色文字类 */
+.white,
+.light-text,
+.light-color,
+.bright-text {
+  color: #444 !important;
+}
+
+/* 覆盖特定元素中的白色文字 */
+.top-nav a,
+.main-nav a,
+.navbar-brand,
+.navbar-nav .nav-link,
+.floating-indicator,
+.read-more:hover,
+.post-card h3,
+.post-card p,
+.news-item h3,
+.news-item p,
+.news-title,
+.news-excerpt,
+.post-title,
+.post-excerpt,
+.section-title,
+.welcome-title,
+.header *,
+.footer *,
+.social-links *,
+.action-buttons *,
+.content-type-name,
+.content-type-desc,
+.title-input,
+.comment-text,
+.comment-author,
+.comment-date {
+  color: #444 !important;
 }
 
 /* 全局导航按钮边框清除 */
@@ -75,9 +214,6 @@ a, button, input[type="submit"], input[type="button"] {
   border: none !important;
   outline: none !important;
   box-shadow: none !important;
-  border-width: 0 !important;
-  border-style: none !important;
-  border-color: transparent !important;
   border-radius: 25px !important;
 }
 

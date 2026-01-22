@@ -79,60 +79,276 @@ export default {
 
 <style scoped>
 .home-content {
-  width: 100%;
+  padding: 2rem;
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
+/* 导航栏样式 */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.nav-link:hover {
+  background: rgba(255, 148, 210, 0.2);
+  color: #ff94d2;
+  transform: translateY(-2px);
+}
+
+/* 标题样式 */
+.welcome-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-align: center;
+  background: linear-gradient(45deg, #ff94d2, #a18aff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-family: 'Poppins', 'Inter', sans-serif;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 3rem;
+  font-weight: 400;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+
+/* 博客网格样式 */
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.blog-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+
+.blog-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 148, 210, 0.4);
+}
+
+.blog-image {
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(45deg, #ff94d2, #a18aff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.blog-content {
+  padding: 1.5rem;
+}
+
+.blog-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #fff;
+  font-family: 'Poppins', 'Inter', sans-serif;
+}
+
+.blog-excerpt {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+
+.blog-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+
+.view-more {
+  display: block;
+  text-align: center;
+  padding: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  font-weight: 500;
+  font-family: 'Poppins', 'Inter', sans-serif;
+}
+
+.view-more:hover {
+  color: #ff94d2;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* 推荐用户部分 */
+.recommended-users {
+  margin-top: 3rem;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #fff;
+  font-family: 'Poppins', 'Inter', sans-serif;
+}
+
+.user-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.user-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+
+.user-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 148, 210, 0.4);
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #ff94d2, #a18aff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0 auto 1rem;
+}
+
+.username {
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 0.5rem;
+  font-family: 'Poppins', 'Inter', sans-serif;
+}
+
+.follow-button {
+  background: rgba(255, 148, 210, 0.2);
+  color: #ff94d2;
+  border: 1px solid rgba(255, 148, 210, 0.3);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  font-family: 'Poppins', 'Inter', sans-serif;
+}
+
+.follow-button:hover {
+  background: rgba(255, 148, 210, 0.3);
+  transform: translateY(-1px);
+}
+
+/* 特色帖子样式 */
 .featured-post {
   margin-bottom: 40px;
 }
 
 .post-card {
   background: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
+  border-radius: 15px;
   overflow: hidden;
-  transition: all 0.3s;
-}
-
-.post-card.featured {
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
   display: flex;
-  gap: 20px;
+  flex-direction: row;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
-.post-card:hover {
-  /* 保持空白，不执行任何悬停效果 */
+.featured {
+  min-height: 250px;
 }
 
 .post-image {
-  flex: 0 0 300px;
-  height: 200px;
-  background: rgba(255, 255, 255, 0.1);
+  flex: 1;
+  min-width: 300px;
+  height: 100%;
+  background: linear-gradient(45deg, #ff94d2, #a18aff);
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden; /* 确保图片容器有overflow: hidden，防止放大时溢出 */
-  position: relative;
-}
-
-.post-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.4s ease; /* 为图片添加过渡效果 */
-}
-
-.post-image img:hover {
-  transform: scale(1.05); /* 图片单独放大 */
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
 .post-content {
   flex: 1;
-  padding: 20px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .post-meta {
   display: flex;
   gap: 15px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.7);
 }

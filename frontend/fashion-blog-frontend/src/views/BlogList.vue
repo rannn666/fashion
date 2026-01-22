@@ -451,6 +451,7 @@ export default {
   color: #fff;
   padding: 20px;
   box-sizing: border-box;
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .navbar {
@@ -460,6 +461,7 @@ export default {
   padding: 15px 0;
   margin-bottom: 30px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .nav-left, .nav-center, .nav-right {
@@ -480,11 +482,12 @@ export default {
   align-items: center;
   gap: 8px;
   text-decoration: none;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.8);
   transition: color 0.3s ease;
   padding: 10px 15px;
   border-radius: 10px;
   transition: all 0.3s ease;
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .nav-link:hover {
@@ -496,42 +499,41 @@ export default {
   font-size: 1.2rem;
   font-weight: 600;
   color: #fff;
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .filter-section {
   display: flex;
-  gap: 20px;
+  gap: 15px;
   margin-bottom: 30px;
   flex-wrap: wrap;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 15px;
-  backdrop-filter: blur(10px);
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .filter-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
   flex: 1;
-  min-width: 120px;
+  min-width: 200px;
 }
 
 .filter-label {
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.7);
+  display: block;
+  margin-bottom: 8px;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+  font-size: 0.95rem;
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .filter-select {
-  padding: 10px 15px;
+  width: 100%;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.1);
   border: 2px solid rgba(255, 255, 255, 0.2);
   border-radius: 10px;
-  background: rgba(0, 0, 0, 0.2);
-  color: #fff;
+  color: rgba(255, 255, 255, 0.8);
   font-size: 1rem;
-  cursor: pointer;
   transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .filter-select:focus {
@@ -542,20 +544,21 @@ export default {
 
 .blog-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 25px;
-  margin-bottom: 30px;
+  padding: 20px 0;
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .blog-card {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 15px;
-  padding: 20px;
-  cursor: pointer;
+  overflow: hidden;
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .blog-card:hover {
@@ -564,222 +567,136 @@ export default {
   border-color: rgba(255, 148, 210, 0.3);
 }
 
-.blog-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.user-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.user-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: linear-gradient(45deg, #ff94d2, #b388eb);
+.blog-image {
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(45deg, #6a11cb 0%, #2575fc 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 600;
-  font-size: 1.1rem;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  position: relative;
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
-.user-details {
-  flex: 1;
+.blog-content {
+  padding: 25px;
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
-.user-name {
+.blog-title {
+  font-size: 1.4rem;
   font-weight: 600;
+  margin-bottom: 12px;
   color: #fff;
-  margin-bottom: 4px;
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
+}
+
+.blog-excerpt {
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .blog-meta {
   display: flex;
-  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
   font-size: 0.85rem;
   color: rgba(255, 255, 255, 0.6);
-}
-
-.blog-category {
-  background: rgba(255, 148, 210, 0.2);
-  color: #ff94d2;
-  padding: 2px 8px;
-  border-radius: 10px;
-  font-size: 0.8rem;
-}
-
-.blog-time {
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.blog-content {
-  margin-bottom: 15px;
-}
-
-.blog-title {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #fff;
-  margin-bottom: 10px;
-  line-height: 1.4;
-}
-
-.text-content {
-  margin: 10px 0;
-}
-
-.blog-text {
-  color: rgba(255, 255, 255, 0.8);
-  line-height: 1.6;
-  margin: 0;
-}
-
-.image-content, .mixed-content {
-  margin: 10px 0;
-}
-
-.image-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-top: 10px;
-}
-
-.blog-image {
-  width: 100%;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 8px;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.image-count {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.5);
-  color: #fff;
-  border-radius: 8px;
-  font-weight: 600;
-}
-
-.video-content, .mixed-content {
-  margin: 10px 0;
-}
-
-.video-container {
-  margin: 10px 0;
-}
-
-.blog-video {
-  width: 100%;
-  border-radius: 8px;
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .blog-stats {
   display: flex;
-  justify-content: space-around;
-  padding-top: 15px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  gap: 15px;
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .stat-item {
   display: flex;
   align-items: center;
-  gap: 6px;
-  cursor: pointer;
-  padding: 5px;
-  border-radius: 8px;
-  transition: all 0.3s ease;
+  gap: 5px;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
-.stat-item:hover {
-  background: rgba(255, 255, 255, 0.1);
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
-.stat-icon {
-  font-size: 1.1rem;
-  transition: transform 0.3s ease;
-}
-
-.stat-icon.liked {
-  transform: scale(1.2);
-  color: #ff4757;
-}
-
-.stat-value {
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.empty-state {
-  text-align: center;
-  padding: 60px 20px;
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.empty-icon {
-  font-size: 4rem;
-  margin-bottom: 20px;
-}
-
-.empty-title {
-  font-size: 1.5rem;
-  color: #fff;
-  margin-bottom: 10px;
-}
-
-.empty-description {
-  font-size: 1rem;
-  margin-bottom: 20px;
-}
-
-.empty-btn {
-  padding: 12px 30px;
-  background: linear-gradient(45deg, #ff94d2, #b388eb);
-  color: #fff;
+.action-btn {
+  flex: 1;
+  padding: 12px;
   border: none;
-  border-radius: 25px;
+  border-radius: 8px;
   cursor: pointer;
-  font-weight: 600;
   transition: all 0.3s ease;
+  font-weight: 500;
+  font-size: 0.9rem;
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
-.empty-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(255, 148, 210, 0.4);
+.read-btn {
+  background: rgba(255, 148, 210, 0.2);
+  color: #ff94d2;
+}
+
+.read-btn:hover {
+  background: rgba(255, 148, 210, 0.3);
+}
+
+.like-btn {
+  background: rgba(161, 138, 255, 0.2);
+  color: #a18aff;
+}
+
+.like-btn:hover {
+  background: rgba(161, 138, 255, 0.3);
+}
+
+.comment-btn {
+  background: rgba(102, 204, 255, 0.2);
+  color: #66ccff;
+}
+
+.comment-btn:hover {
+  background: rgba(102, 204, 255, 0.3);
 }
 
 .pagination {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 15px;
-  margin-top: 30px;
-  padding: 20px;
+  gap: 10px;
+  margin-top: 40px;
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .page-btn {
-  padding: 10px 20px;
+  padding: 10px 16px;
   background: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.8);
   cursor: pointer;
   transition: all 0.3s ease;
+  font-size: 0.95rem;
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 .page-btn:hover:not(:disabled) {
   background: rgba(255, 148, 210, 0.2);
-  border-color: #ff94d2;
+  color: #ff94d2;
+  border-color: rgba(255, 148, 210, 0.4);
 }
 
 .page-btn:disabled {
@@ -787,34 +704,43 @@ export default {
   cursor: not-allowed;
 }
 
-.page-numbers {
-  display: flex;
-  gap: 5px;
-}
-
-.page-number {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.page-number:hover {
+.current-page {
+  padding: 10px 16px;
   background: rgba(255, 148, 210, 0.2);
-  border-color: #ff94d2;
+  border: 1px solid rgba(255, 148, 210, 0.4);
+  border-radius: 8px;
+  color: #ff94d2;
+  font-weight: 600;
+  font-size: 0.95rem;
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
-.page-number.active {
-  background: linear-gradient(45deg, #ff94d2, #b388eb);
-  color: #fff;
-  border-color: #ff94d2;
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: rgba(255, 255, 255, 0.6);
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  color: rgba(255, 255, 255, 0.3);
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
+}
+
+.empty-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: rgba(255, 255, 255, 0.8);
+  font-family: 'Poppins', 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
+}
+
+.empty-description {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
 @media (max-width: 768px) {
@@ -841,25 +767,10 @@ export default {
   
   .blog-grid {
     grid-template-columns: 1fr;
-    gap: 20px;
   }
   
-  .image-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .blog-card {
-    padding: 15px;
-  }
-  
-  .pagination {
+  .action-buttons {
     flex-direction: column;
-    gap: 10px;
-  }
-  
-  .page-numbers {
-    flex-wrap: wrap;
-    justify-content: center;
   }
 }
 </style>
